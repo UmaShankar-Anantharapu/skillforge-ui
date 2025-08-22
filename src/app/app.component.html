@@ -1,0 +1,13 @@
+<header *ngIf="shouldShowHeader()" style="position:sticky;top:0;background:var(--sf-surface);border-bottom:1px solid rgba(255,255,255,0.08);">
+  <app-navbar></app-navbar>
+</header>
+<app-notification-banner></app-notification-banner>
+<main>
+  <router-outlet />
+</main>
+<div class="sf-container" *ngIf="toasts.length" style="position:fixed;right:16px;bottom:16px;z-index:50;max-width:360px;">
+  <div *ngFor="let t of toasts" class="sf-card" [style.borderColor]="t.kind==='error'?'#ef4444':t.kind==='success'?'#00e5a8':'#4b587a'" style="margin-top:8px;">
+    {{ t.text }}
+  </div>
+</div>
+ 

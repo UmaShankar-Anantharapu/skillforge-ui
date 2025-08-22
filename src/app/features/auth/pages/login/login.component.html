@@ -1,0 +1,156 @@
+<div class="auth-container">
+  <!-- Background Elements -->
+  <div class="auth-background">
+    <div class="gradient-orb orb-1"></div>
+    <div class="gradient-orb orb-2"></div>
+    <div class="gradient-orb orb-3"></div>
+  </div>
+
+  <!-- Navigation -->
+  <header class="auth-header">
+    <div class="auth-nav">
+      <a routerLink="/" class="logo">
+        <span class="logo-icon">🚀</span>
+        <span class="logo-text">SkillForge</span>
+      </a>
+      <button class="theme-toggle" (click)="toggleTheme()">
+        <span class="theme-icon">{{ isDarkTheme ? '☀️' : '🌙' }}</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Auth Content -->
+  <div class="auth-content">
+    <div class="auth-visual">
+      <div class="visual-content">
+        <h2 class="visual-title">Welcome Back to <span class="highlight">SkillForge</span></h2>
+        <p class="visual-subtitle">Continue your personalized learning journey and unlock your potential</p>
+        
+        <!-- Animated Elements -->
+        <div class="learning-animation">
+          <div class="progress-rings">
+            <div class="progress-ring" style="--delay: 0s;">
+              <div class="ring-fill" style="--progress: 75%;"></div>
+              <span class="ring-label">JavaScript</span>
+            </div>
+            <div class="progress-ring" style="--delay: 0.5s;">
+              <div class="ring-fill" style="--progress: 60%;"></div>
+              <span class="ring-label">React</span>
+            </div>
+            <div class="progress-ring" style="--delay: 1s;">
+              <div class="ring-fill" style="--progress: 40%;"></div>
+              <span class="ring-label">Node.js</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="stats-preview">
+          <div class="stat-item">
+            <span class="stat-number">2,500+</span>
+            <span class="stat-label">Skills Learned</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">95%</span>
+            <span class="stat-label">Success Rate</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="auth-form-container">
+      <div class="auth-form-wrapper">
+        <div class="form-header">
+          <h1>Welcome Back</h1>
+          <p>Continue your SkillForge journey</p>
+        </div>
+
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="auth-form" novalidate>
+          <div class="input-group">
+            <label for="email" class="input-label">Email Address</label>
+            <div class="input-wrapper">
+              <span class="input-icon">📧</span>
+              <input 
+                id="email" 
+                class="form-input" 
+                formControlName="email" 
+                type="email" 
+                placeholder="Enter your email"
+                [class.error]="form.get('email')?.invalid && form.get('email')?.touched"
+              />
+            </div>
+            <div class="input-error" *ngIf="form.get('email')?.invalid && form.get('email')?.touched">
+              <span *ngIf="form.get('email')?.errors?.['required']">Email is required</span>
+              <span *ngIf="form.get('email')?.errors?.['email']">Please enter a valid email</span>
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label for="password" class="input-label">Password</label>
+            <div class="input-wrapper">
+              <span class="input-icon">🔒</span>
+              <input 
+                id="password" 
+                class="form-input" 
+                formControlName="password" 
+                [type]="showPassword ? 'text' : 'password'" 
+                placeholder="Enter your password"
+                [class.error]="form.get('password')?.invalid && form.get('password')?.touched"
+              />
+              <button 
+                type="button" 
+                class="password-toggle"
+                (click)="showPassword = !showPassword"
+              >
+                <span>{{ showPassword ? '👁️' : '👁️‍🗨️' }}</span>
+              </button>
+            </div>
+            <div class="input-error" *ngIf="form.get('password')?.invalid && form.get('password')?.touched">
+              <span *ngIf="form.get('password')?.errors?.['required']">Password is required</span>
+            </div>
+          </div>
+
+          <div class="form-options">
+            <label class="checkbox-wrapper">
+              <input type="checkbox" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="checkbox-label">Remember me</span>
+            </label>
+            <a href="#" class="forgot-link">Forgot password?</a>
+          </div>
+
+          <button 
+            type="submit" 
+            class="submit-btn"
+            [disabled]="form.invalid || loading"
+            [class.loading]="loading"
+          >
+            <span class="btn-text">{{ loading ? 'Signing In...' : 'Sign In' }}</span>
+            <span class="btn-arrow" *ngIf="!loading">→</span>
+            <div class="btn-spinner" *ngIf="loading"></div>
+          </button>
+
+          <div class="form-divider">
+            <span>or</span>
+          </div>
+
+          <div class="social-login">
+            <button type="button" class="social-btn google-btn">
+              <span class="social-icon">🔍</span>
+              <span>Continue with Google</span>
+            </button>
+            <button type="button" class="social-btn github-btn">
+              <span class="social-icon">💻</span>
+              <span>Continue with GitHub</span>
+            </button>
+          </div>
+
+          <div class="form-footer">
+            <p>Don't have an account? 
+              <a routerLink="/auth/signup" class="auth-link">Create one now</a>
+            </p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

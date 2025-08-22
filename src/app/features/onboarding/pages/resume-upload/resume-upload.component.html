@@ -1,0 +1,56 @@
+<div class="resume-upload-container" 
+     [class.drag-over]="dragOver"
+     (dragover)="onDragOver($event)" 
+     (dragleave)="onDragLeave($event)" 
+     (drop)="onDrop($event)">
+
+  <input #fileInput type="file" 
+         accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" 
+         (change)="onFileSelected($event)" 
+         style="display: none;">
+
+  <div *ngIf="!file" class="upload-area">
+    <mat-icon class="upload-icon">cloud_upload</mat-icon>
+    <h3>Drag & Drop your resume here</h3>
+    <p>or</p>
+    <button mat-raised-button color="primary" (click)="triggerFileInput()">
+      Browse Files
+    </button>
+    <p class="file-types">Supported formats: PDF, DOC, DOCX (Max 10MB)</p>
+  </div>
+
+  <div *ngIf="file && !isAnalyzing && extractedSkills.length === 0" class="file-info">
+    <div class="file-details">
+      <mat-icon>description</mat-icon>
+      <span>{{ file.name }}</span>
+      <button mat-icon-button color="warn" (click)="removeFile()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+    <div *ngIf="isUploading" class="upload-progress">
+      <mat-progress-bar mode="determinate" [value]="uploadProgress"></mat-progress-bar>
+      <span>{{ uploadProgress }}% Uploaded</span>
+    </div>
+  </div>
+
+  <div *ngIf="isAnalyzing" class="analyzing">
+    <mat-spinner diameter="40"></mat-spinner>
+    <p>Analyzing your resume...</p>
+  </div>
+
+  <div *ngIf="extractedSkills.length > 0" class="extracted-skills">
+    <h3>Skills extracted from your resume:</h3>
+    <mat-chip-listbox>
+      <mat-chip *ngFor="let skill of extractedSkills">{{ skill }}</mat-chip>
+    </mat-chip-listbox>
+    <div class="actions">
+      <button mat-button color="warn" (click)="removeFile()">Upload Different Resume</button>
+    </div>
+  </div>
+
+  <div *ngIf="errorMessage" class="error-message">
+    <mat-icon color="warn">error</mat-icon>
+    <span>{{ errorMessage }}</span>
+  </div>
+</div>

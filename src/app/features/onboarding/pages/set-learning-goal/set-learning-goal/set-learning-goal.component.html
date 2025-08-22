@@ -1,0 +1,43 @@
+<div class="onboarding-step">
+  <h2>Set Your Learning Goal</h2>
+  <form [formGroup]="learningGoalForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="skill">Skill:</label>
+      <input id="skill" type="text" formControlName="skill" placeholder="e.g., Web Development" required>
+      <div *ngIf="learningGoalForm.get('skill')?.invalid && learningGoalForm.get('skill')?.touched" class="error-message">
+        Skill is required.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="level">Current Level:</label>
+      <select id="level" formControlName="level" required>
+        <option value="">Select Level</option>
+        <option value="beginner">Beginner</option>
+        <option value="intermediate">Intermediate</option>
+        <option value="advanced">Advanced</option>
+      </select>
+      <div *ngIf="learningGoalForm.get('level')?.invalid && learningGoalForm.get('level')?.touched" class="error-message">
+        Level is required.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="dailyTime">Daily Study Time (minutes):</label>
+      <input id="dailyTime" type="number" formControlName="dailyTime" placeholder="e.g., 60" required>
+      <div *ngIf="learningGoalForm.get('dailyTime')?.invalid && learningGoalForm.get('dailyTime')?.touched" class="error-message">
+        Daily study time is required and must be a positive number.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="goal">Specific Goal:</label>
+      <textarea id="goal" formControlName="goal" placeholder="e.g., Become a full-stack developer in 6 months" required></textarea>
+      <div *ngIf="learningGoalForm.get('goal')?.invalid && learningGoalForm.get('goal')?.touched" class="error-message">
+        Specific goal is required.
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="learningGoalForm.invalid">Next</button>
+  </form>
+</div>

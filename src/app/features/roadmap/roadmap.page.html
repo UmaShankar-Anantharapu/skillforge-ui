@@ -1,0 +1,62 @@
+<div class="roadmap-container">
+  <div class="roadmap-header">
+    <h1>Your Learning Roadmap</h1>
+    <div class="roadmap-actions">
+      <button class="btn btn-secondary" (click)="generateMock()" [disabled]="loading">
+        Mock Generate
+      </button>
+      <button class="btn btn-primary" (click)="generateAi()" [disabled]="loading">
+        AI Generate
+      </button>
+      <button class="btn btn-accent" (click)="generateEnhanced()" [disabled]="loading">
+        Enhanced AI Generate
+      </button>
+    </div>
+  </div>
+
+  <div class="visualization-controls" *ngIf="roadmap">
+    <button class="btn btn-sm" [class.btn-active]="visualizationMode === 'path'" (click)="visualizationMode = 'path'">
+      Path View
+    </button>
+    <button class="btn btn-sm" [class.btn-active]="visualizationMode === 'calendar'" (click)="visualizationMode = 'calendar'">
+      Calendar View
+    </button>
+  </div>
+
+  <div class="loading-container" *ngIf="loading">
+    <div class="loading-spinner"></div>
+    <p>Generating your personalized roadmap...</p>
+  </div>
+
+  <div class="roadmap-content" *ngIf="roadmap && !loading">
+    <!-- Enhanced Visualization Component -->
+    <app-roadmap-visualization 
+      *ngIf="roadmap"
+      [roadmap]="roadmap"
+      [currentDay]="currentDay"
+      [viewMode]="visualizationMode">
+    </app-roadmap-visualization>
+
+    <!-- Traditional List View -->
+    <div class="roadmap-steps">
+      <div class="roadmap-step" *ngFor="let step of roadmap.steps; trackBy: trackByFn">
+        <div class="step-day">Day {{ step.day }}</div>
+        <div class="step-content">
+          <h3>{{ step.topic }}</h3>
+          <div class="step-actions">
+            <button class="btn btn-sm" (click)="openLesson(step.lessonIds[0])" *ngIf="step.lessonIds?.length">
+              Open Lesson
+            </button>
+            <button class="btn btn-sm btn-outline" (click)="generateAiLesson(step.topic)">
+              Generate AI Lesson
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="roadmap-empty" *ngIf="!roadmap && !loading">
+    <p>No roadmap generated yet. Click one of the generate buttons to create your learning path.</p>
+  </div>
+</div>

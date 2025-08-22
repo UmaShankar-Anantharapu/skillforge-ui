@@ -1,0 +1,19 @@
+<div class="onboarding-step">
+  <h2>Choose Your Focus Areas</h2>
+  <form [formGroup]="focusForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label>Select areas you want to focus on:</label>
+      <div class="checkbox-group">
+        <div *ngFor="let area of focusAreas" class="checkbox-item">
+          <input type="checkbox" [id]="area" [value]="area" (change)="onCheckboxChange($event)">
+          <label [for]="area">{{ area }}</label>
+        </div>
+      </div>
+      <div *ngIf="focusForm.get('selectedFocusAreas')?.invalid && focusForm.get('selectedFocusAreas')?.touched" class="error-message">
+        Please select at least one focus area.
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="focusForm.invalid">Next</button>
+  </form>
+</div>

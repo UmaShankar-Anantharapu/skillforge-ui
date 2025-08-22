@@ -1,0 +1,28 @@
+<nav class="sf-container" style="display:flex;align-items:center;justify-content:space-between;height:56px;">
+  <a routerLink="/dashboard" style="display:flex;align-items:center;gap:10px;color:var(--sf-text);text-decoration:none;">
+    <span class="material-icons" aria-hidden="true">auto_fix_high</span>
+    <strong>SkillForge</strong>
+  </a>
+  <ul style="display:flex;list-style:none;margin:0;padding:0;">
+    <li style="margin-right:20px;"><a routerLink="/dashboard" style="color:var(--sf-text);text-decoration:none;">Home</a></li>
+    <li style="margin-right:20px;"><a routerLink="/my-learning" style="color:var(--sf-text);text-decoration:none;">My Learning</a></li>
+    <li style="margin-right:20px;"><a routerLink="/roadmap" style="color:var(--sf-text);text-decoration:none;">RoadMaps</a></li>
+    <li style="margin-right:20px;"><a routerLink="/challenges" style="color:var(--sf-text);text-decoration:none;">Challenges</a></li>
+    <li style="margin-right:20px;"><a routerLink="/leaderboard" style="color:var(--sf-text);text-decoration:none;">Leaderboard</a></li>
+    <li><a routerLink="/resume" style="color:var(--sf-text);text-decoration:none;">Resume</a></li>
+  </ul>
+  <div class="user-account-dropdown" *ngIf="isAuthenticated" style="position: relative;">
+    <button class="sf-btn" (click)="toggleUserMenu()" aria-label="User Account" style="margin-left: 20px; position: relative;">
+      <span class="material-icons" aria-hidden="true">account_circle</span>
+      <span *ngIf="hasNotifications" class="notification-badge" style="position: absolute; top: -5px; right: -5px; width: 10px; height: 10px; background-color: #ff4081; border-radius: 50%; display: block;"></span>
+    </button>
+    <ul *ngIf="isUserMenuOpen" class="dropdown-menu" style="position: absolute; top: 100%; right: 0; background-color: var(--sf-background-alt); border: 1px solid var(--sf-border); list-style: none; padding: 10px; margin: 0; z-index: 1000;">
+      <li><a href="#" style="color:var(--sf-text);text-decoration:none; padding: 5px 10px; display: block;">Profile</a></li>
+      <li><a href="#" style="color:var(--sf-text);text-decoration:none; padding: 5px 10px; display: block;">Settings</a></li>
+      <li><a (click)="signOut()" style="color:var(--sf-text);text-decoration:none; padding: 5px 10px; display: block; cursor: pointer;">Sign Out</a></li>
+    </ul>
+  </div>
+  <button class="sf-btn" (click)="toggleTheme()" aria-label="Toggle theme">
+    <span class="material-icons" aria-hidden="true">dark_mode</span>
+  </button>
+</nav>

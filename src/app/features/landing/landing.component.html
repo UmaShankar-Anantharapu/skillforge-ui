@@ -1,0 +1,191 @@
+<!-- Cyberpunk Neural Awakening Landing Page -->
+<div class="cyberpunk-landing">
+  <!-- Hero Section with Video Placeholder -->
+  <section class="hero-section">
+    <div class="video-placeholder">
+      <div class="orb-container">
+        <div class="neural-orb"></div>
+        <div class="neural-threads">
+          <div class="thread" *ngFor="let i of [1,2,3,4,5,6,7,8]"></div>
+        </div>
+        <div class="video-text">Video Coming Soon</div>
+      </div>
+    </div>
+    
+    <div class="hero-content">
+      <h1 class="main-headline">Your AI-powered microlearning guide.</h1>
+      <h2 class="sub-headline">Personalized. Adaptive. Gamified.</h2>
+      
+      <!-- Tab Toggle Component -->
+      <div class="tab-toggle">
+        <button 
+          [class.active]="activeTab === 'personal'"
+          (click)="setActiveTab('personal')"
+          class="toggle-btn"
+        >Personal</button>
+        <button 
+          [class.active]="activeTab === 'enterprise'"
+          (click)="setActiveTab('enterprise')"
+          class="toggle-btn"
+        >Enterprise</button>
+      </div>
+      
+      <div class="hero-buttons">
+        <button class="cta-button primary" (click)="navigateToSignup()">
+          <span>Get Started</span>
+          <span class="button-glow"></span>
+        </button>
+        <button class="cta-button secondary" (click)="navigateToLogin()">
+          <span>Login</span>
+          <span class="button-glow"></span>
+        </button>
+      </div>
+    </div>
+  </section>
+  
+  <!-- How It Works Section -->
+  <section class="how-it-works-section">
+    <div class="section-container">
+      <div class="chat-bubbles">
+        <div class="chat-bubble" data-glow="cyan">
+          <h3>Step 1: Ask.</h3>
+          <p>Start with one thought, one question, or one goal.</p>
+        </div>
+        
+        <div class="chat-bubble" data-glow="purple">
+          <h3>Step 2: Expand.</h3>
+          <p>AI creates multiple personalized learning paths.</p>
+        </div>
+        
+        <div class="chat-bubble" data-glow="magenta">
+          <h3>Step 3: Grow.</h3>
+          <p>Level up daily with 3–5 minute adaptive sessions.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Features Section -->
+  <section class="features-section">
+    <div class="section-container">
+      <h2 class="section-title">Features</h2>
+      
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-icon brain-icon"></div>
+          <h3>Personalized AI Roadmaps</h3>
+          <p>Custom learning paths tailored to your goals and skill level.</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon trophy-icon"></div>
+          <h3>Gamified Microlearning</h3>
+          <p>Earn rewards and track progress with bite-sized daily lessons.</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon mic-icon"></div>
+          <h3>Voice Tutor & Chat Guidance</h3>
+          <p>Get help from AI tutors through voice or text chat.</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon gauge-icon"></div>
+          <h3>Track Real-Time Progress</h3>
+          <p>Monitor your learning journey with detailed analytics.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Enterprise Section -->
+  <section class="enterprise-section">
+    <div class="section-container">
+      <div class="vertical-lines">
+        <div class="v-line" *ngFor="let i of [1,2,3,4,5]"></div>
+      </div>
+      
+      <div class="enterprise-content">
+        <h2>For Teams & Enterprises</h2>
+        <h3>Scale personalized learning across your organization.</h3>
+        
+        <div class="stats-container">
+          <div class="stat-item">
+            <div class="stat-number" data-count="95">0%</div>
+            <div class="stat-label">engagement rate</div>
+          </div>
+          
+          <div class="stat-item">
+            <div class="stat-number" data-count="3">0x</div>
+            <div class="stat-label">faster onboarding</div>
+          </div>
+          
+          <div class="stat-item">
+            <div class="stat-number" data-count="40">0%</div>
+            <div class="stat-label">improved retention</div>
+          </div>
+        </div>
+        
+        <div class="graph-container">
+          <div class="graph-line"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Final CTA Section -->
+  <section class="final-cta-section">
+    <div class="section-container">
+      <div class="center-orb"></div>
+      
+      <div class="cta-content">
+        <h2>Ready to leap forward?</h2>
+        <h3>Join CareerLeap and transform your learning journey.</h3>
+        
+        <div class="cta-buttons">
+          <button class="cta-button primary" (click)="navigateToLogin()">
+            <span>Login</span>
+            <span class="button-glow"></span>
+          </button>
+          <button class="cta-button secondary" (click)="navigateToSignup()">
+            <span>Signup</span>
+            <span class="button-glow"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Footer -->
+  <footer class="cyberpunk-footer">
+    <div class="footer-container">
+      <div class="footer-grid">
+        <div class="footer-left">
+          <p>© 2025 CareerLeap</p>
+        </div>
+        
+        <div class="footer-center">
+          <nav class="footer-links">
+            <a href="#">Home</a>
+            <a href="#">Features</a>
+            <a href="#">Enterprise</a>
+            <a href="#">Careers</a>
+            <a href="#">Contact</a>
+          </nav>
+        </div>
+        
+        <div class="footer-right">
+          <div class="social-icons">
+            <a href="#" class="social-icon linkedin"></a>
+            <a href="#" class="social-icon twitter"></a>
+            <a href="#" class="social-icon discord"></a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer-divider">
+        <div class="divider-line"></div>
+      </div>
+    </div>
+  </footer>
+</div>
