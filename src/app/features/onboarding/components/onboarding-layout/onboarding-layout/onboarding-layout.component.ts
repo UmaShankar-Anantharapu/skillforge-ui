@@ -5,11 +5,8 @@ import { Component } from '@angular/core';
   template: `
     <div class="onboarding-container">
       <router-outlet></router-outlet>
-      <button class="skip-button">Skip Now</button>
     </div>
   `,
   styles: ``
 })
-export class OnboardingLayoutComponent {
-
-}
+export class OnboardingLayoutComponent {}

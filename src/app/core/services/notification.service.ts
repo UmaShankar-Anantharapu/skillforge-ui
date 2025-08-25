@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { OnboardingService } from './onboarding.service';
 
 export interface Notification {
   id: string;
@@ -17,7 +18,7 @@ export class NotificationService {
   private notificationsSubject = new BehaviorSubject<Notification[]>([]);
   public notifications$: Observable<Notification[]> = this.notificationsSubject.asObservable();
 
-  constructor() {}
+  constructor(private onboardingService: OnboardingService) {}
 
   /**
    * Show a notification
@@ -42,7 +43,7 @@ export class NotificationService {
       type: 'warning',
       dismissible: true,
       actions: {
-        primary: { label: 'Update Now', route: '/onboarding' },
+        primary: { label: 'Start Onboarding', callback: () => this.onboardingService.openOverlay() },
         secondary: { label: 'Remind Me Later', callback: () => {} }
       }
     });

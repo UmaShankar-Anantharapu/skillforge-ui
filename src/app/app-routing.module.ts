@@ -31,6 +31,13 @@ const routes: Routes = [
     loadChildren: () =>
       import('./features/onboarding/onboarding.module').then((m) => m.OnboardingModule),
   },
+  // Add overlay route to lazy-load onboarding module into the named outlet "overlay"
+  {
+    path: 'onboarding',
+    outlet: 'overlay',
+    loadChildren: () =>
+      import('./features/onboarding/onboarding.module').then((m) => m.OnboardingModule),
+  },
   {
     path: 'roadmap',
     loadChildren: () =>

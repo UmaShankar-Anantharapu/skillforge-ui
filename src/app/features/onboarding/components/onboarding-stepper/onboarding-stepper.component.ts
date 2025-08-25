@@ -5,23 +5,14 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { OnboardingService, OnboardingData } from '../../../../core/services/onboarding.service';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { trigger, transition, style, animate } from '@angular/animations';
+import { stepTransition } from '../../../../shared/animations/animations';
+import { ThemeService } from '../../../../core/services/theme.service';
 
 @Component({
   selector: 'app-onboarding-stepper',
   templateUrl: './onboarding-stepper.component.html',
   styleUrl: './onboarding-stepper.component.scss',
-  animations: [
-    trigger('stepTransition', [
-      transition(':enter', [
-        style({ opacity: 0, transform: 'translateX(20px)' }),
-        animate('300ms ease-out', style({ opacity: 1, transform: 'translateX(0)' }))
-      ]),
-      transition(':leave', [
-        animate('300ms ease-in', style({ opacity: 0, transform: 'translateX(-20px)' }))
-      ])
-    ])
-  ]
+  animations: [stepTransition]
 })
 export class OnboardingStepperComponent implements OnInit {
   // Current step
@@ -69,6 +60,7 @@ export class OnboardingStepperComponent implements OnInit {
   
   // Skill selection
   skillCtrl = new FormControl('');
+  relatedSkillCtrl = new FormControl('');
   availableSkills: string[] = [
     'JavaScript', 'Python', 'Java', 'C#', 'C++', 'TypeScript',
     'React', 'Angular', 'Vue.js', 'Node.js', 'Express.js',
@@ -119,7 +111,8 @@ export class OnboardingStepperComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private onboardingService: OnboardingService,
-    private router: Router
+    private router: Router,
+    private themeService: ThemeService
   ) {
     // Initialize forms
     this.getStartedForm = this.fb.group({});
@@ -151,7 +144,8 @@ export class OnboardingStepperComponent implements OnInit {
       contentFormat: ['', Validators.required],
       sessionDuration: ['', Validators.required],
       difficultyPreference: ['', Validators.required],
-      primaryDevice: ['', Validators.required]
+      primaryDevice: ['', Validators.required],
+      devicePreference: ['', Validators.required]
     });
     
     // Step 4: Schedule & Availability
@@ -201,6 +195,7 @@ export class OnboardingStepperComponent implements OnInit {
       'dataSharing.analytics': [false, Validators.required],
       'dataSharing.marketing': [false, Validators.required],
       'dataSharing.thirdParty': [false, Validators.required],
+      notificationPreferences: [[], Validators.required],
       'notificationPreferences.email': [true, Validators.required],
       'notificationPreferences.push': [true, Validators.required],
       'notificationPreferences.sms': [false, Validators.required],
@@ -643,18 +638,48 @@ export class OnboardingStepperComponent implements OnInit {
   getStepTooltip(stepIndex: number): string {
     return this.stepTooltips[stepIndex] || '';
   }
+
+  getStepDescription(stepIndex: number): string {
+    const descriptions = [
+      'Build your basic profile to personalize your learning experience',
+      'Define what you want to achieve with your learning journey',
+      'Tell us how you learn best for optimized content delivery',
+      'Set your learning schedule to maintain consistency',
+      'Identify the skills you want to develop or improve',
+      'Share your experience to tailor content to your level',
+      'Define how you want to measure your learning success',
+      'Assess your current skill levels for personalized recommendations',
+      'Final preferences to complete your learning profile'
+    ];
+    
+    if (stepIndex >= 1 && stepIndex <= descriptions.length) {
+      return descriptions[stepIndex - 1];
+    }
+    return '';
+  }
+
+  getEstimatedTime(): number {
+    const timePerStep = 3; // Average minutes per step
+    const remainingSteps = (this.stepTitles.length - 1) - this.currentStep;
+    return Math.max(remainingSteps * timePerStep, 2);
+  }
+
+  showHelp(): void {
+    // TODO: Implement help dialog or tooltip
+    console.log('Help requested for step:', this.currentStep);
+  }
+
+  // Add Math to component for template access
+  Math = Math;
   
   /**
    * Detect user's theme preference
    */
   detectTheme(): void {
-    // Check if user prefers dark mode
-    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    this.isDarkTheme = prefersDark;
-    
-    // Listen for changes in theme preference
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
-      this.isDarkTheme = event.matches;
+    // Initialize from ThemeService and subscribe to updates
+    this.isDarkTheme = this.themeService.getTheme() === 'dark';
+    this.themeService.theme$.subscribe(theme => {
+      this.isDarkTheme = theme === 'dark';
     });
   }
   
@@ -662,8 +687,8 @@ export class OnboardingStepperComponent implements OnInit {
    * Close the onboarding component
    */
   closeOnboarding(): void {
-    // Navigate away or emit an event to parent component
-    this.router.navigate(['/dashboard']);
+    // Close overlay via service to clear named outlet
+    this.onboardingService.closeOverlay();
   }
   
   /**
@@ -678,6 +703,15 @@ export class OnboardingStepperComponent implements OnInit {
     if (skill && !this.selectedSkills.includes(skill)) {
       this.selectedSkills.push(skill);
       this.skillCtrl.setValue('');
+      this.skillDetailsForm.patchValue({ skills: this.selectedSkills });
+    }
+  }
+
+  addRelatedSkill(event: MatAutocompleteSelectedEvent): void {
+    const skill = event.option.viewValue;
+    if (skill && !this.selectedSkills.includes(skill)) {
+      this.selectedSkills.push(skill);
+      this.relatedSkillCtrl.setValue('');
       this.skillDetailsForm.patchValue({ skills: this.selectedSkills });
     }
   }
@@ -698,6 +732,31 @@ export class OnboardingStepperComponent implements OnInit {
       return this.resumeAnalysisComplete && this.identifiedSkills.length > 0;
     }
     return false;
+  }
+
+  isStepInvalid(): boolean {
+    switch (this.currentStep) {
+      case 1:
+        return this.basicProfileForm.invalid;
+      case 2:
+        return this.learningGoalsForm.invalid;
+      case 3:
+        return this.learningPreferencesForm.invalid;
+      case 4:
+        return this.scheduleForm.invalid;
+      case 5:
+        return this.skillsSetupForm.invalid || this.selectedSkills.length === 0;
+      case 6:
+        return this.backgroundForm.invalid;
+      case 7:
+        return this.successMetricsForm.invalid;
+      case 8:
+         return this.skillAssessmentForm.invalid && this.selectedSkills.length > 0;
+      case 9:
+        return this.finalSetupForm.invalid;
+      default:
+        return false;
+    }
   }
 
   // Submit onboarding data

@@ -18,6 +18,15 @@
   --sf-glass-bg: rgba(255, 255, 255, 0.1);
   --sf-glass-border: rgba(255, 255, 255, 0.2);
   --sf-glass-blur: blur(20px);
+  
+  /* Header height variable for overlay/layout calculations */
+  :root {
+    --sf-header-h: 56px;
+  }
+
+  [data-theme="light"] {
+    --sf-header-h: 56px;
+  }
 }
 
 [data-theme="light"] {

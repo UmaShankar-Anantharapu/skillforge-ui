@@ -24,7 +24,7 @@ const routes: Routes = [
       { path: 'resume-upload', component: ResumeUploadComponent },
       { path: 'skill-selection', component: SkillSelectionComponent },
     ],
-  },
+  }
 ];
 
 @NgModule({

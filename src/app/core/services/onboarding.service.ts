@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable, of, BehaviorSubject } from 'rxjs';
 import { environment } from '@app/environments/environment';
+import { Router } from '@angular/router';
 
 export interface OnboardingData {
   // Step 1: Welcome & Basic Profile
@@ -108,8 +109,23 @@ export interface OnboardingData {
 })
 export class OnboardingService {
   private apiUrl = environment.apiUrl;
+  // UI state: overlay open/close
+  private overlaySubject = new BehaviorSubject<boolean>(false);
+  overlayOpen$ = this.overlaySubject.asObservable();
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
+
+  // Overlay controls
+  openOverlay(): void {
+    // Navigate to the onboarding stepper in the named outlet and open overlay UI
+    this.router.navigate([{ outlets: { overlay: ['onboarding', 'stepper'] } }]);
+    this.overlaySubject.next(true);
+  }
+  closeOverlay(): void {
+    // Clear the named outlet and close overlay UI
+    this.router.navigate([{ outlets: { overlay: null } }]);
+    this.overlaySubject.next(false);
+  }
 
   // Step 0: Get Started
   getStarted(): Observable<any> {
