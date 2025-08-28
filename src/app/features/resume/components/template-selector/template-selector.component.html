@@ -1,0 +1,188 @@
+<div class="template-selector-container">
+  <div class="step-header">
+    <h2>Choose Your Resume Template</h2>
+    <p>Select a professional template that best suits your career level and industry focus.</p>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Loading resume templates...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !loading" class="error-state">
+    <div class="error-icon">
+      <mat-icon>error_outline</mat-icon>
+    </div>
+    <h3>Unable to Load Templates</h3>
+    <p>{{ error }}</p>
+    <button mat-raised-button color="primary" (click)="retryLoadTemplates()">
+      <mat-icon>refresh</mat-icon>
+      Try Again
+    </button>
+  </div>
+
+  <!-- Template Selection -->
+  <div *ngIf="!loading && !error" class="template-content">
+    <!-- Category Tabs -->
+    <div class="category-tabs" *ngIf="availableCategories.length > 1">
+      <mat-tab-group mat-align-tabs="center" dynamicHeight>
+        <mat-tab *ngFor="let category of availableCategories" [label]="category">
+          <div class="templates-grid">
+            <div 
+              *ngFor="let template of getTemplatesByCategory(category)" 
+              class="template-card"
+              [class.selected]="isTemplateSelected(template.id)"
+              (click)="selectTemplate(template)"
+            >
+              <div class="template-preview">
+                <div class="preview-image">
+                  <img 
+                    [src]="template.previewImage" 
+                    [alt]="template.name + ' preview'"
+                    loading="lazy"
+                  />
+                  <div class="overlay">
+                    <mat-icon>visibility</mat-icon>
+                    <span>Preview</span>
+                  </div>
+                </div>
+                
+                <div class="selection-indicator" *ngIf="isTemplateSelected(template.id)">
+                  <mat-icon>check_circle</mat-icon>
+                </div>
+              </div>
+              
+              <div class="template-info">
+                <h3>{{ template.name }}</h3>
+                <p>{{ template.description }}</p>
+                
+                <div class="template-features">
+                  <span 
+                    *ngFor="let feature of template.features" 
+                    class="feature-tag"
+                  >
+                    {{ feature }}
+                  </span>
+                </div>
+                
+                <div class="template-meta">
+                  <div class="difficulty">
+                    <mat-icon>{{ template.difficulty === 'beginner' ? 'star' : template.difficulty === 'intermediate' ? 'star_half' : 'stars' }}</mat-icon>
+                    <span>{{ template.difficulty | titlecase }}</span>
+                  </div>
+                  <div class="best-for">
+                    <span>Best for: {{ template.bestFor }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+
+    <!-- Single Category Templates -->
+    <div *ngIf="availableCategories.length === 1" class="templates-grid">
+      <div 
+        *ngFor="let template of templates" 
+        class="template-card"
+        [class.selected]="isTemplateSelected(template.id)"
+        (click)="selectTemplate(template)"
+      >
+        <div class="template-preview">
+          <div class="preview-image">
+            <img 
+              [src]="template.previewImage" 
+              [alt]="template.name + ' preview'"
+              loading="lazy"
+            />
+            <div class="overlay">
+              <mat-icon>visibility</mat-icon>
+              <span>Preview</span>
+            </div>
+          </div>
+          
+          <div class="selection-indicator" *ngIf="isTemplateSelected(template.id)">
+            <mat-icon>check_circle</mat-icon>
+          </div>
+        </div>
+        
+        <div class="template-info">
+          <h3>{{ template.name }}</h3>
+          <p>{{ template.description }}</p>
+          
+          <div class="template-features">
+            <span 
+              *ngFor="let feature of template.features" 
+              class="feature-tag"
+            >
+              {{ feature }}
+            </span>
+          </div>
+          
+          <div class="template-meta">
+            <div class="difficulty">
+              <mat-icon>{{ template.difficulty === 'beginner' ? 'star' : template.difficulty === 'intermediate' ? 'star_half' : 'stars' }}</mat-icon>
+              <span>{{ template.difficulty | titlecase }}</span>
+            </div>
+            <div class="best-for">
+              <span>Best for: {{ template.bestFor }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Selection Summary -->
+    <div *ngIf="selectedTemplateId" class="selection-summary">
+      <div class="summary-content">
+        <mat-icon>check_circle</mat-icon>
+        <div class="summary-text">
+          <h4>Template Selected</h4>
+          <p>You've chosen the <strong>{{ (templates | filter:'id':selectedTemplateId)[0]?.name }}</strong> template.</p>
+        </div>
+      </div>
+      
+      <button 
+        mat-raised-button 
+        color="primary" 
+        class="continue-btn"
+        (click)="proceedToNext()"
+      >
+        Continue to Personal Information
+        <mat-icon>arrow_forward</mat-icon>
+      </button>
+    </div>
+
+    <!-- Help Section -->
+    <div class="help-section">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon>help_outline</mat-icon>
+            Need help choosing a template?
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        
+        <div class="help-content">
+          <div class="help-item">
+            <h4>For Fresh Graduates & Entry-Level</h4>
+            <p>Choose templates that emphasize education, projects, and skills. Look for clean, modern designs that highlight your potential.</p>
+          </div>
+          
+          <div class="help-item">
+            <h4>For Experienced Developers</h4>
+            <p>Select templates that showcase your work experience prominently. Technical templates with sections for projects and achievements work best.</p>
+          </div>
+          
+          <div class="help-item">
+            <h4>For Career Changers</h4>
+            <p>Opt for templates that allow you to highlight transferable skills and relevant projects, even if they're from different industries.</p>
+          </div>
+        </div>
+      </mat-expansion-panel>
+    </div>
+  </div>
+</div>

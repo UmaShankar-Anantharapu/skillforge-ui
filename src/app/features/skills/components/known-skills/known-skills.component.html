@@ -1,0 +1,83 @@
+<div class="known-skills-container">
+  <div class="section-header">
+    <h2>Known Skills</h2>
+    <button 
+      class="update-skills-btn" 
+      *ngIf="(skills$ | async)?.length > 0"
+      (click)="updateSkills()">
+      <i class="fas fa-edit"></i>
+      Update Skills
+    </button>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading-container" *ngIf="isLoading">
+    <div class="loading-spinner"></div>
+    <p>Loading your skills...</p>
+  </div>
+
+  <!-- Skills Grid -->
+  <div class="skills-grid" *ngIf="!isLoading && (skills$ | async)?.length > 0">
+    <div 
+      class="skill-card"
+      *ngFor="let skill of skills$ | async; trackBy: trackBySkillName"
+      (mouseenter)="onSkillHover(skill.skillName)"
+      (mouseleave)="onSkillLeave()">
+      
+      <!-- Skill Card Content -->
+      <div class="skill-card-content">
+        <div class="skill-header">
+          <h3 class="skill-name">{{ skill.skillName }}</h3>
+          <span class="skill-level" [ngClass]="getProficiencyClass(skill.proficiencyLevel)">
+            {{ skill.proficiencyLevel }}
+          </span>
+        </div>
+        
+        <div class="skill-details">
+          <div class="experience-info" *ngIf="skill.yearsOfExperience !== undefined">
+            <i class="fas fa-clock"></i>
+            <span>{{ getExperienceText(skill.yearsOfExperience) }}</span>
+          </div>
+          
+          <div class="last-used" *ngIf="skill.lastUsed">
+            <i class="fas fa-calendar-alt"></i>
+            <span>Last used: {{ skill.lastUsed | date:'MMM yyyy' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Prerequisites Tooltip -->
+      <div 
+        class="prerequisites-tooltip"
+        *ngIf="hoveredSkill === skill.skillName && getSkillPrerequisites(skill.skillName).length > 0"
+        [@fadeInOut]>
+        <div class="tooltip-header">
+          <i class="fas fa-info-circle"></i>
+          <span>Prerequisites</span>
+        </div>
+        <div class="tooltip-content">
+          <div 
+            class="prerequisite-item"
+            *ngFor="let prerequisite of getSkillPrerequisites(skill.skillName)">
+            <i class="fas fa-check-circle"></i>
+            <span>{{ prerequisite }}</span>
+          </div>
+        </div>
+        <div class="tooltip-arrow"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div class="empty-state" *ngIf="!isLoading && (skills$ | async)?.length === 0">
+    <div class="empty-state-icon">
+      <i class="fas fa-graduation-cap"></i>
+    </div>
+    <h3>No Skills Added Yet</h3>
+    <p>Start building your professional profile by adding your first skill</p>
+    <button class="add-skills-btn" (click)="addSkills()">
+      <i class="fas fa-plus"></i>
+      Add Your First Skill
+    </button>
+  </div>
+</div>

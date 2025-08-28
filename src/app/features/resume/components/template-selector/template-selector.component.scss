@@ -1,0 +1,399 @@
+.template-selector-container {
+  .step-header {
+    text-align: center;
+    margin-bottom: 2rem;
+
+    h2 {
+      margin: 0 0 0.5rem 0;
+      color: var(--sf-text);
+      font-size: 1.75rem;
+    }
+
+    p {
+      margin: 0;
+      color: var(--sf-text-muted);
+      font-size: 1rem;
+    }
+  }
+
+  // Loading State
+  .loading-state {
+    text-align: center;
+    padding: 4rem 0;
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid var(--sf-border);
+      border-top: 3px solid var(--sf-primary);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 1.5rem;
+    }
+
+    p {
+      color: var(--sf-text-muted);
+      font-size: 1rem;
+    }
+  }
+
+  // Error State
+  .error-state {
+    text-align: center;
+    padding: 4rem 0;
+
+    .error-icon {
+      margin-bottom: 1rem;
+
+      mat-icon {
+        font-size: 48px;
+        width: 48px;
+        height: 48px;
+        color: var(--sf-error);
+      }
+    }
+
+    h3 {
+      margin: 0 0 0.5rem 0;
+      color: var(--sf-text);
+    }
+
+    p {
+      margin: 0 0 2rem 0;
+      color: var(--sf-text-muted);
+    }
+
+    button {
+      .mat-icon {
+        margin-right: 0.5rem;
+      }
+    }
+  }
+
+  // Template Content
+  .template-content {
+    .category-tabs {
+      margin-bottom: 2rem;
+
+      ::ng-deep {
+        .mat-tab-group {
+          .mat-tab-header {
+            border-bottom: 1px solid var(--sf-border);
+          }
+
+          .mat-tab-label {
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.875rem;
+          }
+
+          .mat-tab-body-content {
+            padding-top: 2rem;
+          }
+        }
+      }
+    }
+
+    // Templates Grid
+    .templates-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+
+      @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+    }
+
+    // Template Card
+    .template-card {
+      background: var(--sf-background-alt);
+      border: 2px solid var(--sf-border);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      position: relative;
+
+      &:hover {
+        border-color: var(--sf-primary-light);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transform: translateY(-2px);
+      }
+
+      &.selected {
+        border-color: var(--sf-primary);
+        box-shadow: 0 0 0 3px rgba(var(--sf-primary-rgb), 0.1);
+
+        .template-preview .selection-indicator {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      .template-preview {
+        position: relative;
+        height: 200px;
+        overflow: hidden;
+
+        .preview-image {
+          width: 100%;
+          height: 100%;
+          position: relative;
+
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+          }
+
+          .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+
+            mat-icon {
+              font-size: 32px;
+              width: 32px;
+              height: 32px;
+              margin-bottom: 0.5rem;
+            }
+
+            span {
+              font-weight: 500;
+            }
+          }
+
+          &:hover .overlay {
+            opacity: 1;
+          }
+        }
+
+        .selection-indicator {
+          position: absolute;
+          top: 12px;
+          right: 12px;
+          background: var(--sf-primary);
+          color: white;
+          border-radius: 50%;
+          width: 32px;
+          height: 32px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          opacity: 0;
+          transform: scale(0.8);
+          transition: all 0.3s ease;
+
+          mat-icon {
+            font-size: 20px;
+            width: 20px;
+            height: 20px;
+          }
+        }
+      }
+
+      .template-info {
+        padding: 1.5rem;
+
+        h3 {
+          margin: 0 0 0.5rem 0;
+          color: var(--sf-text);
+          font-size: 1.125rem;
+          font-weight: 600;
+        }
+
+        p {
+          margin: 0 0 1rem 0;
+          color: var(--sf-text-muted);
+          font-size: 0.875rem;
+          line-height: 1.4;
+        }
+
+        .template-features {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.5rem;
+          margin-bottom: 1rem;
+
+          .feature-tag {
+            background: var(--sf-primary-light);
+            color: var(--sf-primary);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 500;
+          }
+        }
+
+        .template-meta {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          font-size: 0.75rem;
+          color: var(--sf-text-muted);
+
+          .difficulty {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+
+            mat-icon {
+              font-size: 16px;
+              width: 16px;
+              height: 16px;
+              color: var(--sf-warning);
+            }
+          }
+
+          .best-for {
+            font-style: italic;
+          }
+        }
+      }
+    }
+
+    // Selection Summary
+    .selection-summary {
+      background: var(--sf-success-light);
+      border: 1px solid var(--sf-success);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin: 2rem 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+
+      @media (max-width: 768px) {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .summary-content {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        mat-icon {
+          color: var(--sf-success);
+          font-size: 24px;
+          width: 24px;
+          height: 24px;
+        }
+
+        .summary-text {
+          h4 {
+            margin: 0 0 0.25rem 0;
+            color: var(--sf-text);
+            font-size: 1rem;
+          }
+
+          p {
+            margin: 0;
+            color: var(--sf-text-muted);
+            font-size: 0.875rem;
+          }
+        }
+      }
+
+      .continue-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        white-space: nowrap;
+
+        mat-icon {
+          margin-left: 0.5rem;
+        }
+      }
+    }
+
+    // Help Section
+    .help-section {
+      margin-top: 3rem;
+
+      ::ng-deep {
+        .mat-expansion-panel {
+          background: var(--sf-background-alt);
+          border: 1px solid var(--sf-border);
+          border-radius: 8px;
+          box-shadow: none;
+
+          .mat-expansion-panel-header {
+            .mat-panel-title {
+              display: flex;
+              align-items: center;
+              gap: 0.5rem;
+              color: var(--sf-text);
+              font-weight: 500;
+
+              mat-icon {
+                color: var(--sf-primary);
+              }
+            }
+          }
+        }
+      }
+
+      .help-content {
+        padding: 1rem 0;
+
+        .help-item {
+          margin-bottom: 1.5rem;
+
+          &:last-child {
+            margin-bottom: 0;
+          }
+
+          h4 {
+            margin: 0 0 0.5rem 0;
+            color: var(--sf-text);
+            font-size: 1rem;
+          }
+
+          p {
+            margin: 0;
+            color: var(--sf-text-muted);
+            font-size: 0.875rem;
+            line-height: 1.5;
+          }
+        }
+      }
+    }
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+// Dark mode adjustments
+@media (prefers-color-scheme: dark) {
+  .template-selector-container {
+    .template-card {
+      &:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      }
+
+      .template-preview .preview-image img {
+        opacity: 0.9;
+      }
+    }
+  }
+}

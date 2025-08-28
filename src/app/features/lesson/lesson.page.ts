@@ -32,7 +32,7 @@ import { ProgressService } from '../../core/services/progress.service';
         </ng-container>
         <div style="margin-top: 12px; display:flex; gap:12px;">
           <button class="sf-btn" (click)="markCompleted()">Mark Completed</button>
-          <a routerLink="/roadmap" class="sf-link">Back to Roadmap</a>
+          <a routerLink="/skills" class="sf-link">Back to Skills</a>
         </div>
       </div>
     </div>

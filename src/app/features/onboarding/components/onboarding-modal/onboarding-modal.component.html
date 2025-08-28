@@ -1,0 +1,71 @@
+<div class="onboarding-modal-container">
+  <!-- Header -->
+  <div class="modal-header">
+    <h2 class="modal-title">{{ getStepTitle() }}</h2>
+    <p class="modal-description">{{ getStepDescription() }}</p>
+    
+    <!-- Progress Bar -->
+    <div class="progress-container">
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="getProgressPercentage()"></div>
+      </div>
+      <span class="progress-text">{{ getProgressPercentage() }}% Complete</span>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="modal-content">
+    <div *ngIf="loading$ | async" class="loading-container">
+      <mat-spinner diameter="40"></mat-spinner>
+      <p>Loading...</p>
+    </div>
+
+    <div *ngIf="error$ | async as error" class="error-container">
+      <mat-icon color="warn">error</mat-icon>
+      <p>{{ error }}</p>
+    </div>
+
+    <form [formGroup]="stepForm" *ngIf="(currentStepData || (currentStep$ | async) === 0) && !(loading$ | async)">
+      <app-step-renderer
+        [stepData]="currentStepData"
+        [formGroup]="stepForm"
+        [config]="config"
+        [sessionId]="sessionId"
+        [currentStep]="currentStep$ | async"
+        [steps]="getStepList()"
+        (formValid)="canProceed = $event"
+        (startOnboarding)="onStartOnboarding($event)">
+      </app-step-renderer>
+    </form>
+  </div>
+
+  <!-- Footer -->
+  <div class="modal-footer">
+    <button 
+      mat-button 
+      type="button" 
+      [disabled]="!canGoBack() || isSubmitting"
+      (click)="previousStep()">
+      Previous
+    </button>
+    
+    <div class="spacer"></div>
+    
+    <button 
+      mat-button 
+      type="button" 
+      (click)="closeModal()">
+      Skip for now
+    </button>
+    
+    <button 
+      mat-raised-button 
+      color="primary" 
+      type="button" 
+      [disabled]="!canProceed || isSubmitting"
+      (click)="nextStep()">
+      <span *ngIf="!isLastStep()">Next</span>
+      <span *ngIf="isLastStep()">Complete</span>
+    </button>
+  </div>
+</div>

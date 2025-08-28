@@ -1,0 +1,171 @@
+<div class="contact-info-editor">
+  <div class="step-header">
+    <h2>Personal Information</h2>
+    <p>Let's start with your basic contact details. This information will appear at the top of your resume.</p>
+    
+    <div class="completion-indicator">
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="completionPercentage"></div>
+      </div>
+      <span class="progress-text">{{ completionPercentage }}% Complete</span>
+    </div>
+  </div>
+
+  <form [formGroup]="contactForm" class="contact-form">
+    <!-- Name Section -->
+    <div class="form-section">
+      <h3>Full Name</h3>
+      <div class="name-fields">
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>First Name</mat-label>
+          <input matInput formControlName="firstName" placeholder="John">
+          <mat-error *ngIf="getFieldError('firstName')">{{ getFieldError('firstName') }}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>Last Name</mat-label>
+          <input matInput formControlName="lastName" placeholder="Doe">
+          <mat-error *ngIf="getFieldError('lastName')">{{ getFieldError('lastName') }}</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <!-- Contact Details Section -->
+    <div class="form-section">
+      <h3>Contact Details</h3>
+      <div class="contact-fields">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Email Address</mat-label>
+          <input matInput type="email" formControlName="email" placeholder="john.doe@example.com">
+          <mat-icon matSuffix>email</mat-icon>
+          <mat-error *ngIf="getFieldError('email')">{{ getFieldError('email') }}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Phone Number</mat-label>
+          <input matInput type="tel" formControlName="phone" placeholder="+1 (555) 123-4567">
+          <mat-icon matSuffix>phone</mat-icon>
+          <mat-error *ngIf="getFieldError('phone')">{{ getFieldError('phone') }}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Location</mat-label>
+          <input matInput formControlName="location" placeholder="San Francisco, CA, USA">
+          <mat-icon matSuffix>location_on</mat-icon>
+          <mat-hint>City, State/Province, Country</mat-hint>
+          <mat-error *ngIf="getFieldError('location')">{{ getFieldError('location') }}</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <!-- Professional Links Section -->
+    <div class="form-section">
+      <h3>Professional Links <span class="optional-label">(Optional)</span></h3>
+      <p class="section-description">Add your professional profiles to showcase your work and connect with potential employers.</p>
+      
+      <div class="links-fields">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>LinkedIn Profile</mat-label>
+          <input matInput formControlName="linkedIn" placeholder="https://linkedin.com/in/johndoe">
+          <mat-icon matSuffix>link</mat-icon>
+          <mat-hint>Your LinkedIn profile URL</mat-hint>
+          <mat-error *ngIf="getFieldError('linkedIn')">{{ getFieldError('linkedIn') }}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>GitHub Profile</mat-label>
+          <input matInput formControlName="github" placeholder="https://github.com/johndoe">
+          <mat-icon matSuffix>code</mat-icon>
+          <mat-hint>Your GitHub profile URL</mat-hint>
+          <mat-error *ngIf="getFieldError('github')">{{ getFieldError('github') }}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Portfolio Website</mat-label>
+          <input matInput formControlName="portfolio" placeholder="https://johndoe.dev">
+          <mat-icon matSuffix>web</mat-icon>
+          <mat-hint>Your personal website or portfolio</mat-hint>
+          <mat-error *ngIf="getFieldError('portfolio')">{{ getFieldError('portfolio') }}</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <!-- Tips Section -->
+    <div class="tips-section">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon>lightbulb</mat-icon>
+            Tips for Contact Information
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        
+        <div class="tips-content">
+          <div class="tip-item">
+            <mat-icon>check_circle</mat-icon>
+            <div>
+              <h4>Use a Professional Email</h4>
+              <p>Avoid using unprofessional email addresses. Stick to firstname.lastname&#64;domain.com format.</p>
+            </div>
+          </div>
+          
+          <div class="tip-item">
+            <mat-icon>check_circle</mat-icon>
+            <div>
+              <h4>Include Your Location</h4>
+              <p>City and state/country are usually sufficient. Full addresses are not necessary for privacy reasons.</p>
+            </div>
+          </div>
+          
+          <div class="tip-item">
+            <mat-icon>check_circle</mat-icon>
+            <div>
+              <h4>Professional Links Matter</h4>
+              <p>LinkedIn and GitHub profiles are especially important for tech roles. Make sure they're up-to-date.</p>
+            </div>
+          </div>
+          
+          <div class="tip-item">
+            <mat-icon>check_circle</mat-icon>
+            <div>
+              <h4>Keep It Current</h4>
+              <p>Ensure all contact information is current and you check these channels regularly.</p>
+            </div>
+          </div>
+        </div>
+      </mat-expansion-panel>
+    </div>
+  </form>
+
+  <!-- Navigation Buttons -->
+  <div class="navigation-buttons">
+    <button 
+      mat-stroked-button 
+      color="primary" 
+      (click)="onPrevious()"
+      class="nav-button"
+    >
+      <mat-icon>arrow_back</mat-icon>
+      Previous
+    </button>
+
+    <div class="spacer"></div>
+
+    <button 
+      mat-raised-button 
+      color="primary" 
+      (click)="onNext()"
+      [disabled]="!isFormValid"
+      class="nav-button"
+    >
+      Next: Professional Summary
+      <mat-icon>arrow_forward</mat-icon>
+    </button>
+  </div>
+
+  <!-- Form Status Indicator -->
+  <div class="form-status" *ngIf="!isFormValid && contactForm.touched">
+    <mat-icon>info</mat-icon>
+    <span>Please fill in all required fields to continue</span>
+  </div>
+</div>

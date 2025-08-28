@@ -1,0 +1,216 @@
+<div class="step-renderer" [formGroup]="formGroup">
+<!-- Non-Material Step 1 fields -->
+<section *ngIf="isStep(1)" class="section" [formGroup]="formGroup">
+  <div class="form">
+    <label class="field full">
+      <span>Full Name *</span>
+      <input type="text" formControlName="fullName" placeholder="Enter your full name" [class.error]="getFieldError('fullName')">
+      <small *ngIf="getFieldError('fullName')">{{ getFieldError('fullName') }}</small>
+    </label>
+    <label class="field full">
+      <span>Email Address *</span>
+      <input type="email" formControlName="email" placeholder="Enter your email" [class.error]="getFieldError('email')">
+      <small *ngIf="getFieldError('email')">{{ getFieldError('email') }}</small>
+    </label>
+    <label class="field half">
+      <span>Country *</span>
+      <select formControlName="country" [class.error]="getFieldError('country')">
+        <option value="">Select your country</option>
+        <option *ngFor="let c of getCountriesTimezones()" [value]="c.country">{{ c.country }}</option>
+      </select>
+      <small *ngIf="getFieldError('country')">{{ getFieldError('country') }}</small>
+    </label>
+    <label class="field half">
+      <span>Timezone *</span>
+      <select formControlName="timezone" [class.error]="getFieldError('timezone')">
+        <option value="">Select your timezone</option>
+        <option *ngFor="let c of getCountriesTimezones()" [value]="c.timezone">{{ c.timezone }}</option>
+      </select>
+      <small *ngIf="getFieldError('timezone')">{{ getFieldError('timezone') }}</small>
+    </label>
+
+    <label class="field third">
+      <span>Age *</span>
+      <input type="number" formControlName="age" min="16" max="100" placeholder="Your age" [class.error]="getFieldError('age')">
+      <small *ngIf="getFieldError('age')">{{ getFieldError('age') }}</small>
+    </label>
+
+    <div class="field two-third">
+      <span>Preferred Languages *</span>
+      <div class="typeahead">
+        <input type="text" [value]="languageQuery" (input)="onLanguageInput($any($event.target).value)" placeholder="Type to search Indian languages">
+        <ul class="suggestions" *ngIf="showLangDropdown">
+          <li *ngFor="let s of languageSuggestions" (click)="addLanguage(s)">{{ s }}</li>
+        </ul>
+      </div>
+      <div class="chips" *ngIf="formGroup.get('preferredLanguages')?.value?.length">
+        <span class="chip" *ngFor="let lang of formGroup.get('preferredLanguages')?.value">
+          {{ lang }}
+          <button type="button" class="remove" (click)="removeLanguage(lang)">×</button>
+        </span>
+      </div>
+      <small *ngIf="getFieldError('preferredLanguages')">{{ getFieldError('preferredLanguages') || 'At least one preferred language is required' }}</small>
+    </div>
+  </div>
+</section>
+
+  <!-- Step 2: Career Background -->
+  <section *ngIf="isStep(2)" class="section" [formGroup]="formGroup">
+    <div class="career-background">
+      <div class="career-header">
+        <h3>Your Career Background</h3>
+        <button class="btn add-org-btn" (click)="addNewCareerEntry()">
+          +Add Org
+        </button>
+      </div>
+      
+      <!-- Career Background Cards -->
+      <div class="career-cards">
+        <div class="career-card" *ngFor="let entry of careerEntries; let i = index; trackBy: trackByCareerEntry">
+          <div class="card-header">
+            <div class="org-info">
+              <div class="field-group">
+                <label>Org Name</label>
+                <input type="text" 
+                       [value]="entry.company"
+                       placeholder="Company Name"
+                       (input)="entry.company = $any($event.target).value; updateCareerBackground()">
+              </div>
+              <div class="field-group">
+                <label>Position Name</label>
+                <input type="text" 
+                       [value]="entry.position"
+                       placeholder="Position Name"
+                       (input)="entry.position = $any($event.target).value; updateCareerBackground()">
+              </div>
+              <div class="field-group">
+                <label>Yrs of Exp</label>
+                <input type="number" 
+                       [value]="entry.yearsOfExperience"
+                       placeholder="Years"
+                       min="0" max="50"
+                       (input)="entry.yearsOfExperience = +$any($event.target).value; updateCareerBackground()">
+              </div>
+            </div>
+            <button class="remove-card-btn" 
+                    *ngIf="careerEntries.length > 1"
+                    (click)="removeCareerEntry(i)"
+                    aria-label="Remove experience entry">
+              ×
+            </button>
+          </div>
+          
+          <div class="card-body">
+            <div class="skills-section">
+              <label>Skills worked on</label>
+              <div class="skills-input-container">
+                <div class="skill-chips" *ngIf="entry.skillsWorkedOn?.length">
+                  <span class="skill-chip" *ngFor="let skill of entry.skillsWorkedOn; let j = index">
+                    {{ skill }}
+                    <button type="button" class="remove-skill" (click)="removeSkillFromEntry(i, j)">×</button>
+                  </span>
+                </div>
+                <input type="text" 
+                       [value]="entry.skillsInput"
+                       placeholder="Type a skill and press Enter to add"
+                       (input)="entry.skillsInput = $any($event.target).value"
+                       (keydown.enter)="addSkillToEntry(i, $event)"
+                       (blur)="addSkillToEntry(i, $event)">
+              </div>
+            </div>
+            
+            <div class="description-section" *ngIf="entry.description">
+              <label>Description</label>
+              <textarea [value]="entry.description"
+                       placeholder="Describe your role and responsibilities"
+                       rows="2"
+                       (input)="entry.description = $any($event.target).value; updateCareerBackground()"></textarea>
+            </div>
+            
+            <div class="current-position">
+              <label class="checkbox-label">
+                <input type="checkbox" 
+                       [checked]="entry.isCurrent"
+                       (change)="entry.isCurrent = $any($event.target).checked; updateCareerBackground()">
+                <span>This is my current position</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Step 3: Summary -->
+  <section *ngIf="isStep(3)" class="section summary-section">
+    <div class="summary-content">
+      <h3>Review Your Information</h3>
+      <p class="summary-description">Please review the information you've provided before completing your setup.</p>
+      
+      <div class="summary-cards">
+        <!-- Personal Information Summary -->
+        <div class="summary-card" *ngIf="getSummaryData('step1')">
+          <h4>Personal Information</h4>
+          <div class="summary-item" *ngIf="getSummaryData('step1')?.fullName">
+            <span class="label">Full Name:</span>
+            <span class="value">{{ getSummaryData('step1')?.fullName }}</span>
+          </div>
+          <div class="summary-item" *ngIf="getSummaryData('step1')?.email">
+            <span class="label">Email:</span>
+            <span class="value">{{ getSummaryData('step1')?.email }}</span>
+          </div>
+          <div class="summary-item" *ngIf="getSummaryData('step1')?.country">
+            <span class="label">Country:</span>
+            <span class="value">{{ getSummaryData('step1')?.country }}</span>
+          </div>
+          <div class="summary-item" *ngIf="getSummaryData('step1')?.timezone">
+            <span class="label">Timezone:</span>
+            <span class="value">{{ getSummaryData('step1')?.timezone }}</span>
+          </div>
+          <div class="summary-item" *ngIf="getSummaryData('step1')?.age">
+            <span class="label">Age:</span>
+            <span class="value">{{ getSummaryData('step1')?.age }}</span>
+          </div>
+          <div class="summary-item" *ngIf="getSummaryData('step1')?.preferredLanguages?.length">
+            <span class="label">Preferred Languages:</span>
+            <span class="value">{{ getSummaryData('step1')?.preferredLanguages?.join(', ') }}</span>
+          </div>
+        </div>
+        
+        <!-- Career Background Summary -->
+        <div class="summary-card" *ngIf="getSummaryData('step2')">
+          <h4>Career Background</h4>
+          <div class="career-entries" *ngIf="getSummaryData('step2')?.careerBackground?.length">
+            <div class="career-entry" *ngFor="let career of getSummaryData('step2')?.careerBackground">
+              <div class="summary-item">
+                <span class="label">Company:</span>
+                <span class="value">{{ career.company }}</span>
+              </div>
+              <div class="summary-item">
+                <span class="label">Position:</span>
+                <span class="value">{{ career.position }}</span>
+              </div>
+              <div class="summary-item">
+                <span class="label">Experience:</span>
+                <span class="value">{{ career.yearsOfExperience }} years</span>
+              </div>
+              <div class="summary-item" *ngIf="career.skillsWorkedOn?.length">
+                <span class="label">Skills:</span>
+                <span class="value">{{ career.skillsWorkedOn?.join(', ') }}</span>
+              </div>
+              <div class="summary-item" *ngIf="career.isCurrent">
+                <span class="label">Status:</span>
+                <span class="value">Current Position</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="summary-footer">
+        <p>Ready to complete your setup and start your learning journey?</p>
+      </div>
+    </div>
+  </section>
+
+</div>

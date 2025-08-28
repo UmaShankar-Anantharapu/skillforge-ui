@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { LandingRoutingModule } from './landing-routing.module';
 import { LandingComponent } from './landing.component';
+import { OnboardingModule } from '../onboarding/onboarding.module';
 
 @NgModule({
   declarations: [
@@ -11,7 +12,8 @@ import { LandingComponent } from './landing.component';
   imports: [
     CommonModule,
     FormsModule,
-    LandingRoutingModule
+    LandingRoutingModule,
+    OnboardingModule
   ]
 })
 export class LandingModule { }

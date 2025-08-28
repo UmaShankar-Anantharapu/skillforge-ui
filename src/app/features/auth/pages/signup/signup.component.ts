@@ -61,7 +61,9 @@ export class SignupComponent {
     this.auth.signup(value as any).subscribe({
       next: () => {
         this.loading = false;
-        this.router.navigate(['/dashboard']);
+        // Redirect new users to onboarding instead of dashboard
+        // This ensures UserProfile is created before accessing other features
+        this.router.navigate(['/onboarding']);
       },
       error: () => {
         this.loading = false;

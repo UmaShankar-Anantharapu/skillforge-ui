@@ -18,7 +18,7 @@ import { LeaderboardService, LeaderRow } from '../../../../core/services/leaderb
 
         <div class="sf-card">
           <h3>Profile</h3>
-          <ng-container *ngIf="profile; else noProfile">
+          <ng-container *ngIf="profile && profile.onboardingComplete; else noProfile">
             <ul>
               <li><strong>Skill:</strong> {{ profile.skill }}</li>
               <li><strong>Level:</strong> {{ profile.level }}</li>
@@ -42,7 +42,7 @@ import { LeaderboardService, LeaderRow } from '../../../../core/services/leaderb
         <div class="sf-card">
           <h3>Actions</h3>
           <div style="display:flex;gap:12px;flex-wrap:wrap;">
-            <a class="sf-btn" routerLink="/roadmap">View Roadmap</a>
+            <a class="sf-btn" routerLink="/skills">View Skills</a>
             <a class="sf-btn" routerLink="/lesson/angular-1">Today's Lesson</a>
             <a class="sf-btn" routerLink="/challenges">Challenges</a>
           </div>

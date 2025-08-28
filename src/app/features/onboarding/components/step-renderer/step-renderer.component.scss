@@ -1,0 +1,773 @@
+/* Custom, non-Material styling for rewritten step renderer */
+.step-renderer { display:block; }
+.section{ background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:16px; margin-bottom:16px; }
+.section-head h2{ margin:0 0 6px; font-weight:800; font-size:18px; }
+.section-head p{ margin:0 0 10px; color:#6b7280; font-size:13px; }
+.form{ display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
+.field{ display:flex; flex-direction:column; gap:6px; }
+.field.full{ grid-column:1 / -1; }
+.field.half{ grid-column:auto; }
+.field input,.field select,.field textarea{ padding:10px 12px; border:1px solid #e5e7eb; border-radius:10px; font-size:14px; }
+.field input.error,.field select.error,.field textarea.error{ border-color:#ef4444; background:#fff5f5; }
+.field small{ color:#ef4444; font-size:12px; }
+
+/* Welcome start options */
+.welcome-start .start-options{ display:flex; gap:12px; flex-wrap:wrap; justify-content:center; }
+.start-btn{ border:1px solid #e5e7eb; border-radius:12px; padding:12px 16px; cursor:pointer; background:#fff; }
+.start-btn.primary{ background:linear-gradient(135deg,#6d5efc,#8b5cf6); color:#fff; border-color:transparent; }
+.start-btn .text{ display:flex; flex-direction:column; align-items:flex-start; gap:4px; }
+.start-btn .time{ opacity:.8; font-size:12px; }
+
+/* Skills */
+.skills .add-skill{ display:flex; gap:8px; align-items:center; }
+.skills .tags{ display:flex; flex-wrap:wrap; gap:8px; }
+.skills .tag{ padding:6px 10px; border:1px solid #e5e7eb; border-radius:999px; background:#f9fafb; cursor:pointer; }
+.chip-grid{ display:flex; flex-wrap:wrap; gap:8px; }
+.chip{ display:flex; gap:8px; align-items:center; padding:6px 10px; border:1px solid #e5e7eb; border-radius:999px; background:#fff; }
+.chip .remove{ border:0; background:#fee2e2; color:#991b1b; border-radius:999px; width:22px; height:22px; cursor:pointer; }
+
+/* Step 2: Career Background Card Styling */
+.career-background {
+  .career-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    
+    h3 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 700;
+      color: #1f2937;
+    }
+    
+    .add-org-btn {
+      background: #fff;
+      color: #6366f1;
+      border: 2px solid #6366f1;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      
+      &:hover {
+        background: #6366f1;
+        color: #fff;
+      }
+    }
+  }
+  
+  .career-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .career-card {
+    background: #fff;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 20px;
+    transition: all 0.2s ease;
+    
+    &:hover {
+      border-color: #d1d5db;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+    
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 16px;
+      
+      .org-info {
+        display: flex;
+        gap: 16px;
+        flex: 1;
+        
+        .field-group {
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+          
+          label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+          }
+          
+          input {
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            min-width: 120px;
+            
+            &:focus {
+              outline: none;
+              border-color: #6366f1;
+              box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+            }
+          }
+        }
+      }
+      
+      .remove-card-btn {
+        background: #fee2e2;
+        color: #dc2626;
+        border: none;
+        border-radius: 6px;
+        width: 28px;
+        height: 28px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+        
+        &:hover {
+          background: #fecaca;
+        }
+      }
+    }
+    
+    .card-body {
+      .skills-section {
+        margin-bottom: 16px;
+        
+        label {
+          display: block;
+          font-size: 12px;
+          font-weight: 600;
+          color: #6b7280;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          margin-bottom: 8px;
+        }
+        
+        .skills-input-container {
+          input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            margin-bottom: 8px;
+            
+            &:focus {
+              outline: none;
+              border-color: #6366f1;
+              box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+            }
+          }
+          
+          .skill-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            
+            .skill-chip {
+              display: inline-flex;
+              align-items: center;
+              gap: 6px;
+              padding: 4px 8px;
+              background: #6366f1;
+              color: #fff;
+              border-radius: 16px;
+              font-size: 12px;
+              font-weight: 500;
+              
+              .remove-skill {
+                background: rgba(255, 255, 255, 0.2);
+                color: #fff;
+                border: none;
+                border-radius: 50%;
+                width: 16px;
+                height: 16px;
+                cursor: pointer;
+                font-size: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                
+                &:hover {
+                  background: rgba(255, 255, 255, 0.3);
+                }
+              }
+            }
+          }
+        }
+      }
+      
+      .description-section {
+        margin-bottom: 16px;
+        
+        label {
+          display: block;
+          font-size: 12px;
+          font-weight: 600;
+          color: #6b7280;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          margin-bottom: 8px;
+        }
+        
+        textarea {
+          width: 100%;
+          padding: 8px 12px;
+          border: 1px solid #d1d5db;
+          border-radius: 6px;
+          font-size: 14px;
+          resize: vertical;
+          
+          &:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+          }
+        }
+      }
+      
+      .current-position {
+        .checkbox-label {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          font-size: 14px;
+          color: #374151;
+          cursor: pointer;
+          
+          input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: #6366f1;
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Legacy styles for other sections */
+.add-header h3 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 0 16px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.add-skills-btn {
+  background: linear-gradient(135deg, #6d5efc, #8b5cf6);
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  margin-left: auto;
+}
+
+.add-skills-btn:hover {
+  background: linear-gradient(135deg, #5b4efc, #7c3aed);
+}
+
+.remove-entry-btn {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+  border-radius: 6px;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+.remove-entry-btn:hover {
+  background: #fecaca;
+  border-color: #f87171;
+}
+
+.add-skills-section {
+  margin-top: 24px;
+  display: flex;
+  justify-content: center;
+}
+
+
+
+
+.loading-text{ display:flex; align-items:center; gap:8px; }
+.spinner{ 
+  width:16px; 
+  height:16px; 
+  border:2px solid transparent; 
+  border-top:2px solid currentColor; 
+  border-radius:50%; 
+  animation:spin 1s linear infinite; 
+}
+@keyframes spin{ to{ transform:rotate(360deg); } }
+
+/* Prerequisites styling */
+.prerequisites-inline {
+  margin-top: 12px;
+  padding: 12px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+
+.prereq-label {
+  margin: 0 0 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #4a5568;
+}
+
+.prereq-items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.prereq-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.prereq-item:hover {
+  border-color: #cbd5e0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.prereq-name {
+  font-size: 14px;
+  color: #2d3748;
+  font-weight: 500;
+}
+
+.unfamiliar-btn {
+  background: #e2e8f0;
+  color: #4a5568;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.unfamiliar-btn:hover {
+  background: #cbd5e0;
+}
+
+.unfamiliar-btn.active {
+  background: #fed7d7;
+  color: #c53030;
+  border: 1px solid #feb2b2;
+}
+
+.unfamiliar-btn.active:hover {
+  background: #fbb6ce;
+  border-color: #f687b3;
+}
+
+
+/* Checks */
+.check{ display:flex; align-items:center; gap:8px; }
+
+.field.third{ grid-column: auto; }
+.field.two-third{ grid-column: span 2; }
+.langs{ display:flex; flex-wrap:wrap; gap:8px; }
+.chip-check{ display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border:1px solid #e5e7eb; border-radius:999px; background:#f9fafb; }
+
+.typeahead{ position:relative; }
+.typeahead input{ width:100%; }
+.typeahead .suggestions{ position:absolute; top:100%; left:0; right:0; background:#fff; border:1px solid #e5e7eb; border-radius:10px; margin:4px 0 0; padding:6px 0; max-height:180px; overflow:auto; z-index:5; }
+.typeahead .suggestions li{ padding:8px 10px; cursor:pointer; }
+.typeahead .suggestions li:hover{ background:#f3f4f6; }
+.chips{ display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; }
+.chip{ display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border:1px solid #e5e7eb; border-radius:999px; background:#f9fafb; }
+.chip .remove{ border:0; background:#fee2e2; color:#991b1b; border-radius:999px; width:20px; height:20px; cursor:pointer; }
+
+@media (max-width: 768px){ .form{ grid-template-columns:1fr; } }
+
+.step-renderer-container {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.step-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  h3 {
+    margin: 0 0 8px;
+    font-size: 20px;
+    font-weight: 500;
+    color: #333;
+  }
+
+  h4 {
+    margin: 16px 0 8px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #555;
+  }
+
+  .section-description {
+    margin: 0 0 16px;
+    color: #666;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  .full-width {
+    width: 100%;
+  }
+}
+
+// Skills Section
+.skills-section {
+  .skills-input {
+    margin-bottom: 20px;
+  }
+
+  .common-skills {
+    margin-bottom: 20px;
+
+    .skill-chips {
+      mat-chip-listbox {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+
+        mat-chip-option {
+          cursor: pointer;
+          transition: all 0.2s ease;
+
+          &:hover {
+            background-color: #e3f2fd;
+          }
+        }
+      }
+    }
+  }
+
+  .selected-skills {
+    .skill-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+
+      .skill-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px;
+        background: #f5f5f5;
+        border-radius: 8px;
+        border: 1px solid #e0e0e0;
+
+        .skill-name {
+          flex: 1;
+          font-weight: 500;
+          color: #333;
+        }
+
+        .proficiency-select {
+          min-width: 140px;
+
+          ::ng-deep .mat-mdc-form-field-wrapper {
+            padding-bottom: 0;
+          }
+        }
+
+        button {
+          min-width: auto;
+          width: 40px;
+          height: 40px;
+        }
+      }
+    }
+  }
+}
+
+// Learning Goals
+mat-selection-list {
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+
+  mat-list-option {
+    border-bottom: 1px solid #f0f0f0;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &:hover {
+      background-color: #f5f5f5;
+    }
+  }
+}
+
+// Checkboxes
+mat-checkbox {
+  margin: 8px 0;
+
+  ::ng-deep .mat-mdc-checkbox-label {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+}
+
+// Form field customizations
+mat-form-field {
+  ::ng-deep {
+    .mat-mdc-form-field-wrapper {
+      padding-bottom: 1.25em;
+    }
+
+    .mat-mdc-form-field-error {
+      font-size: 12px;
+    }
+  }
+}
+
+// Date picker
+mat-datepicker-toggle {
+  ::ng-deep .mat-mdc-icon-button {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .step-renderer-container {
+    max-width: 100%;
+    padding: 0 8px;
+  }
+
+  .step-content {
+    gap: 16px;
+
+    h3 {
+      font-size: 18px;
+    }
+
+    h4 {
+      font-size: 14px;
+    }
+  }
+
+  .skills-section {
+    .selected-skills {
+      .skill-list {
+        .skill-item {
+          flex-direction: column;
+          align-items: stretch;
+          gap: 8px;
+
+          .skill-name {
+            text-align: center;
+          }
+
+          .proficiency-select {
+            min-width: auto;
+          }
+
+          button {
+            align-self: center;
+          }
+        }
+      }
+    }
+  }
+
+  mat-selection-list {
+    max-height: 150px;
+  }
+}
+
+@media (max-width: 480px) {
+  .step-content {
+    gap: 12px;
+  }
+
+  .form-group {
+    gap: 4px;
+  }
+
+  .skills-section {
+    .common-skills {
+      .skill-chips {
+        mat-chip-listbox {
+          gap: 4px;
+
+          mat-chip-option {
+            font-size: 12px;
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Step 3: Summary Styling */
+.summary-step {
+  .summary-header {
+    text-align: center;
+    margin-bottom: 32px;
+    
+    h2 {
+      margin: 0 0 8px;
+      font-size: 24px;
+      font-weight: 700;
+      color: #1f2937;
+    }
+    
+    p {
+      margin: 0;
+      color: #6b7280;
+      font-size: 16px;
+    }
+  }
+  
+  .summary-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  
+  .summary-section {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 20px;
+    
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+      
+      mat-icon {
+        color: #6366f1;
+        font-size: 20px;
+        width: 20px;
+        height: 20px;
+      }
+      
+      h3 {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 600;
+        color: #1f2937;
+      }
+    }
+    
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+    
+    .summary-item {
+      .label {
+        font-size: 12px;
+        font-weight: 600;
+        color: #6b7280;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 4px;
+      }
+      
+      .value {
+        font-size: 14px;
+        color: #1f2937;
+        font-weight: 500;
+      }
+    }
+    
+    .skills-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      
+      .skill-chip {
+        background: #f3f4f6;
+        color: #374151;
+        padding: 4px 12px;
+        border-radius: 16px;
+        font-size: 12px;
+        font-weight: 500;
+        border: 1px solid #e5e7eb;
+      }
+    }
+    
+    .organizations-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      
+      .org-item {
+        padding: 12px;
+        background: #f9fafb;
+        border-radius: 8px;
+        border-left: 3px solid #6366f1;
+        
+        .org-name {
+          font-weight: 600;
+          color: #1f2937;
+          margin-bottom: 4px;
+        }
+        
+        .org-details {
+          font-size: 13px;
+          color: #6b7280;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .summary-step {
+    .summary-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+}

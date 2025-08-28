@@ -1,18 +1,19 @@
 :root {
-  --sf-bg: #0b1020;
-  --sf-surface: #121a2b;
-  --sf-card: #162238;
-  --sf-text: #e6ebff;
-  --sf-muted: #9fb0d0;
-  --sf-primary: #6750a4; /* Material-ish purple */
-  --sf-accent: #00e5a8;  /* Mint accent */
-  --sf-danger: #ef4444;
+  /* Dark theme - CodePunk neon-style black */
+  --sf-bg: #0a0a0a;
+  --sf-surface: #111111;
+  --sf-card: #1a1a1a;
+  --sf-text: #ffffff; /* Light text for dark theme */
+  --sf-muted: #cccccc;
+  --sf-primary: #4299e1; /* Blue primary instead of green */
+  --sf-accent: #ff0080;  /* Neon pink accent */
+  --sf-danger: #ff0040;
   
-  /* New gradient variables */
-  --sf-gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  --sf-gradient-accent: linear-gradient(135deg, #ff6b6b, #ee5a24);
-  --sf-gradient-success: linear-gradient(135deg, #00b894, #00cec9);
-  --sf-gradient-hero: linear-gradient(135deg, #ff6b6b, #feca57);
+  /* Dark theme gradients - Neon style */
+  --sf-gradient-primary: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+  --sf-gradient-accent: linear-gradient(135deg, #ff0080, #cc0066);
+  --sf-gradient-success: linear-gradient(135deg, #4299e1, #3182ce);
+  --sf-gradient-hero: linear-gradient(135deg, #4299e1, #ff0080);
   
   /* Glass morphism */
   --sf-glass-bg: rgba(255, 255, 255, 0.1);
@@ -30,19 +31,20 @@
 }
 
 [data-theme="light"] {
-  --sf-bg: #f7f8fc;
+  /* Light theme - Clean light gray */
+  --sf-bg: #f7fafc;
   --sf-surface: #ffffff;
   --sf-card: #ffffff;
-  --sf-text: #121a2b;
-  --sf-muted: #4b587a;
-  --sf-primary: #5b4fc4;
-  --sf-accent: #00b894;
+  --sf-text: #1a202c; /* Dark text for light theme */
+  --sf-muted: #4a5568;
+  --sf-primary: #4299e1;
+  --sf-accent: #805ad5; /* Purple accent instead of teal */
   
-  /* Light theme gradients */
-  --sf-gradient-primary: linear-gradient(135deg, #74b9ff 0%, #6c5ce7 100%);
-  --sf-gradient-accent: linear-gradient(135deg, #ff6b6b, #ee5a24);
-  --sf-gradient-success: linear-gradient(135deg, #00b894, #00cec9);
-  --sf-gradient-hero: linear-gradient(135deg, #ff6b6b, #feca57);
+  /* Light theme gradients - Clean and modern */
+  --sf-gradient-primary: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+  --sf-gradient-accent: linear-gradient(135deg, #805ad5, #6b46c1);
+  --sf-gradient-success: linear-gradient(135deg, #4299e1, #3182ce);
+  --sf-gradient-hero: linear-gradient(135deg, #4299e1, #805ad5);
   
   /* Light theme glass morphism */
   --sf-glass-bg: rgba(255, 255, 255, 0.2);
@@ -374,4 +376,39 @@ h6 { font-size: 1rem; }
   h1 { font-size: 2rem; }
   h2 { font-size: 1.75rem; }
   h3 { font-size: 1.25rem; }
+}
+
+/* Onboarding Modal Global Styles */
+.onboarding-modal-panel {
+  .mat-mdc-dialog-container {
+    padding: 0 !important;
+    border-radius: 12px !important;
+    overflow: hidden !important;
+
+    .mat-mdc-dialog-surface {
+      border-radius: 12px !important;
+      overflow: hidden !important;
+    }
+  }
+}
+
+/* Custom scrollbar for onboarding modal */
+.onboarding-modal {
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+
+    &:hover {
+      background: #a8a8a8;
+    }
+  }
 }

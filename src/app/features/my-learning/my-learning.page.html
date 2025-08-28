@@ -1,0 +1,101 @@
+<div class="container">
+  <h1 class="page-title">My Learning</h1>
+
+  <section class="section">
+    <h2 class="section-title">Continue Learning</h2>
+    <div class="grid">
+      <div class="card" *ngFor="let item of continueLearning" (click)="openRoadmap(item.id)" style="cursor:pointer">
+        <div class="image-placeholder" aria-hidden="true"></div>
+        <div class="card-title">{{ item.title }}</div>
+        <div class="card-desc">{{ item.description }}</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Saved Roadmaps</h2>
+    <div class="grid">
+      <div class="card" *ngFor="let item of savedRoadmaps" (click)="openRoadmap(item.id)" style="cursor:pointer">
+        <div class="image-placeholder" aria-hidden="true"></div>
+        <div class="card-title">{{ item.title }}</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <h2 class="section-title">AI Recommendations for you</h2>
+      <div class="section-controls">
+        <button *ngIf="!showAllAIRecommendations && aiRecommendations.length > aiRecPageSize" 
+                (click)="toggleShowAllAIRecommendations()" class="view-all-btn">
+          View All ({{ aiRecommendations.length }})
+        </button>
+        <button *ngIf="showAllAIRecommendations" 
+                (click)="toggleShowAllAIRecommendations()" class="view-all-btn">
+          Show Less
+        </button>
+        <div *ngIf="!showAllAIRecommendations && aiRecMaxPage > 0" class="pagination-controls">
+          <button (click)="prevAIRecPage()" [disabled]="aiRecPage === 0" class="pagination-btn">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <span class="pagination-info">{{ aiRecPage + 1 }} / {{ aiRecMaxPage + 1 }}</span>
+          <button (click)="nextAIRecPage()" [disabled]="aiRecPage === aiRecMaxPage" class="pagination-btn">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="isLoadingAIRecommendations" class="loading-spinner">
+      <i class="fas fa-spinner fa-spin"></i> Loading AI recommendations...
+    </div>
+    <div *ngIf="!isLoadingAIRecommendations" class="grid">
+      <div class="card" *ngFor="let item of getDisplayedAIRecommendations()" (click)="openRoadmap(item.id)" style="cursor:pointer">
+        <div class="image-placeholder" aria-hidden="true"></div>
+        <div class="card-title">{{ item.title }}</div>
+        <div class="card-desc">{{ item.description }}</div>
+      </div>
+    </div>
+    <div *ngIf="!isLoadingAIRecommendations && aiRecommendations.length === 0" class="empty-state">
+      <p>No AI recommendations available at the moment.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <h2 class="section-title">Trending Roadmaps</h2>
+      <div class="section-controls">
+        <button *ngIf="!showAllTrendingRoadmaps && trendingRoadmaps.length > trendingPageSize" 
+                (click)="toggleShowAllTrendingRoadmaps()" class="view-all-btn">
+          View All ({{ trendingRoadmaps.length }})
+        </button>
+        <button *ngIf="showAllTrendingRoadmaps" 
+                (click)="toggleShowAllTrendingRoadmaps()" class="view-all-btn">
+          Show Less
+        </button>
+        <div *ngIf="!showAllTrendingRoadmaps && trendingMaxPage > 0" class="pagination-controls">
+          <button (click)="prevTrendingPage()" [disabled]="trendingPage === 0" class="pagination-btn">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <span class="pagination-info">{{ trendingPage + 1 }} / {{ trendingMaxPage + 1 }}</span>
+          <button (click)="nextTrendingPage()" [disabled]="trendingPage === trendingMaxPage" class="pagination-btn">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="isLoadingTrendingRoadmaps" class="loading-spinner">
+      <i class="fas fa-spinner fa-spin"></i> Loading trending roadmaps...
+    </div>
+    <div *ngIf="!isLoadingTrendingRoadmaps" class="grid">
+      <div class="card" *ngFor="let item of getDisplayedTrendingRoadmaps()" (click)="openRoadmap(item.id)" style="cursor:pointer">
+        <div class="image-placeholder" aria-hidden="true"></div>
+        <div class="card-title">{{ item.title }}</div>
+        <div class="card-desc">{{ item.description }}</div>
+      </div>
+    </div>
+    <div *ngIf="!isLoadingTrendingRoadmaps && trendingRoadmaps.length === 0" class="empty-state">
+      <p>No trending roadmaps available at the moment.</p>
+    </div>
+  </section>
+</div>
+

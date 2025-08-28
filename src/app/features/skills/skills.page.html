@@ -1,0 +1,372 @@
+<div class="skills-page">
+  <!-- Page Header -->
+  <div class="page-header">
+    <h1>Skills & Learn</h1>
+  </div>
+
+  <!-- Known Skills Section -->
+  <app-known-skills></app-known-skills>
+
+  <!-- Skill Recommendations Section -->
+  <div class="recommended-skills-section">
+    <div class="section-header">
+      <h2>AI Recommendation for you</h2>
+      <div class="pager">
+        <button class="nav prev" (click)="recPage = Math.max(recPage-1, 0)" [disabled]="recPage===0">&lt;</button>
+        <button class="refresh-recommendations-btn" (click)="refreshRecommendations()">
+          <i class="fas fa-sync-alt"></i>
+          Refresh
+        </button>
+        <button class="nav next" (click)="recPage = Math.min(recPage+1, recMaxPage)" [disabled]="recPage===recMaxPage">&gt;</button>
+      </div>
+    </div>
+    <div class="recommendations-container">
+      <div class="recommendations-grid" *ngIf="skillRecommendations.length > 0; else noRecommendationsTemplate">
+        <div class="recommendation-card" *ngFor="let recommendation of skillRecommendations | slice:(recPage*recPageSize):((recPage+1)*recPageSize)">
+          <div class="card-header">
+            <div class="skill-icon">{{ getSkillIcon(recommendation.skillName) }}</div>
+            <div class="skill-info">
+              <h3 class="skill-name">{{ recommendation.skillName }}</h3>
+              <div class="skill-meta">
+                <span class="match-score">{{ recommendation.matchScore }}% match</span>
+                <span class="difficulty" *ngIf="recommendation.difficulty" [class]="'difficulty-' + recommendation.difficulty.toLowerCase()">{{ recommendation.difficulty }}</span>
+                <span class="learning-time" *ngIf="recommendation.estimatedLearningTime">
+                  <i class="fas fa-clock"></i> {{ recommendation.estimatedLearningTime }}
+                </span>
+              </div>
+            </div>
+          </div>
+          <p class="recommendation-reason">{{ recommendation.reason }}</p>
+          <div class="benefits-section">
+            <h4>Why learn this?</h4>
+            <ul class="benefits-list">
+              <li *ngFor="let benefit of recommendation.benefits">{{ benefit }}</li>
+            </ul>
+          </div>
+          <div class="related-skills" *ngIf="recommendation.relatedSkills?.length">
+            <span class="related-label">Related to:</span>
+            <div class="related-tags">
+              <span class="related-tag" *ngFor="let skill of recommendation.relatedSkills">{{ skill }}</span>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="primary-btn" (click)="addToLearningPath(recommendation.skillName)">
+              <i class="fas fa-plus"></i>
+              Add to Learning Path
+            </button>
+            <button class="secondary-btn" (click)="learnMore(recommendation.skillName)">
+              <i class="fas fa-info-circle"></i>
+              Learn More
+            </button>
+          </div>
+        </div>
+      </div>
+      <ng-template #noRecommendationsTemplate>
+        <div class="no-recommendations-state">
+          <div class="no-recommendations-icon">💡</div>
+          <h3>No Recommendations Available</h3>
+          <p>Add more skills to get personalized recommendations</p>
+          <button class="refresh-recommendations-btn" (click)="refreshRecommendations()">
+            <i class="fas fa-sync-alt"></i>
+            Generate Recommendations
+          </button>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+
+  <!-- AI Roadmap Recommendations Section -->
+  <div class="ai-recommendations-section">
+    <div class="section-header">
+      <h2>AI Roadmap Recommendations</h2>
+      <div class="section-actions">
+        <button class="view-all-btn" (click)="toggleViewAllAIRecommendations()" *ngIf="aiRecommendations.length > aiRecPageSize">
+          {{ showAllAIRecommendations ? 'Show Less' : 'View All' }}
+        </button>
+        <div class="pager" *ngIf="!showAllAIRecommendations && aiRecMaxPage > 0">
+          <button class="nav prev" (click)="prevAIRecommendations()" [disabled]="aiRecPage === 0">&lt;</button>
+          <span class="page-info">{{ aiRecPage + 1 }} / {{ aiRecMaxPage + 1 }}</span>
+          <button class="nav next" (click)="nextAIRecommendations()" [disabled]="aiRecPage === aiRecMaxPage">&gt;</button>
+        </div>
+      </div>
+    </div>
+    <div class="ai-recommendations-container">
+      <div class="loading-state" *ngIf="isLoadingAIRecommendations">
+        <div class="spinner"></div>
+        <p>Generating AI recommendations...</p>
+      </div>
+      <div class="ai-recommendations-grid" *ngIf="!isLoadingAIRecommendations && aiRecommendations.length > 0">
+        <div class="ai-recommendation-card" *ngFor="let recommendation of getPaginatedAIRecommendations()">
+          <div class="card-header">
+            <div class="recommendation-badge">
+              <span class="match-score">{{ recommendation.matchScore }}% match</span>
+            </div>
+            <div class="difficulty-badge" [class]="'difficulty-' + recommendation.difficulty.toLowerCase()">
+              {{ recommendation.difficulty }}
+            </div>
+          </div>
+          <div class="card-content">
+            <h3 class="recommendation-title">{{ recommendation.title }}</h3>
+            <p class="recommendation-description">{{ recommendation.description }}</p>
+            <div class="recommendation-meta">
+              <div class="meta-item">
+                <i class="fas fa-clock"></i>
+                <span>{{ recommendation.estimatedTime }}</span>
+              </div>
+              <div class="meta-item">
+                <i class="fas fa-lightbulb"></i>
+                <span>{{ recommendation.reason }}</span>
+              </div>
+            </div>
+            <div class="skills-involved">
+              <span class="skills-label">Skills:</span>
+              <div class="skills-tags">
+                <span class="skill-tag" *ngFor="let skill of recommendation.skills">{{ skill }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="btn-primary" (click)="viewRoadmap(recommendation.id)">
+              <i class="fas fa-route"></i>
+              View Roadmap
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="no-recommendations-state" *ngIf="!isLoadingAIRecommendations && aiRecommendations.length === 0">
+        <div class="no-recommendations-icon">🤖</div>
+        <h3>No AI Recommendations Available</h3>
+        <p>Complete your profile to get personalized roadmap recommendations</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Trending Roadmaps Section -->
+  <div class="trending-roadmaps-section">
+    <div class="section-header">
+      <h2>Trending Roadmaps</h2>
+      <div class="section-actions">
+        <button class="view-all-btn" (click)="toggleViewAllTrendingRoadmaps()" *ngIf="trendingRoadmaps.length > trendingPageSize">
+          {{ showAllTrendingRoadmaps ? 'Show Less' : 'View All' }}
+        </button>
+        <div class="pager" *ngIf="!showAllTrendingRoadmaps && trendingMaxPage > 0">
+          <button class="nav prev" (click)="prevTrendingRoadmaps()" [disabled]="trendingPage === 0">&lt;</button>
+          <span class="page-info">{{ trendingPage + 1 }} / {{ trendingMaxPage + 1 }}</span>
+          <button class="nav next" (click)="nextTrendingRoadmaps()" [disabled]="trendingPage === trendingMaxPage">&gt;</button>
+        </div>
+      </div>
+    </div>
+    <div class="trending-roadmaps-container">
+      <div class="loading-state" *ngIf="isLoadingTrendingRoadmaps">
+        <div class="spinner"></div>
+        <p>Loading trending roadmaps...</p>
+      </div>
+      <div class="trending-roadmaps-grid" *ngIf="!isLoadingTrendingRoadmaps && trendingRoadmaps.length > 0">
+        <div class="trending-roadmap-card" *ngFor="let roadmap of getPaginatedTrendingRoadmaps()">
+          <div class="card-header">
+            <div class="popularity-badge">
+              <i class="fas fa-fire"></i>
+              <span>{{ roadmap.popularity }}% popular</span>
+            </div>
+            <div class="difficulty-badge" [class]="'difficulty-' + roadmap.difficulty.toLowerCase()">
+              {{ roadmap.difficulty }}
+            </div>
+          </div>
+          <div class="card-content">
+            <h3 class="roadmap-title">{{ roadmap.title }}</h3>
+            <p class="roadmap-description">{{ roadmap.description }}</p>
+            <div class="roadmap-meta">
+              <div class="meta-item">
+                <i class="fas fa-clock"></i>
+                <span>{{ roadmap.estimatedTime }}</span>
+              </div>
+              <div class="meta-item">
+                <i class="fas fa-users"></i>
+                <span>{{ roadmap.enrollments | number }} enrolled</span>
+              </div>
+            </div>
+            <div class="skills-involved">
+              <span class="skills-label">Skills:</span>
+              <div class="skills-tags">
+                <span class="skill-tag" *ngFor="let skill of roadmap.skills">{{ skill }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="btn-primary" (click)="viewRoadmap(roadmap.id)">
+              <i class="fas fa-route"></i>
+              Start Learning
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="no-roadmaps-state" *ngIf="!isLoadingTrendingRoadmaps && trendingRoadmaps.length === 0">
+        <div class="no-roadmaps-icon">📈</div>
+        <h3>No Trending Roadmaps Available</h3>
+        <p>Check back later for popular learning paths</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Projects You Can Achieve Section -->
+  <div class="projects-section achievable-projects">
+    <div class="section-header">
+      <h2>Projects You Can Achieve</h2>
+      <button class="filter-toggle-btn" (click)="toggleFilters()">
+        <i class="fas fa-filter"></i>
+        Filters
+      </button>
+    </div>
+    
+    <!-- Filter Controls -->
+    <div class="filter-panel" [class.expanded]="showFilters">
+      <div class="filter-row">
+        <div class="filter-group">
+          <label>Skills</label>
+          <div class="skills-filter">
+            <div class="skill-chip" 
+                 *ngFor="let skill of availableSkills" 
+                 [class.selected]="selectedSkills.includes(skill)"
+                 (click)="toggleSkillFilter(skill)">
+              {{ skill }}
+            </div>
+          </div>
+        </div>
+        
+        <div class="filter-group">
+          <label>Proficiency Level</label>
+          <select [(ngModel)]="selectedProficiency" class="filter-select">
+            <option value="">All Levels</option>
+            <option value="beginner">Beginner</option>
+            <option value="intermediate">Intermediate</option>
+            <option value="advanced">Advanced</option>
+          </select>
+        </div>
+        
+        <div class="filter-group">
+          <label>Time Required</label>
+          <select [(ngModel)]="selectedTimeRange" class="filter-select">
+            <option value="">Any Duration</option>
+            <option value="1-3">1-3 hours</option>
+            <option value="4-8">4-8 hours</option>
+            <option value="1-2">1-2 days</option>
+            <option value="3-7">3-7 days</option>
+            <option value="1+">1+ weeks</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="filter-actions">
+        <button class="btn-secondary" (click)="clearFilters()">Clear All</button>
+        <button class="btn-primary" (click)="applyFilters()" [disabled]="isLoadingProjects">
+          <i class="fas fa-spinner fa-spin" *ngIf="isLoadingProjects"></i>
+          {{ isLoadingProjects ? 'Loading...' : 'Apply Filters' }}
+        </button>
+      </div>
+    </div>
+    
+    <!-- Projects Grid -->
+    <div class="projects-grid" *ngIf="!isLoadingProjects">
+      <button class="page-arrow left" (click)="achPage = Math.max(achPage-1, 0)" [disabled]="achPage===0">&lt;</button>
+      <div class="project-card" *ngFor="let project of filteredProjects | slice:(achPage*achPageSize):((achPage+1)*achPageSize)">
+        <div class="project-header">
+          <div class="project-icon">
+            <i [class]="getProjectIcon(project.category)"></i>
+          </div>
+          <div class="project-info">
+            <h3>{{ project.title }}</h3>
+            <p>{{ project.description }}</p>
+          </div>
+        </div>
+        <div class="project-meta">
+          <div class="project-skills">
+            <span class="skill-tag" *ngFor="let skill of project.coreSkills">{{ skill }}</span>
+          </div>
+          <div class="project-stats">
+            <div class="stat">
+              <i class="fas fa-clock"></i>
+              <span>{{ project.estimatedTime }}</span>
+            </div>
+            <div class="stat difficulty-{{ project.difficulty.toLowerCase() }}">
+              <i class="fas fa-signal"></i>
+              <span>{{ project.difficulty }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="project-actions">
+          <button class="btn-outline">View Details</button>
+          <button class="btn-primary">Start Project</button>
+        </div>
+      <button class="page-arrow right" (click)="achPage = Math.min(achPage+1, achMaxPage)" [disabled]="achPage===achMaxPage">&gt;</button>
+    </div>
+
+    <!-- Loading State -->
+    <div class="loading-state" *ngIf="isLoadingProjects">
+      <div class="loading-spinner">
+        <i class="fas fa-spinner fa-spin"></i>
+      </div>
+      <p>Finding projects that match your criteria...</p>
+    </div>
+    
+    <!-- Empty State -->
+    <div class="empty-state" *ngIf="!isLoadingProjects && filteredProjects.length === 0">
+      <div class="empty-icon">
+        <i class="fas fa-search"></i>
+      </div>
+      <h3>No Projects Found</h3>
+      <p>Try adjusting your filters to see more project options.</p>
+      <button class="btn-secondary" (click)="clearFilters()">Clear Filters</button>
+    </div>
+  </div>
+
+  <!-- Most Demanded Projects Section -->
+  <div class="most-demanded-section">
+    <div class="section-header">
+      <h2>Most Demanded Projects</h2>
+      <div class="pager">
+        <button class="nav prev" (click)="trendPage = Math.max(trendPage-1, 0)" [disabled]="trendPage===0">&lt;</button>
+        <button class="nav next" (click)="trendPage = Math.min(trendPage+1, trendMaxPage)" [disabled]="trendPage===trendMaxPage">&gt;</button>
+      </div>
+    </div>
+    <div class="demanded-projects-grid">
+      <div class="demanded-project-card" *ngFor="let project of mostDemandedProjects | slice:(trendPage*trendPageSize):((trendPage+1)*trendPageSize)">
+        <div class="project-header">
+          <div class="project-icon">
+            <i [class]="getProjectIcon(project.category)"></i>
+          </div>
+          <div class="project-badge difficulty-{{ project.difficulty.toLowerCase() }}">
+            {{ project.difficulty }}
+          </div>
+        </div>
+        <div class="project-content">
+          <h3 class="project-name">{{ project.title }}</h3>
+          <p class="project-description">{{ project.description }}</p>
+          <div class="project-meta">
+            <div class="project-stats">
+              <div class="stat">
+                <i class="fas fa-clock"></i>
+                <span>{{ project.estimatedTime }}</span>
+              </div>
+              <div class="stat difficulty-{{ project.difficulty.toLowerCase() }}">
+                <i class="fas fa-signal"></i>
+                <span>{{ project.difficulty }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="core-skills">
+            <span class="core-skills-label">Core Skills:</span>
+            <div class="skills-tags">
+              <span class="skill-tag" *ngFor="let skill of project.skills">{{ skill }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="project-actions">
+          <button class="btn-outline" (click)="viewProject(project.id)">View Details</button>
+          <button class="btn-primary">Start Project</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>

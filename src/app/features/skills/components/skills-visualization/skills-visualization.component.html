@@ -1,0 +1,78 @@
+<div class="skills-visualization-container">
+  <div class="skills-controls">
+    <button class="sf-btn" (click)="toggleViewMode()">
+      {{ viewMode === 'path' ? 'Switch to Calendar View' : 'Switch to Path View' }}
+    </button>
+  </div>
+  
+  <div class="skills-view" [ngClass]="viewMode">
+    <ng-container *ngIf="skills && skills.steps && skills.steps.length > 0; else noSkills">
+      <!-- Path View -->
+      <div *ngIf="viewMode === 'path'" class="path-view">
+        <svg class="connections-layer" [attr.width]="'100%'" [attr.height]="'100%'">
+          <g *ngFor="let connection of connections">
+            <line 
+              [attr.x1]="getNodeById(connection.source)?.x" 
+              [attr.y1]="getNodeById(connection.source)?.y"
+              [attr.x2]="getNodeById(connection.target)?.x" 
+              [attr.y2]="getNodeById(connection.target)?.y"
+              class="connection-line"
+              [ngClass]="{
+                'completed': getNodeById(connection.source)?.status === 'completed' && getNodeById(connection.target)?.status === 'completed',
+                'current': getNodeById(connection.source)?.status === 'completed' && getNodeById(connection.target)?.status === 'current',
+                'upcoming': getNodeById(connection.target)?.status === 'upcoming'
+              }"
+            ></line>
+          </g>
+        </svg>
+        
+        <div class="nodes-layer">
+          <div *ngFor="let node of nodes" 
+               class="skills-node" 
+               [ngClass]="node.status"
+               [style.left.px]="node.x" 
+               [style.top.px]="node.y">
+            <div class="node-content">
+              <div class="node-day">Day {{ node.day }}</div>
+              <div class="node-topic">{{ node.topic }}</div>
+              <div class="node-lessons" *ngIf="node.lessonIds && node.lessonIds.length > 0">
+                {{ node.lessonIds.length }} lesson(s)
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Calendar View -->
+      <div *ngIf="viewMode === 'calendar'" class="calendar-view">
+        <div class="calendar-header">
+          <div class="day-header" *ngFor="let day of ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']">
+            {{ day }}
+          </div>
+        </div>
+        
+        <div class="calendar-grid">
+          <div *ngFor="let node of nodes" 
+               class="calendar-cell" 
+               [ngClass]="node.status"
+               [style.grid-column]="(node.day - 1) % 7 + 1"
+               [style.grid-row]="getGridRow(node.day)">
+            <div class="cell-content">
+              <div class="cell-day">{{ node.day }}</div>
+              <div class="cell-topic">{{ node.topic }}</div>
+              <div class="cell-lessons" *ngIf="node.lessonIds && node.lessonIds.length > 0">
+                {{ node.lessonIds.length }} lesson(s)
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    
+    <ng-template #noSkills>
+      <div class="no-skills-message">
+        <p>No skills path available. Generate a skills path to visualize your learning journey.</p>
+      </div>
+    </ng-template>
+  </div>
+</div>

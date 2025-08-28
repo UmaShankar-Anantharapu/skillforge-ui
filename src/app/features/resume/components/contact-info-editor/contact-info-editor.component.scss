@@ -1,0 +1,352 @@
+.contact-info-editor {
+  .step-header {
+    text-align: center;
+    margin-bottom: 2rem;
+
+    h2 {
+      margin: 0 0 0.5rem 0;
+      color: var(--sf-text);
+      font-size: 1.75rem;
+    }
+
+    p {
+      margin: 0 0 1.5rem 0;
+      color: var(--sf-text-muted);
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    .completion-indicator {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1rem;
+
+      .progress-bar {
+        width: 200px;
+        height: 8px;
+        background: var(--sf-border);
+        border-radius: 4px;
+        overflow: hidden;
+
+        .progress-fill {
+          height: 100%;
+          background: var(--sf-primary);
+          transition: width 0.3s ease;
+        }
+      }
+
+      .progress-text {
+        font-size: 0.875rem;
+        color: var(--sf-text-muted);
+        font-weight: 500;
+      }
+    }
+  }
+
+  .contact-form {
+    max-width: 600px;
+    margin: 0 auto;
+
+    .form-section {
+      margin-bottom: 2.5rem;
+      padding: 1.5rem;
+      background: var(--sf-background-alt);
+      border-radius: 12px;
+      border: 1px solid var(--sf-border);
+
+      h3 {
+        margin: 0 0 1rem 0;
+        color: var(--sf-text);
+        font-size: 1.25rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        .optional-label {
+          font-size: 0.875rem;
+          color: var(--sf-text-muted);
+          font-weight: 400;
+        }
+      }
+
+      .section-description {
+        margin: 0 0 1.5rem 0;
+        color: var(--sf-text-muted);
+        font-size: 0.875rem;
+        line-height: 1.4;
+      }
+
+      // Form field layouts
+      .name-fields {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+
+        @media (max-width: 768px) {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .contact-fields,
+      .links-fields {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      // Form field widths
+      .half-width {
+        flex: 1;
+      }
+
+      .full-width {
+        width: 100%;
+      }
+
+      // Material form field customization
+      ::ng-deep {
+        .mat-form-field {
+          .mat-form-field-wrapper {
+            margin-bottom: 0;
+          }
+
+          .mat-form-field-outline {
+            color: var(--sf-border);
+          }
+
+          .mat-form-field-outline-thick {
+            color: var(--sf-primary);
+          }
+
+          .mat-form-field-label {
+            color: var(--sf-text-muted);
+          }
+
+          .mat-input-element {
+            color: var(--sf-text);
+          }
+
+          .mat-form-field-suffix {
+            .mat-icon {
+              color: var(--sf-text-muted);
+            }
+          }
+
+          .mat-hint {
+            color: var(--sf-text-muted);
+            font-size: 0.75rem;
+          }
+
+          .mat-error {
+            color: var(--sf-error);
+            font-size: 0.75rem;
+          }
+
+          &.mat-focused {
+            .mat-form-field-label {
+              color: var(--sf-primary);
+            }
+
+            .mat-form-field-suffix .mat-icon {
+              color: var(--sf-primary);
+            }
+          }
+
+          &.mat-form-field-invalid {
+            .mat-form-field-outline-thick {
+              color: var(--sf-error);
+            }
+
+            .mat-form-field-suffix .mat-icon {
+              color: var(--sf-error);
+            }
+          }
+        }
+      }
+    }
+
+    // Tips section
+    .tips-section {
+      margin-top: 2rem;
+
+      ::ng-deep {
+        .mat-expansion-panel {
+          background: var(--sf-background);
+          border: 1px solid var(--sf-border);
+          border-radius: 8px;
+          box-shadow: none;
+
+          .mat-expansion-panel-header {
+            .mat-panel-title {
+              display: flex;
+              align-items: center;
+              gap: 0.5rem;
+              color: var(--sf-text);
+              font-weight: 500;
+
+              mat-icon {
+                color: var(--sf-warning);
+              }
+            }
+          }
+        }
+      }
+
+      .tips-content {
+        padding: 1rem 0;
+
+        .tip-item {
+          display: flex;
+          align-items: flex-start;
+          gap: 1rem;
+          margin-bottom: 1.5rem;
+
+          &:last-child {
+            margin-bottom: 0;
+          }
+
+          mat-icon {
+            color: var(--sf-success);
+            font-size: 20px;
+            width: 20px;
+            height: 20px;
+            margin-top: 0.125rem;
+            flex-shrink: 0;
+          }
+
+          div {
+            h4 {
+              margin: 0 0 0.25rem 0;
+              color: var(--sf-text);
+              font-size: 0.875rem;
+              font-weight: 600;
+            }
+
+            p {
+              margin: 0;
+              color: var(--sf-text-muted);
+              font-size: 0.8125rem;
+              line-height: 1.4;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Navigation buttons
+  .navigation-buttons {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--sf-border);
+
+    .spacer {
+      flex: 1;
+    }
+
+    .nav-button {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      font-weight: 500;
+
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+
+      mat-icon {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      gap: 0.75rem;
+
+      .spacer {
+        display: none;
+      }
+
+      .nav-button {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  }
+
+  // Form status indicator
+  .form-status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    padding: 0.75rem;
+    background: var(--sf-warning-light);
+    color: var(--sf-warning-dark);
+    border-radius: 6px;
+    font-size: 0.875rem;
+
+    mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .contact-info-editor {
+    .contact-form {
+      .form-section {
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+
+        h3 {
+          font-size: 1.125rem;
+        }
+      }
+    }
+
+    .step-header {
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      .completion-indicator {
+        flex-direction: column;
+        gap: 0.5rem;
+
+        .progress-bar {
+          width: 150px;
+        }
+      }
+    }
+  }
+}
+
+// Dark mode adjustments
+@media (prefers-color-scheme: dark) {
+  .contact-info-editor {
+    .contact-form {
+      ::ng-deep {
+        .mat-form-field {
+          .mat-input-element {
+            caret-color: var(--sf-primary);
+          }
+        }
+      }
+    }
+  }
+}

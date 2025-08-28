@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { ResearchAgentService } from '../../core/services/research-agent.service';
+import { OnboardingModalService } from '../onboarding/services/onboarding-modal.service';
 import { finalize } from 'rxjs/operators';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
@@ -23,7 +24,8 @@ export class LandingComponent implements OnInit {
   constructor(
     private router: Router,
     private authService: AuthService,
-    private researchService: ResearchAgentService
+    private researchService: ResearchAgentService,
+    private onboardingModalService: OnboardingModalService
   ) {
     // Check current theme - force dark theme for cyberpunk style
     document.documentElement.setAttribute('data-theme', 'dark');
@@ -46,6 +48,23 @@ export class LandingComponent implements OnInit {
 
   navigateToLogin() {
     this.router.navigate(['/auth/login']);
+  }
+
+  /**
+   * Start the onboarding process with popup modal
+   */
+  startOnboarding() {
+    this.onboardingModalService.openOnboardingModal().subscribe(result => {
+      if (result?.completed) {
+        // Onboarding completed successfully
+        if (result.redirectTo) {
+          this.router.navigate([result.redirectTo]);
+        } else {
+          this.router.navigate(['/dashboard']);
+        }
+      }
+      // If modal was closed without completion, stay on landing page
+    });
   }
 
   toggleTheme() {

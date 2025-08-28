@@ -1,0 +1,198 @@
+<div class="resume-builder-container">
+  <!-- Header with progress and navigation -->
+  <div class="builder-header">
+    <div class="sf-container">
+      <div class="header-content">
+        <div class="title-section">
+          <h1>{{ resumeId ? 'Edit Resume' : 'Create Resume' }}</h1>
+          <p class="subtitle">{{ resume?.title || 'My Resume' }}</p>
+        </div>
+        
+        <div class="progress-section">
+          <div class="progress-bar">
+            <div class="progress-fill" [style.width.%]="getStepProgress()"></div>
+          </div>
+          <span class="progress-text">Step {{ currentStep + 1 }} of {{ totalSteps }}</span>
+        </div>
+        
+        <div class="action-buttons">
+          <button class="sf-btn secondary" (click)="saveResume()" [disabled]="isSaving">
+            <span class="material-icons">save</span>
+            {{ isSaving ? 'Saving...' : 'Save Draft' }}
+          </button>
+          <a routerLink="/resume/list" class="sf-btn outline">
+            <span class="material-icons">close</span>
+            Exit
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step Navigation -->
+  <div class="step-navigation">
+    <div class="sf-container">
+      <div class="steps-container">
+        <div 
+          *ngFor="let step of steps; let i = index" 
+          class="step-item"
+          [class.active]="i === currentStep"
+          [class.completed]="i < currentStep"
+          [class.clickable]="i <= currentStep"
+          (click)="i <= currentStep ? goToStep(i) : null"
+        >
+          <div class="step-circle">
+            <span class="material-icons" *ngIf="i < currentStep">check</span>
+            <span *ngIf="i >= currentStep">{{ i + 1 }}</span>
+          </div>
+          <div class="step-info">
+            <div class="step-title">{{ step.title }}</div>
+            <div class="step-description">{{ step.description }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content Area -->
+  <div class="builder-content" *ngIf="resume && !isLoading">
+    <div class="sf-container">
+      <div class="content-grid">
+        <!-- Left Panel - Form Content -->
+        <div class="form-panel">
+          <div class="step-content">
+            <!-- Step 0: Template Selection -->
+            <app-template-selector 
+              *ngIf="currentStep === 0"
+              [selectedTemplateId]="resume.templateId"
+              (templateSelected)="onResumeDataChange({ templateId: $event })"
+            ></app-template-selector>
+
+            <!-- Step 1: Contact Information -->
+            <app-contact-info-editor 
+              *ngIf="currentStep === 1"
+              [personalInfo]="resume.personalInfo"
+              (dataChanged)="onResumeDataChange({ personalInfo: $event })"
+            ></app-contact-info-editor>
+
+            <!-- Step 2: Professional Summary -->
+            <app-professional-summary 
+              *ngIf="currentStep === 2"
+              [summary]="resume.professionalSummary"
+              [userSkills]="resume.skills.technical"
+              (summaryChanged)="onResumeDataChange({ professionalSummary: $event })"
+            ></app-professional-summary>
+
+            <!-- Step 3: Work Experience -->
+            <app-experience-editor 
+              *ngIf="currentStep === 3"
+              [experiences]="resume.experience"
+              (experiencesChanged)="onResumeDataChange({ experience: $event })"
+            ></app-experience-editor>
+
+            <!-- Step 4: Education -->
+            <app-education-editor 
+              *ngIf="currentStep === 4"
+              [education]="resume.education"
+              (educationChanged)="onResumeDataChange({ education: $event })"
+            ></app-education-editor>
+
+            <!-- Step 5: Skills -->
+            <app-skills-editor 
+              *ngIf="currentStep === 5"
+              [skills]="resume.skills"
+              (skillsChanged)="onResumeDataChange({ skills: $event })"
+            ></app-skills-editor>
+
+            <!-- Step 6: Projects -->
+            <app-projects-editor 
+              *ngIf="currentStep === 6"
+              [projects]="resume.projects"
+              (projectsChanged)="onResumeDataChange({ projects: $event })"
+            ></app-projects-editor>
+
+            <!-- Step 7: Preview and Export -->
+            <div *ngIf="currentStep === 7" class="preview-step">
+              <div class="step-header">
+                <h2>Review Your Resume</h2>
+                <p>Review your resume and export when ready</p>
+              </div>
+              
+              <div class="completion-status">
+                <div class="completion-circle">
+                  <span>{{ resumeService.getResumeCompletionPercentage(resume) }}%</span>
+                </div>
+                <div class="completion-info">
+                  <h3>Resume Completion</h3>
+                  <p>Your resume is {{ resumeService.getResumeCompletionPercentage(resume) }}% complete</p>
+                </div>
+              </div>
+
+              <div class="export-options">
+                <h3>Export Options</h3>
+                <div class="export-buttons">
+                  <button class="sf-btn primary" (click)="exportToPdf()">
+                    <span class="material-icons">picture_as_pdf</span>
+                    Download PDF
+                  </button>
+                  <button class="sf-btn secondary" (click)="exportToWord()">
+                    <span class="material-icons">description</span>
+                    Download Word
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Navigation Buttons -->
+          <div class="step-navigation-buttons">
+            <button 
+              class="sf-btn outline" 
+              (click)="previousStep()" 
+              [disabled]="currentStep === 0"
+            >
+              <span class="material-icons">arrow_back</span>
+              Previous
+            </button>
+            
+            <button 
+              class="sf-btn primary" 
+              (click)="nextStep()" 
+              [disabled]="currentStep === totalSteps - 1 || !canProceedToNext()"
+            >
+              Next
+              <span class="material-icons">arrow_forward</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Right Panel - Resume Preview -->
+        <div class="preview-panel" *ngIf="currentStep > 0">
+          <div class="preview-header">
+            <h3>Live Preview</h3>
+            <button class="sf-btn small outline" (click)="togglePreviewSize()">
+              <span class="material-icons">fullscreen</span>
+            </button>
+          </div>
+          
+          <app-resume-preview 
+            [resume]="resume"
+            [templateId]="resume.templateId"
+            class="preview-content"
+          ></app-resume-preview>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading-container" *ngIf="isLoading">
+    <div class="sf-container">
+      <div class="loading-content">
+        <div class="spinner"></div>
+        <h2>Loading Resume...</h2>
+        <p>Please wait while we load your resume data.</p>
+      </div>
+    </div>
+  </div>
+</div>

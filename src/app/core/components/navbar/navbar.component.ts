@@ -1,5 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ThemeService } from '@app/core/services/theme.service';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
+import { ThemeService } from '../../services/theme.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { NotificationService } from '../../services/notification.service';
@@ -8,12 +8,15 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.scss'
+  styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit, OnDestroy {
   isUserMenuOpen = false;
-  hasNotifications = false;
+  hasUnreadNotifications = false;
+  isNotificationsOpen = false;
+  currentTheme: 'light' | 'dark' = 'light';
   private notificationSubscription: Subscription;
+  private themeSubscription: Subscription;
 
   constructor(
     private themeService: ThemeService, 
@@ -26,8 +29,16 @@ export class NavbarComponent implements OnInit, OnDestroy {
     return this.authService.isAuthenticated();
   }
 
-  toggleTheme(): void {
-    this.themeService.toggleTheme();
+  get currentUser() {
+    return this.authService.getUser();
+  }
+
+  toggleNotifications(): void {
+    this.isNotificationsOpen = !this.isNotificationsOpen;
+  }
+
+  closeNotifications(): void {
+    this.isNotificationsOpen = false;
   }
 
   toggleUserMenu() {
@@ -37,12 +48,26 @@ export class NavbarComponent implements OnInit, OnDestroy {
   signOut() {
     this.authService.logout();
     this.router.navigate(['/auth/login']);
-    this.isUserMenuOpen = false; // Close menu after sign out
+    this.isUserMenuOpen = false;
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: Event): void {
+    const target = event.target as HTMLElement;
+    const notificationContainer = target.closest('.notification-container');
+    
+    if (!notificationContainer && this.isNotificationsOpen) {
+      this.closeNotifications();
+    }
   }
 
   ngOnInit(): void {
     this.notificationSubscription = this.notificationService.notifications$.subscribe(notifications => {
-      this.hasNotifications = notifications.length > 0;
+      this.hasUnreadNotifications = notifications.length > 0;
+    });
+    
+    this.themeSubscription = this.themeService.theme$.subscribe(theme => {
+      this.currentTheme = theme;
     });
   }
 
@@ -50,5 +75,12 @@ export class NavbarComponent implements OnInit, OnDestroy {
     if (this.notificationSubscription) {
       this.notificationSubscription.unsubscribe();
     }
+    if (this.themeSubscription) {
+      this.themeSubscription.unsubscribe();
+    }
+  }
+
+  toggleTheme(): void {
+    this.themeService.toggleTheme();
   }
 }

@@ -304,6 +304,27 @@ $neon-purple: #bc13fe;
       }
     }
   }
+
+  &.tertiary {
+    background: transparent;
+    border: 1px solid rgba(white, 0.3);
+    color: rgba(white, 0.8);
+
+    .button-glow {
+      background: radial-gradient(circle at center, rgba(white, 0.2) 0%, transparent 70%);
+    }
+
+    &:hover {
+      border-color: rgba(white, 0.6);
+      color: white;
+      box-shadow: 0 0 15px rgba(white, 0.3);
+
+      .button-glow {
+        opacity: 0.4;
+        animation: pulseGlow 2s infinite;
+      }
+    }
+  }
 }
 
 // How It Works Section

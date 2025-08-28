@@ -37,7 +37,6 @@ export class RoadmapService {
     return this.researchAgent.getStatus().pipe(
       switchMap(status => {
         if (status.operational) {
-          // Use research-enhanced roadmap generation
           return this.researchAgent.generateRoadmap({
             topic: params.skill,
             level: params.level,
@@ -47,33 +46,30 @@ export class RoadmapService {
             includeProjects: true
           }).pipe(
             map(researchRoadmap => {
-              // Map the research roadmap response to our standard format
               const steps = researchRoadmap.roadmap?.steps?.map((step: any, index: number) => ({
                 day: Number(step.day || index + 1),
                 topic: String(step.title || step.topic || `Day ${index + 1}`),
                 lessonIds: []
               })) || [];
-              
-              return { 
-                roadmap: {
-                  userId: 'current', // This will be replaced with the actual user ID
-                  steps: steps
-                }
-              };
+              return { roadmap: { userId: 'current', steps } };
             })
           );
         } else {
-          // Fallback to standard roadmap generation
           return this.generateRoadmapLlm();
         }
       }),
-      catchError(error => {
-        console.error('Error generating enhanced roadmap:', error);
-        // Fallback to standard roadmap generation on error
-        return this.generateRoadmapLlm();
-      })
+      catchError(() => this.generateRoadmapLlm())
     );
   }
+
+  // New: AI and Trending recommendations (25 each)
+  getAiRoadmaps(): Observable<{ recommendations: any[] }> {
+    return this.api.get('/roadmap/recommendations/ai');
+  }
+  getTrendingRoadmaps(): Observable<{ recommendations: any[] }> {
+    return this.api.get('/roadmap/recommendations/trending');
+  }
 }
+
 
 

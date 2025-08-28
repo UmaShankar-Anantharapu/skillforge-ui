@@ -1,0 +1,105 @@
+<div class="get-started-container">
+  <div class="get-started-content">
+    <!-- Header -->
+    <div class="header">
+      <div class="logo">
+        <h1>SkillForge</h1>
+      </div>
+      <div class="user-actions">
+        <button class="btn-secondary" (click)="goToDashboard()">Dashboard</button>
+        <button class="btn-text" (click)="logout()">Logout</button>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <div class="welcome-section">
+        <div class="welcome-text">
+          <h2>Welcome to Your Learning Journey!</h2>
+          <p class="subtitle">
+            Let's create a personalized roadmap tailored to your goals, skills, and timeline.
+            Our AI-powered system will guide you through every step of your learning path.
+          </p>
+        </div>
+
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">🎯</div>
+            <h3>Personalized Goals</h3>
+            <p>Set your career objectives and let us create a custom learning path</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">📊</div>
+            <h3>Skills Assessment</h3>
+            <p>Evaluate your current skills and identify areas for improvement</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🗺️</div>
+            <h3>AI Roadmap</h3>
+            <p>Get a detailed, step-by-step learning roadmap powered by AI</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">⏱️</div>
+            <h3>Flexible Timeline</h3>
+            <p>Learn at your own pace with a schedule that fits your lifestyle</p>
+          </div>
+        </div>
+
+        <div class="cta-section">
+          <h3>Ready to get started?</h3>
+          <p>The onboarding process takes about 5-10 minutes and will help us understand your learning needs.</p>
+          
+          <div class="action-buttons">
+            <button 
+              class="btn-primary btn-large" 
+              (click)="startOnboarding()"
+              [disabled]="isLoading">
+              <span *ngIf="!isLoading">Start Your Journey</span>
+              <span *ngIf="isLoading">Starting...</span>
+            </button>
+          </div>
+
+          <div class="error-message" *ngIf="error">
+            <p>{{ error }}</p>
+            <button class="btn-text" (click)="error = null">Dismiss</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Progress Indicator -->
+      <div class="progress-section">
+        <h4>What to expect:</h4>
+        <div class="progress-steps">
+          <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h5>Personal Details</h5>
+              <p>Tell us about yourself</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h5>Career Background</h5>
+              <p>Share your work experience</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h5>Skills & Goals</h5>
+              <p>Define your learning objectives</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+              <h5>AI Roadmap</h5>
+              <p>Get your personalized plan</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

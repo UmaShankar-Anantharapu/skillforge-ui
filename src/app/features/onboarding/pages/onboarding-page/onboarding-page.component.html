@@ -1,0 +1,51 @@
+<!-- Full-page Onboarding Screen -->
+<div class="onboarding-screen" [class.loading]="loading$ | async">
+
+
+  <section class="content">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <button class="back-btn" (click)="previousStep()" [disabled]="!canGoBack()" aria-label="Go back">
+          <span class="material-icons" aria-hidden="true">arrow_back</span>
+          <span class="label">Back</span>
+        </button>
+      </div>
+      <div class="steps">
+        <div class="step" *ngFor="let step of getStepList(); let i = index"
+             [class.done]="i + 1 < (currentStep$ | async)!" 
+             [class.current]="i + 1 === (currentStep$ | async)!" 
+             [class.active]="i + 1 <= (currentStep$ | async)!"
+             [class.clickable]="i + 1 < (currentStep$ | async)!"
+             (click)="navigateToStep(i + 1)">
+          <div class="dot">{{ i + 1 }}</div>
+          <div class="t"><h4>{{ step.title }}</h4><p>{{ step.subtitle }}</p></div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main" [formGroup]="stepForm">
+      <!-- Step renderer -->
+      <app-step-renderer *ngIf="currentStepData && !(loading$ | async)"
+        [stepData]="currentStepData"
+        [formGroup]="stepForm"
+        [config]="config"
+        [sessionId]="sessionId"
+        [currentStep]="(currentStep$ | async)!"
+        [steps]="getStepList()"
+        [collectedData]="collectedData"
+        (formValid)="canProceed = $event">
+      </app-step-renderer>
+    </main>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <button class="btn ghost" (click)="previousStep()" [disabled]="!canGoBack() || isSubmitting">Back</button>
+    <span class="spacer"></span>
+    <button class="btn primary" (click)="nextStep()" [disabled]="!canGoNext()" [class.loading]="isSubmitting">
+      <span *ngIf="!(isLastStep())">Continue</span>
+      <span *ngIf="isLastStep()">Complete Setup</span>
+      <div class="spinner" *ngIf="isSubmitting"></div>
+    </button>
+  </footer>
+</div>

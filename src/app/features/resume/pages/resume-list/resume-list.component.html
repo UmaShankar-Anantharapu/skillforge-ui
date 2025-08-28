@@ -1,0 +1,85 @@
+<div class="resume-list-container">
+  <div class="header">
+    <h1>My Resumes</h1>
+    <button mat-raised-button color="primary" (click)="createNewResume()" class="create-btn">
+      <mat-icon>add</mat-icon>
+      Create New Resume
+    </button>
+  </div>
+
+  <div class="content" *ngIf="!isLoading">
+    <div class="error-message" *ngIf="error">
+      <mat-icon>error</mat-icon>
+      {{ error }}
+      <button mat-button (click)="loadResumes()">Retry</button>
+    </div>
+
+    <div class="empty-state" *ngIf="resumes.length === 0 && !error">
+      <mat-icon class="empty-icon">description</mat-icon>
+      <h2>No resumes yet</h2>
+      <p>Create your first professional resume to get started</p>
+      <button mat-raised-button color="primary" (click)="createNewResume()">
+        <mat-icon>add</mat-icon>
+        Create Your First Resume
+      </button>
+    </div>
+
+    <div class="resume-grid" *ngIf="resumes.length > 0">
+      <mat-card class="resume-card" *ngFor="let resume of resumes">
+        <mat-card-header>
+          <mat-card-title>{{ resume.title || 'Untitled Resume' }}</mat-card-title>
+          <mat-card-subtitle>
+            Last updated: {{ formatDate(resume.updatedAt) }}
+          </mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+          <div class="completion-info">
+            <span class="completion-label">Completion:</span>
+            <mat-progress-bar 
+              mode="determinate" 
+              [value]="getCompletionPercentage(resume)"
+              class="completion-bar">
+            </mat-progress-bar>
+            <span class="completion-percentage">{{ getCompletionPercentage(resume) }}%</span>
+          </div>
+
+          <div class="resume-info">
+            <div class="info-item" *ngIf="resume.template">
+              <mat-icon>palette</mat-icon>
+              <span>{{ resume.template.name }}</span>
+            </div>
+            <div class="info-item" *ngIf="resume.personalInfo?.name">
+              <mat-icon>person</mat-icon>
+              <span>{{ resume.personalInfo.name }}</span>
+            </div>
+          </div>
+        </mat-card-content>
+
+        <mat-card-actions>
+          <button mat-button (click)="editResume(resume)">
+            <mat-icon>edit</mat-icon>
+            Edit
+          </button>
+          <button mat-button (click)="duplicateResume(resume)">
+            <mat-icon>content_copy</mat-icon>
+            Duplicate
+          </button>
+          <button mat-button (click)="exportToPdf(resume)">
+            <mat-icon>download</mat-icon>
+            PDF
+          </button>
+          <button mat-button color="warn" (click)="deleteResume(resume)">
+            <mat-icon>delete</mat-icon>
+            Delete
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+
+  <div class="loading-container" *ngIf="isLoading">
+    <mat-spinner></mat-spinner>
+    <p>Loading your resumes...</p>
+  </div>
+</div>

@@ -1,0 +1,292 @@
+.get-started-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.get-started-content {
+  width: 100%;
+  max-width: 1200px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 32px;
+  background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+
+  .logo h1 {
+    margin: 0;
+    color: #1a202c;
+    font-size: 28px;
+    font-weight: 700;
+  }
+
+  .user-actions {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+}
+
+.main-content {
+  padding: 48px 32px;
+}
+
+.welcome-section {
+  text-align: center;
+  margin-bottom: 48px;
+
+  .welcome-text {
+    margin-bottom: 48px;
+
+    h2 {
+      font-size: 36px;
+      font-weight: 700;
+      color: #1a202c;
+      margin: 0 0 16px 0;
+    }
+
+    .subtitle {
+      font-size: 18px;
+      color: #64748b;
+      line-height: 1.6;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+  }
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 24px;
+  margin-bottom: 48px;
+
+  .feature-card {
+    background: #f8fafc;
+    padding: 32px 24px;
+    border-radius: 12px;
+    text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .feature-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+
+    h3 {
+      font-size: 20px;
+      font-weight: 600;
+      color: #1a202c;
+      margin: 0 0 12px 0;
+    }
+
+    p {
+      color: #64748b;
+      line-height: 1.5;
+      margin: 0;
+    }
+  }
+}
+
+.cta-section {
+  text-align: center;
+
+  h3 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #1a202c;
+    margin: 0 0 12px 0;
+  }
+
+  > p {
+    color: #64748b;
+    font-size: 16px;
+    margin: 0 0 32px 0;
+  }
+
+  .action-buttons {
+    margin-bottom: 24px;
+  }
+}
+
+.progress-section {
+  background: #f8fafc;
+  padding: 32px;
+  border-radius: 12px;
+  margin-top: 48px;
+
+  h4 {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+    color: #1a202c;
+    margin: 0 0 32px 0;
+  }
+
+  .progress-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 24px;
+
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+
+      .step-number {
+        width: 40px;
+        height: 40px;
+        background: #667eea;
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        flex-shrink: 0;
+      }
+
+      .step-content {
+        h5 {
+          font-size: 16px;
+          font-weight: 600;
+          color: #1a202c;
+          margin: 0 0 4px 0;
+        }
+
+        p {
+          color: #64748b;
+          font-size: 14px;
+          margin: 0;
+          line-height: 1.4;
+        }
+      }
+    }
+  }
+}
+
+.error-message {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+  padding: 16px;
+  border-radius: 8px;
+  text-align: center;
+
+  p {
+    margin: 0 0 8px 0;
+  }
+}
+
+// Button Styles
+.btn-primary {
+  background: #667eea;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 16px;
+
+  &:hover:not(:disabled) {
+    background: #5a67d8;
+    transform: translateY(-1px);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  &.btn-large {
+    padding: 16px 32px;
+    font-size: 18px;
+  }
+}
+
+.btn-secondary {
+  background: #e2e8f0;
+  color: #1a202c;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: #cbd5e0;
+  }
+}
+
+.btn-text {
+  background: none;
+  border: none;
+  color: #667eea;
+  cursor: pointer;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: #edf2f7;
+    color: #5a67d8;
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .get-started-container {
+    padding: 12px;
+  }
+
+  .header {
+    padding: 16px 20px;
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+
+    .logo h1 {
+      font-size: 24px;
+    }
+  }
+
+  .main-content {
+    padding: 32px 20px;
+  }
+
+  .welcome-section .welcome-text h2 {
+    font-size: 28px;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .progress-section {
+    padding: 24px 20px;
+
+    .progress-steps {
+      grid-template-columns: 1fr;
+    }
+  }
+}

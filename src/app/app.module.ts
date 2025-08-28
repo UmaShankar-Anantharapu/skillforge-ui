@@ -10,6 +10,7 @@ import { authInterceptor } from './core/interceptors/auth.interceptor';
 import { OnboardingService } from './core/services/onboarding.service';
 import { NavbarComponent } from './core/components/navbar/navbar.component';
 import { NotificationBannerComponent } from './core/components/notification-banner/notification-banner.component';
+import { NotificationsDropdownComponent } from './core/components/notifications-dropdown/notifications-dropdown.component';
 import { ThemeService } from './core/services/theme.service';
 import { NotificationService } from './core/services/notification.service';
 
@@ -17,7 +18,8 @@ import { NotificationService } from './core/services/notification.service';
   declarations: [
     AppComponent,
     NavbarComponent,
-    NotificationBannerComponent
+    NotificationBannerComponent,
+    NotificationsDropdownComponent
   ],
   imports: [
     BrowserModule,

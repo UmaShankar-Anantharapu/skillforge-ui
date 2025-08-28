@@ -14,11 +14,11 @@ const routes: Routes = [
   },
   {
     path: 'my-learning',
-    loadChildren: () => import('./features/lesson/lesson.module').then(m => m.LessonModule),
+    loadChildren: () => import('./features/my-learning/my-learning.module').then(m => m.MyLearningModule),
   },
   {
     path: 'resume',
-    loadChildren: () => import('./features/profile/profile.module').then(m => m.ProfileModule),
+    loadChildren: () => import('./features/resume/resume.module').then(m => m.ResumeModule),
   },
   {
     path: 'auth',
@@ -39,9 +39,9 @@ const routes: Routes = [
       import('./features/onboarding/onboarding.module').then((m) => m.OnboardingModule),
   },
   {
-    path: 'roadmap',
+    path: 'skills',
     loadChildren: () =>
-      import('./features/roadmap/roadmap.module').then((m) => m.RoadmapModule),
+      import('./features/skills/skills.module').then((m) => m.SkillsModule),
   },
   {
     path: 'lesson',
@@ -77,6 +77,10 @@ const routes: Routes = [
     path: 'research-agent',
     loadChildren: () =>
       import('./features/research-agent/research-agent.module').then((m) => m.ResearchAgentModule),
+  },
+  {
+    path: 'roadmaps',
+    loadChildren: () => import('./features/roadmaps-catalog/roadmaps-catalog.module').then(m => m.RoadmapsCatalogModule),
   },
   { path: '**', redirectTo: 'auth/login' },
 ];
