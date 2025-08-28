@@ -1,0 +1,1 @@
+import{a as o}from"./chunk-IRV7PH2R.js";import{K as r,N as e}from"./chunk-2627VUCO.js";var s=(()=>{class t{constructor(i){this.api=i}list(){return this.api.get("/badges")}static{this.\u0275fac=function(a){return new(a||t)(e(o))}}static{this.\u0275prov=r({token:t,factory:t.\u0275fac,providedIn:"root"})}}return t})();export{s as a};

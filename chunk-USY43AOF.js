@@ -1,0 +1,1 @@
+import{K as i,g as e}from"./chunk-2627VUCO.js";var s=(()=>{class t{constructor(){this.stream=new e}show(o,r="info"){this.stream.next({text:o,kind:r})}static{this.\u0275fac=function(r){return new(r||t)}}static{this.\u0275prov=i({token:t,factory:t.\u0275fac,providedIn:"root"})}}return t})();export{s as a};
