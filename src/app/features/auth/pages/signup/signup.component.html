@@ -72,6 +72,10 @@
           <p>Personalize your learning in minutes</p>
         </div>
 
+        <div *ngIf="signupError" class="error-banner">
+          {{ signupError }}
+        </div>
+
         <form [formGroup]="form" (ngSubmit)="onSubmit()" class="auth-form" novalidate>
           <div class="input-group">
             <label for="name" class="input-label">Full Name</label>

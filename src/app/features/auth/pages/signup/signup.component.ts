@@ -12,6 +12,7 @@ export class SignupComponent {
   public loading = false;
   public showPassword = false;
   public isDarkTheme = false;
+  public signupError: string | null = null;
   public form = this.fb.group({
     name: ['', [Validators.required, Validators.minLength(2)]],
     email: ['', [Validators.required, Validators.email]],
@@ -65,9 +66,9 @@ export class SignupComponent {
         // This ensures UserProfile is created before accessing other features
         this.router.navigate(['/onboarding']);
       },
-      error: () => {
+      error: (err) => {
         this.loading = false;
-        alert('Signup failed');
+        this.signupError = err.error?.message || 'Signup failed. Please try again.';
       },
     });
   }

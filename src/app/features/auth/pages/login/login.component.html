@@ -64,6 +64,10 @@
           <p>Continue your SkillForge journey</p>
         </div>
 
+        <div *ngIf="loginError" class="error-banner">
+          {{ loginError }}
+        </div>
+
         <form [formGroup]="form" (ngSubmit)="onSubmit()" class="auth-form" novalidate>
           <div class="input-group">
             <label for="email" class="input-label">Email Address</label>

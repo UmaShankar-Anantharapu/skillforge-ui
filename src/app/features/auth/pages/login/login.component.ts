@@ -13,6 +13,7 @@ export class LoginComponent {
   public loading = false;
   public showPassword = false;
   public isDarkTheme = false;
+  public loginError: string | null = null;
   public form = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required]],
@@ -44,9 +45,9 @@ export class LoginComponent {
         this.loading = false;
         this.checkOnboardingAndRedirect();
       },
-      error: () => {
+      error: (err) => {
         this.loading = false;
-        alert('Login failed');
+        this.loginError = err.error?.message || 'Login failed. Please check your credentials.';
       },
     });
   }
@@ -63,8 +64,9 @@ export class LoginComponent {
           this.router.navigate(['/dashboard']);
         }
       },
-      error: () => {
+      error: (err) => {
         // If onboarding check fails, just go to dashboard
+        console.error('Onboarding check failed:', err);
         this.router.navigate(['/dashboard']);
       }
     });
