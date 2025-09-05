@@ -1,5 +1,21 @@
 <!-- Cyberpunk Neural Awakening Landing Page -->
 <div class="cyberpunk-landing">
+  <!-- Sticky Header -->
+  <header class="sticky-header">
+    <div class="header-container">
+      <div class="logo">
+        <span class="logo-text">SkillForge</span>
+      </div>
+      <div class="header-buttons" #headerButtons>
+        <button class="header-button login" (click)="navigateToLogin()">
+          <span>Login</span>
+        </button>
+        <button class="header-button signup" (click)="navigateToSignup()">
+          <span>Sign Up</span>
+        </button>
+      </div>
+    </div>
+  </header>
   <!-- Hero Section with Video Placeholder -->
   <section class="hero-section">
     <div class="video-placeholder">
@@ -31,15 +47,7 @@
       </div>
       
       <div class="hero-buttons">
-
-        <button class="cta-button secondary" (click)="navigateToLogin()">
-          <span>Login</span>
-          <span class="button-glow"></span>
-        </button>
-        <button class="cta-button tertiary" (click)="navigateToSignup()">
-          <span>Sign Up</span>
-          <span class="button-glow"></span>
-        </button>
+        <!-- Removed login/signup buttons from here as they're now in the sticky header -->
       </div>
     </div>
   </section>
@@ -135,7 +143,7 @@
   </section>
   
   <!-- Final CTA Section -->
-  <section class="final-cta-section">
+  <section class="final-cta-section" #ctaSection>
     <div class="section-container">
       <div class="center-orb"></div>
       
@@ -143,7 +151,7 @@
         <h2>Ready to leap forward?</h2>
         <h3>Join CareerLeap and transform your learning journey.</h3>
         
-        <div class="cta-buttons">
+        <div class="cta-buttons duplicate-buttons" #duplicateButtons>
           <button class="cta-button primary" (click)="navigateToLogin()">
             <span>Login</span>
             <span class="button-glow"></span>

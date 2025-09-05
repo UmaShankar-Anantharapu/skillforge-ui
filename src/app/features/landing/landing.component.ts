@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { ResearchAgentService } from '../../core/services/research-agent.service';
@@ -31,10 +31,48 @@ export class LandingComponent implements OnInit {
     document.documentElement.setAttribute('data-theme', 'dark');
   }
   
+  // ViewChild references to DOM elements
+  @ViewChild('duplicateButtons', { static: false }) duplicateButtonsRef!: ElementRef;
+  @ViewChild('headerButtons', { static: false }) headerButtonsRef!: ElementRef;
+  @ViewChild('ctaSection', { static: false }) ctaSectionRef!: ElementRef;
+  
   ngOnInit(): void {
     // Check if user is already logged in
     if (this.authService.getToken()) {
       this.router.navigate(['/dashboard']);
+    }
+  }
+  
+  // Use HostListener to listen for scroll events
+  @HostListener('window:scroll', [])
+  onWindowScroll(): void {
+    this.checkButtonsVisibility();
+  }
+  
+  // Check visibility of CTA section and toggle buttons accordingly
+  private checkButtonsVisibility(): void {
+    if (!this.ctaSectionRef || !this.duplicateButtonsRef || !this.headerButtonsRef) return;
+    
+    const ctaSection = this.ctaSectionRef.nativeElement;
+    const duplicateButtons = this.duplicateButtonsRef.nativeElement;
+    const headerButtons = this.headerButtonsRef.nativeElement;
+    
+    // Get the position of the CTA section
+    const ctaSectionRect = ctaSection.getBoundingClientRect();
+    
+    // Check if the CTA section is in the viewport
+    const isCTASectionVisible = 
+      ctaSectionRect.top >= 0 &&
+      ctaSectionRect.top <= window.innerHeight;
+    
+    if (isCTASectionVisible) {
+      // Show duplicate buttons and hide header buttons
+      duplicateButtons.classList.remove('hide-buttons');
+      headerButtons.classList.add('hide-buttons');
+    } else {
+      // Hide duplicate buttons and show header buttons
+      duplicateButtons.classList.add('hide-buttons');
+      headerButtons.classList.remove('hide-buttons');
     }
   }
   
