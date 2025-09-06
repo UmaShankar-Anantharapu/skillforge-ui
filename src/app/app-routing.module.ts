@@ -79,7 +79,7 @@ const routes: Routes = [
       import('./features/research-agent/research-agent.module').then((m) => m.ResearchAgentModule),
   },
   {
-    path: 'roadmaps',
+    path: 'learning-path',
     loadChildren: () => import('./features/roadmaps-catalog/roadmaps-catalog.module').then(m => m.RoadmapsCatalogModule),
   },
   { path: '**', redirectTo: 'auth/login' },

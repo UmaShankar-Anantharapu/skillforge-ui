@@ -1161,10 +1161,61 @@
         }
       }
 
+      .ai-recommendations-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        .scroll-button {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 40px;
+          height: 40px;
+          border: 1px solid var(--sf-border);
+          background: var(--sf-card);
+          color: var(--sf-text);
+          border-radius: 50%;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.2s ease;
+          z-index: 2;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+          &:hover:not(:disabled) {
+            background: var(--sf-primary);
+            color: white;
+            border-color: var(--sf-primary);
+            transform: translateY(-50%) scale(1.05);
+          }
+
+          &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+          }
+
+          &.left {
+            left: -25px;
+          }
+
+          &.right {
+            right: -25px;
+          }
+
+          i {
+            font-size: 0.875rem;
+          }
+        }
+      }
+
       .ai-recommendations-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        grid-template-columns: repeat(3, 1fr);
         gap: 1.5rem;
+        width: 100%;
       }
 
       .ai-recommendation-card {
@@ -1428,10 +1479,61 @@
         }
       }
 
+      .trending-roadmaps-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        .scroll-button {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 40px;
+          height: 40px;
+          border: 1px solid var(--sf-border);
+          background: var(--sf-card);
+          color: var(--sf-text);
+          border-radius: 50%;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.2s ease;
+          z-index: 2;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+          &:hover:not(:disabled) {
+            background: var(--sf-accent);
+            color: white;
+            border-color: var(--sf-accent);
+            transform: translateY(-50%) scale(1.05);
+          }
+
+          &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+          }
+
+          &.left {
+            left: -25px;
+          }
+
+          &.right {
+            right: -25px;
+          }
+
+          i {
+            font-size: 0.875rem;
+          }
+        }
+      }
+
       .trending-roadmaps-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        grid-template-columns: repeat(3, 1fr);
         gap: 1.5rem;
+        width: 100%;
       }
 
       .trending-roadmap-card {

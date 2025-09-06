@@ -3,8 +3,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { ResearchAgentService } from '../../core/services/research-agent.service';
 
-import { finalize } from 'rxjs/operators';
-import { catchError } from 'rxjs/operators';
+import { finalize, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 @Component({

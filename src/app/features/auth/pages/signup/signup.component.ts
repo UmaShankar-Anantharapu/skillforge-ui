@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { map } from 'rxjs/operators';
 import { AuthService } from '../../../../core/services/auth.service';
+import { ThemeService } from '../../../../core/services/theme.service';
 
 @Component({
   selector: 'app-signup',
@@ -11,7 +13,7 @@ import { AuthService } from '../../../../core/services/auth.service';
 export class SignupComponent {
   public loading = false;
   public showPassword = false;
-  public isDarkTheme = false;
+  public isDarkTheme$ = this.themeService.theme$.pipe(map(theme => theme === 'dark'));
   public signupError: string | null = null;
   public form = this.fb.group({
     name: ['', [Validators.required, Validators.minLength(2)]],
@@ -23,16 +25,11 @@ export class SignupComponent {
     private readonly fb: FormBuilder,
     private readonly auth: AuthService,
     private readonly router: Router,
-  ) {
-    // Check current theme
-    this.isDarkTheme = document.documentElement.getAttribute('data-theme') !== 'light';
-  }
+    private readonly themeService: ThemeService,
+  ) {}
 
   public toggleTheme(): void {
-    const root = document.documentElement;
-    const isLight = root.getAttribute('data-theme') === 'light';
-    root.setAttribute('data-theme', isLight ? 'dark' : 'light');
-    this.isDarkTheme = !isLight;
+    this.themeService.toggleTheme();
   }
 
   public getPasswordStrength(): string {

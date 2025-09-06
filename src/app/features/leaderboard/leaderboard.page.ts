@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { LeaderboardService, LeaderRow } from '../../core/services/leaderboard.service';
+import { APP_CONSTANTS } from '../../shared/constants/app.constants';
 
 @Component({
   selector: 'app-leaderboard-page',
@@ -34,7 +35,7 @@ export class LeaderboardPageComponent implements OnInit, OnDestroy {
   constructor(private readonly svc: LeaderboardService) {}
 
   ngOnInit(): void {
-    this.sub = this.svc.stream(5000).subscribe({ next: (res) => (this.rows = res.leaderboard) });
+    this.sub = this.svc.stream(APP_CONSTANTS.POLLING_INTERVAL.NORMAL).subscribe({ next: (res) => (this.rows = res.leaderboard) });
   }
   ngOnDestroy(): void { this.sub?.unsubscribe(); }
 }

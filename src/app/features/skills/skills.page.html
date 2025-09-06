@@ -1,7 +1,7 @@
 <div class="skills-page">
-  <!-- Page Header -->
+   <!-- Page Header -->
   <div class="page-header">
-    <h1>Skills & Learn</h1>
+     <h1>Skills & Learn</h1>
   </div>
 
   <!-- Known Skills Section -->
@@ -18,8 +18,7 @@
           Refresh
         </button>
         <button class="nav next" (click)="recPage = Math.min(recPage+1, recMaxPage)" [disabled]="recPage===recMaxPage">&gt;</button>
-      </div>
-    </div>
+  
     <div class="recommendations-container">
       <div class="recommendations-grid" *ngIf="skillRecommendations.length > 0; else noRecommendationsTemplate">
         <div class="recommendation-card" *ngFor="let recommendation of skillRecommendations | slice:(recPage*recPageSize):((recPage+1)*recPageSize)">
@@ -34,8 +33,6 @@
                   <i class="fas fa-clock"></i> {{ recommendation.estimatedLearningTime }}
                 </span>
               </div>
-            </div>
-          </div>
           <p class="recommendation-reason">{{ recommendation.reason }}</p>
           <div class="benefits-section">
             <h4>Why learn this?</h4>
@@ -43,10 +40,12 @@
               <li *ngFor="let benefit of recommendation.benefits">{{ benefit }}</li>
             </ul>
           </div>
+      
           <div class="related-skills" *ngIf="recommendation.relatedSkills?.length">
-            <span class="related-label">Related to:</span>
-            <div class="related-tags">
-              <span class="related-tag" *ngFor="let skill of recommendation.relatedSkills">{{ skill }}</span>
+              <span class="related-label">Related to:</span>
+              <div class="related-tags">
+                <span class="related-tag" *ngFor="let skill of recommendation.relatedSkills">{{ skill }}</span>
+              </div>
             </div>
           </div>
           <div class="card-actions">
@@ -61,6 +60,10 @@
           </div>
         </div>
       </div>
+    </div>
+    </div>
+    </div>
+    </div>
       <ng-template #noRecommendationsTemplate>
         <div class="no-recommendations-state">
           <div class="no-recommendations-icon">💡</div>
@@ -73,7 +76,6 @@
         </div>
       </ng-template>
     </div>
-  </div>
 
   <!-- AI Roadmap Recommendations Section -->
   <div class="ai-recommendations-section">
@@ -95,7 +97,11 @@
         <div class="spinner"></div>
         <p>Generating AI recommendations...</p>
       </div>
-      <div class="ai-recommendations-grid" *ngIf="!isLoadingAIRecommendations && aiRecommendations.length > 0">
+      <div class="ai-recommendations-wrapper">
+        <button class="scroll-button left" (click)="scrollAIRecommendations('left')" [disabled]="!canScrollLeftAIRecommendations">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <div class="ai-recommendations-grid" *ngIf="!isLoadingAIRecommendations && aiRecommendations.length > 0">
         <div class="ai-recommendation-card" *ngFor="let recommendation of getPaginatedAIRecommendations()">
           <div class="card-header">
             <div class="recommendation-badge">
@@ -132,6 +138,9 @@
             </button>
           </div>
         </div>
+        <button class="scroll-button right" (click)="scrollAIRecommendations('right')" [disabled]="!canScrollRightAIRecommendations">
+          <i class="fas fa-chevron-right"></i>
+        </button>
       </div>
       <div class="no-recommendations-state" *ngIf="!isLoadingAIRecommendations && aiRecommendations.length === 0">
         <div class="no-recommendations-icon">🤖</div>
@@ -161,52 +170,43 @@
         <div class="spinner"></div>
         <p>Loading trending roadmaps...</p>
       </div>
-      <div class="trending-roadmaps-grid" *ngIf="!isLoadingTrendingRoadmaps && trendingRoadmaps.length > 0">
-        <div class="trending-roadmap-card" *ngFor="let roadmap of getPaginatedTrendingRoadmaps()">
-          <div class="card-header">
-            <div class="popularity-badge">
-              <i class="fas fa-fire"></i>
-              <span>{{ roadmap.popularity }}% popular</span>
-            </div>
-            <div class="difficulty-badge" [class]="'difficulty-' + roadmap.difficulty.toLowerCase()">
-              {{ roadmap.difficulty }}
-            </div>
-          </div>
-          <div class="card-content">
-            <h3 class="roadmap-title">{{ roadmap.title }}</h3>
-            <p class="roadmap-description">{{ roadmap.description }}</p>
-            <div class="roadmap-meta">
-              <div class="meta-item">
-                <i class="fas fa-clock"></i>
-                <span>{{ roadmap.estimatedTime }}</span>
-              </div>
-              <div class="meta-item">
-                <i class="fas fa-users"></i>
-                <span>{{ roadmap.enrollments | number }} enrolled</span>
-              </div>
-            </div>
-            <div class="skills-involved">
-              <span class="skills-label">Skills:</span>
-              <div class="skills-tags">
-                <span class="skill-tag" *ngFor="let skill of roadmap.skills">{{ skill }}</span>
-              </div>
-            </div>
-          </div>
-          <div class="card-actions">
-            <button class="btn-primary" (click)="viewRoadmap(roadmap.id)">
-              <i class="fas fa-route"></i>
-              Start Learning
-            </button>
-          </div>
-        </div>
-      </div>
-      <div class="no-roadmaps-state" *ngIf="!isLoadingTrendingRoadmaps && trendingRoadmaps.length === 0">
-        <div class="no-roadmaps-icon">📈</div>
-        <h3>No Trending Roadmaps Available</h3>
-        <p>Check back later for popular learning paths</p>
-      </div>
-    </div>
-  </div>
+      <div class="trending-roadmaps-wrapper">
+        <button class="scroll-button left" (click)="scrollTrendingRoadmaps('left')" [disabled]="!canScrollLeftTrendingRoadmaps">
+         <i class="fas fa-chevron-left"></i>
+       </button>
+       <div class="trending-roadmaps-grid" *ngIf="!isLoadingTrendingRoadmaps && trendingRoadmaps.length > 0">
+         <div class="trending-roadmap-card" *ngFor="let roadmap of getPaginatedTrendingRoadmaps()">
+           <div class="card-header">
+             <div class="popularity-badge">
+               <i class="fas fa-fire"></i>
+               <span>{{ roadmap.popularity }}% popular</span>
+             </div>
+             <div class="difficulty-badge" [class]="'difficulty-' + roadmap.difficulty.toLowerCase()">
+               {{ roadmap.difficulty }}
+             </div>
+           </div>
+           <div class="card-content">
+             <h3>{{ roadmap.title }}</h3>
+             <p>{{ roadmap.description }}</p>
+             <div class="skills-list">
+               <span class="skill-tag" *ngFor="let skill of roadmap.skills">{{ skill }}</span>
+             </div>
+           </div>
+           <div class="card-footer">
+             <button class="view-roadmap-button" (click)="viewRoadmap(roadmap)">
+               View Roadmap
+             </button>
+           </div>
+         </div>
+       </div>
+       <button class="scroll-button right" (click)="scrollTrendingRoadmaps('right')" [disabled]="!canScrollRightTrendingRoadmaps">
+         <i class="fas fa-chevron-right"></i>
+       </button>
+       </div>
+     </div>
+   </div>
+
+   </div>
 
   <!-- Projects You Can Achieve Section -->
   <div class="projects-section achievable-projects">

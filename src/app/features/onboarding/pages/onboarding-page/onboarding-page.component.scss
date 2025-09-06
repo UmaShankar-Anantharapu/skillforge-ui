@@ -22,14 +22,14 @@
     }
 
     h2 {
-      color: #333;
+      color: var(--sf-text-primary);
       margin-bottom: 1rem;
       font-size: 1.5rem;
       font-weight: 600;
     }
 
     p {
-      color: #666;
+      color: var(--sf-text-secondary);
       font-size: 1rem;
       line-height: 1.5;
       margin: 0;
@@ -41,26 +41,26 @@
 :host-context(.dark-theme) {
   .onboarding-page {
     .loading-container {
-      background: #2d2d2d;
+      background: var(--sf-bg-dark);
 
       h2 {
-        color: #fff;
+        color: var(--sf-text-white);
       }
 
       p {
-        color: #ccc;
+        color: var(--sf-text-muted);
       }
     }
   }
 
   .onboarding-screen {
-    background: #0a0f1c;
-    color: #e5e7eb;
+    background: var(--sf-bg-dark-primary);
+color: var(--sf-text-light);
   }
 
   .sidebar {
-    background: #111827;
-    border-right-color: #374151;
+    background: var(--sf-bg-dark-secondary);
+border-right-color: var(--sf-border-dark);
 
     .sidebar-header {
       background: #111827;

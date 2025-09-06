@@ -7,6 +7,7 @@ import { ProfileService, CurrentSkill } from '../../core/services/profile.servic
 import { ToastService } from '../../core/services/toast.service';
 import { Observable, of } from 'rxjs';
 import { catchError, finalize } from 'rxjs/operators';
+import { APP_CONSTANTS } from '../../shared/constants/app.constants';
 
 interface Project {
   id: string;
@@ -72,8 +73,16 @@ export class SkillsPageComponent implements OnInit {
   recPage = 0; recPageSize = 3; recMaxPage = 0;
   achPage = 0; achPageSize = 3; achMaxPage = 0;
   trendPage = 0; trendPageSize = 3; trendMaxPage = 0;
-  aiRecPage = 0; aiRecPageSize = 5; aiRecMaxPage = 0;
-  trendingPage = 0; trendingPageSize = 5; trendingMaxPage = 0;
+  aiRecPage = 0; aiRecPageSize = 3; aiRecMaxPage = 0;
+  trendingPage = 0; trendingPageSize = 3; trendingMaxPage = 0;
+
+  // Properties for scrolling trending roadmaps
+  canScrollLeftTrendingRoadmaps: boolean = false;
+  canScrollRightTrendingRoadmaps: boolean = false;
+
+  // Properties for scrolling AI recommendations
+  canScrollLeftAIRecommendations: boolean = false;
+  canScrollRightAIRecommendations: boolean = false;
 
   projectsYouCanAchieve: Project[] = [
     {
@@ -153,6 +162,7 @@ export class SkillsPageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.updateTrendingRoadmapScrollButtons();
     this.initializeFilters();
     this.applyBasicFilters();
     this.generateSkillRecommendations();
@@ -164,6 +174,54 @@ export class SkillsPageComponent implements OnInit {
     this.recMaxPage = Math.max(Math.ceil(this.skillRecommendations.length / this.recPageSize) - 1, 0);
     this.achMaxPage = Math.max(Math.ceil(this.filteredProjects.length / this.achPageSize) - 1, 0);
     this.trendMaxPage = Math.max(Math.ceil(this.mostDemandedProjects.length / this.trendPageSize) - 1, 0);
+  }
+
+  // Method to scroll trending roadmaps
+  scrollTrendingRoadmaps(direction: 'left' | 'right') {
+    const container = document.querySelector('.trending-roadmaps-container');
+    if (container) {
+      const scrollAmount = APP_CONSTANTS.SCROLL_AMOUNT;
+      if (direction === 'left') {
+        container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+      } else {
+        container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+      }
+      // Update button states after scroll animation (or with a slight delay)
+      setTimeout(() => this.updateTrendingRoadmapScrollButtons(), APP_CONSTANTS.SCROLL_UPDATE_DELAY);
+    }
+  }
+
+  // Method to update scroll button visibility
+  updateTrendingRoadmapScrollButtons() {
+    const container = document.querySelector('.trending-roadmaps-container');
+    if (container) {
+      this.canScrollLeftTrendingRoadmaps = container.scrollLeft > 0;
+      this.canScrollRightTrendingRoadmaps = container.scrollLeft + container.clientWidth < container.scrollWidth;
+    }
+  }
+
+  // Method to scroll AI recommendations
+  scrollAIRecommendations(direction: 'left' | 'right') {
+    const container = document.querySelector('.ai-recommendations-container');
+    if (container) {
+      const scrollAmount = APP_CONSTANTS.SCROLL_AMOUNT;
+      if (direction === 'left') {
+        container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+      } else {
+        container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+      }
+      // Update button states after scroll animation
+      setTimeout(() => this.updateAIRecommendationsScrollButtons(), APP_CONSTANTS.SCROLL_UPDATE_DELAY);
+    }
+  }
+
+  // Method to update AI recommendations scroll button visibility
+  updateAIRecommendationsScrollButtons() {
+    const container = document.querySelector('.ai-recommendations-container');
+    if (container) {
+      this.canScrollLeftAIRecommendations = container.scrollLeft > 0;
+      this.canScrollRightAIRecommendations = container.scrollLeft + container.clientWidth < container.scrollWidth;
+    }
   }
 
   initializeFilters() {
@@ -248,7 +306,7 @@ export class SkillsPageComponent implements OnInit {
         console.log('Skill details:', relationship);
         // For now, redirect to external learning platform
         const skillQuery = encodeURIComponent(skillName.toLowerCase());
-        const learningUrl = `https://www.coursera.org/search?query=${skillQuery}&`;
+        const learningUrl = `${APP_CONSTANTS.EXTERNAL_URLS.COURSERA_SEARCH}${skillQuery}&`;
         window.open(learningUrl, '_blank');
       });
   }
@@ -356,7 +414,8 @@ export class SkillsPageComponent implements OnInit {
           this.isLoadingTrendingRoadmaps = false;
         })
       )
-      .subscribe(roadmaps => {
+      .subscribe((roadmaps:any) => {
+
         this.trendingRoadmaps = roadmaps;
         this.trendingMaxPage = Math.max(Math.ceil(this.trendingRoadmaps.length / this.trendingPageSize) - 1, 0);
       });

@@ -1,0 +1,81 @@
+<div class="milestone-card" 
+     [class.completed]="milestone.isCompleted"
+     [class.active]="isActive"
+     [class.dark-theme]="theme === 'dark'">
+  
+  <!-- Milestone Header -->
+  <div class="milestone-header">
+    <div class="milestone-number">{{ index + 1 }}</div>
+    <div class="milestone-status">
+      <button class="status-toggle" 
+              (click)="onToggleComplete()"
+              [class.completed]="milestone.isCompleted"
+              [attr.aria-label]="milestone.isCompleted ? 'Mark as incomplete' : 'Mark as complete'">
+        <svg *ngIf="milestone.isCompleted" class="check-icon" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+        </svg>
+        <div *ngIf="!milestone.isCompleted" class="incomplete-circle"></div>
+      </button>
+    </div>
+  </div>
+
+  <!-- Milestone Content -->
+  <div class="milestone-content">
+    <h3 class="milestone-title" (click)="onViewDetails()">{{ milestone.title }}</h3>
+    <p class="milestone-description">{{ milestone.description }}</p>
+    
+    <!-- Milestone Meta Info -->
+    <div class="milestone-meta">
+      <div class="meta-item">
+        <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <circle cx="12" cy="12" r="10"/>
+          <polyline points="12,6 12,12 16,14"/>
+        </svg>
+        <span>{{ milestone.estimatedWeeks }} week{{ milestone.estimatedWeeks !== 1 ? 's' : '' }}</span>
+      </div>
+      
+      <div class="meta-item" *ngIf="milestone.skills && milestone.skills.length > 0">
+        <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+        </svg>
+        <span>{{ getSkillsText() }}</span>
+      </div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-container" *ngIf="milestone.resources && milestone.resources.length > 0">
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="getProgressPercentage()"></div>
+      </div>
+      <span class="progress-text">{{ getProgressPercentage() }}% complete</span>
+    </div>
+
+    <!-- Skills Tags -->
+    <div class="skills-container" *ngIf="milestone.skills && milestone.skills.length > 0">
+      <div class="skill-tag" *ngFor="let skill of milestone.skills.slice(0, 4)">
+        {{ skill }}
+      </div>
+      <div class="skill-tag more-skills" *ngIf="milestone.skills.length > 4">
+        +{{ milestone.skills.length - 4 }} more
+      </div>
+    </div>
+  </div>
+
+  <!-- Milestone Actions -->
+  <div class="milestone-actions">
+    <button class="action-btn secondary" (click)="onViewDetails()">
+      <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+        <circle cx="12" cy="12" r="3"/>
+      </svg>
+      View Details
+    </button>
+    
+    <button class="action-btn primary" (click)="onGenerateAiSummary()">
+      <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+      </svg>
+      AI Summary
+    </button>
+  </div>
+</div>

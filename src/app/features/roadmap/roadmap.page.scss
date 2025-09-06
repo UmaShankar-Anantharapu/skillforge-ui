@@ -70,7 +70,7 @@
   gap: 1rem;
   padding: 1rem;
   border-radius: 8px;
-  background-color: var(--surface-card);
+  background-color: var(--sf-card);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   
   .step-day {
@@ -103,7 +103,7 @@
 .roadmap-empty {
   text-align: center;
   padding: 3rem;
-  background-color: var(--surface-card);
+  background-color: var(--sf-card);
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }

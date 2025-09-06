@@ -1,30 +1,30 @@
 /* Custom, non-Material styling for rewritten step renderer */
 .step-renderer { display:block; }
-.section{ background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:16px; margin-bottom:16px; }
+.section{ background:var(--sf-bg-primary); border:1px solid var(--sf-border); border-radius:12px; padding:16px; margin-bottom:16px; }
 .section-head h2{ margin:0 0 6px; font-weight:800; font-size:18px; }
-.section-head p{ margin:0 0 10px; color:#6b7280; font-size:13px; }
+.section-head p{ margin:0 0 10px; color:var(--sf-text-secondary); font-size:13px; }
 .form{ display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
 .field{ display:flex; flex-direction:column; gap:6px; }
 .field.full{ grid-column:1 / -1; }
 .field.half{ grid-column:auto; }
-.field input,.field select,.field textarea{ padding:10px 12px; border:1px solid #e5e7eb; border-radius:10px; font-size:14px; }
-.field input.error,.field select.error,.field textarea.error{ border-color:#ef4444; background:#fff5f5; }
-.field small{ color:#ef4444; font-size:12px; }
+.field input,.field select,.field textarea{ padding:10px 12px; border:1px solid var(--sf-border); border-radius:10px; font-size:14px; }
+.field input.error,.field select.error,.field textarea.error{ border-color:var(--sf-error); background:var(--sf-error-bg); }
+.field small{ color:var(--sf-error); font-size:12px; }
 
 /* Welcome start options */
 .welcome-start .start-options{ display:flex; gap:12px; flex-wrap:wrap; justify-content:center; }
-.start-btn{ border:1px solid #e5e7eb; border-radius:12px; padding:12px 16px; cursor:pointer; background:#fff; }
-.start-btn.primary{ background:linear-gradient(135deg,#6d5efc,#8b5cf6); color:#fff; border-color:transparent; }
+.start-btn{ border:1px solid var(--sf-border); border-radius:12px; padding:12px 16px; cursor:pointer; background:var(--sf-bg-primary); }
+.start-btn.primary{ background:var(--sf-gradient-primary); color:var(--sf-text-white); border-color:transparent; }
 .start-btn .text{ display:flex; flex-direction:column; align-items:flex-start; gap:4px; }
 .start-btn .time{ opacity:.8; font-size:12px; }
 
 /* Skills */
 .skills .add-skill{ display:flex; gap:8px; align-items:center; }
 .skills .tags{ display:flex; flex-wrap:wrap; gap:8px; }
-.skills .tag{ padding:6px 10px; border:1px solid #e5e7eb; border-radius:999px; background:#f9fafb; cursor:pointer; }
+.skills .tag{ padding:6px 10px; border:1px solid var(--sf-border); border-radius:999px; background:var(--sf-bg-secondary); cursor:pointer; }
 .chip-grid{ display:flex; flex-wrap:wrap; gap:8px; }
-.chip{ display:flex; gap:8px; align-items:center; padding:6px 10px; border:1px solid #e5e7eb; border-radius:999px; background:#fff; }
-.chip .remove{ border:0; background:#fee2e2; color:#991b1b; border-radius:999px; width:22px; height:22px; cursor:pointer; }
+.chip{ display:flex; gap:8px; align-items:center; padding:6px 10px; border:1px solid var(--sf-border); border-radius:999px; background:var(--sf-bg-primary); }
+.chip .remove{ border:0; background:var(--sf-error-bg); color:var(--sf-error-dark); border-radius:999px; width:22px; height:22px; cursor:pointer; }
 
 /* Step 2: Career Background Card Styling */
 .career-background {
@@ -38,13 +38,13 @@
       margin: 0;
       font-size: 20px;
       font-weight: 700;
-      color: #1f2937;
+      color: var(--sf-text-primary);
     }
     
     .add-org-btn {
-      background: #fff;
-      color: #6366f1;
-      border: 2px solid #6366f1;
+      background: var(--sf-bg-primary);
+    color: var(--sf-primary);
+    border: 2px solid var(--sf-primary);
       padding: 8px 16px;
       border-radius: 8px;
       cursor: pointer;
@@ -53,8 +53,8 @@
       transition: all 0.2s ease;
       
       &:hover {
-        background: #6366f1;
-        color: #fff;
+        background: var(--sf-primary);
+    color: var(--sf-text-white);
       }
     }
   }
@@ -66,14 +66,14 @@
   }
   
   .career-card {
-    background: #fff;
-    border: 2px solid #e5e7eb;
+    background: var(--sf-bg-primary);
+    border: 2px solid var(--sf-border);
     border-radius: 12px;
     padding: 20px;
     transition: all 0.2s ease;
     
     &:hover {
-      border-color: #d1d5db;
+      border-color: var(--sf-border-light);
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     }
     
@@ -96,14 +96,14 @@
           label {
             font-size: 12px;
             font-weight: 600;
-            color: #6b7280;
+            color: var(--sf-text-secondary);
             text-transform: uppercase;
             letter-spacing: 0.5px;
           }
           
           input {
             padding: 8px 12px;
-            border: 1px solid #d1d5db;
+            border: 1px solid var(--sf-border-light);
             border-radius: 6px;
             font-size: 14px;
             font-weight: 500;
@@ -111,7 +111,7 @@
             
             &:focus {
               outline: none;
-              border-color: #6366f1;
+              border-color: var(--sf-primary);
               box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
             }
           }
@@ -119,8 +119,8 @@
       }
       
       .remove-card-btn {
-        background: #fee2e2;
-        color: #dc2626;
+        background: var(--sf-error-bg);
+    color: var(--sf-error);
         border: none;
         border-radius: 6px;
         width: 28px;
@@ -134,7 +134,7 @@
         transition: all 0.2s ease;
         
         &:hover {
-          background: #fecaca;
+          background: var(--sf-error-light);
         }
       }
     }
