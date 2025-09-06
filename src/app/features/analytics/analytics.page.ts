@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../core/services/auth.service';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-analytics-page',
@@ -26,7 +27,7 @@ export class AnalyticsPageComponent implements OnInit {
   ngOnInit(): void {
     const id = this.auth.getUser()?.id;
     if (!id) return;
-    this.http.get<{ stats: any }>(`http://localhost:5050/api/analytics/${id}`).subscribe({ next: (r) => (this.stats = r.stats) });
+    this.http.get<{ stats: any }>(`${environment.apiUrl || 'http://localhost:5050'}/api/analytics/${id}`).subscribe({ next: (r) => (this.stats = r.stats) });
   }
 }
 

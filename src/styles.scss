@@ -1,3 +1,8 @@
+/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+@import './src/app/shared/styles/theme-variables.scss';
+
 :root {
   /* Dark theme - CodePunk neon-style black */
   --sf-bg: #0a0a0a;
@@ -8,6 +13,31 @@
   --sf-primary: #4299e1; /* Blue primary instead of green */
   --sf-accent: #ff0080;  /* Neon pink accent */
   --sf-danger: #ff0040;
+  --sf-success: #10b981; /* Green success color */
+  --sf-success-dark: #0e9f71; /* Darker green for dark theme success */
+  --sf-warning: #f59e0b;
+  --sf-error: #ef4444;
+  --sf-primary: #4285f4;
+  --sf-accent: #6366f1; /* Orange warning color */
+  --sf-warning-dark: #d97706; /* Darker orange for dark theme warning */
+  --sf-error: #ef4444; /* Red error color */
+  --sf-error-dark: #c23b3b; /* Darker red for dark theme error */
+  --sf-primary: #007bff; /* Blue primary color */
+  --sf-primary-dark: #0056b3; /* Darker blue for dark theme primary */
+  --sf-accent: #ff0080; /* Neon pink accent */
+  --sf-accent-dark: #cc0066; /* Darker neon pink for dark theme accent */
+  --sf-dark-text-muted: #a0a0a0; /* Muted text color for dark theme */
+  --sf-light-text-muted: #6b7280; /* Muted text color for light theme */
+  --sf-dark-text-primary: #f8f8f8; /* Primary text color for dark theme */
+  --sf-dark-text-secondary: #b0b0b0; /* Secondary text color for dark theme */
+  --sf-text: #333333; /* Primary text color for light theme */
+  --sf-dark-surface: #1a1a1a;
+  --sf-light-text-primary: #1a202c;
+  --sf-light-text-secondary: #4a5568;
+  --sf-light-surface: #ffffff;
+  --sf-dark-border: #333333;
+  --sf-success: #28a745;
+  --sf-warning: #f59e0b; /* Dark surface color */
   
   /* Dark theme gradients - Neon style */
   --sf-gradient-primary: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);

@@ -1,0 +1,312 @@
+.milestone-card {
+  background: var(--surface-color, #ffffff);
+  border: 1px solid var(--border-color, #e5e7eb);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 16px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    border-color: var(--primary-color, #3b82f6);
+  }
+
+  &.completed {
+    background: var(--success-bg, #f0f9ff);
+    border-color: var(--success-color, #10b981);
+    
+    .milestone-title {
+      color: var(--success-color, #10b981);
+    }
+  }
+
+  &.active {
+    border-color: var(--primary-color, #3b82f6);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+
+  &.dark-theme {
+    background: var(--dark-surface, #1f2937);
+    border-color: var(--dark-border, #374151);
+    color: var(--dark-text, #f9fafb);
+
+    &.completed {
+      background: var(--dark-success-bg, #064e3b);
+    }
+  }
+}
+
+.milestone-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.milestone-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: var(--primary-color, #3b82f6);
+  color: white;
+  border-radius: 50%;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.milestone-status {
+  .status-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border: 2px solid var(--border-color, #d1d5db);
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      border-color: var(--primary-color, #3b82f6);
+      transform: scale(1.1);
+    }
+
+    &.completed {
+      background: var(--success-color, #10b981);
+      border-color: var(--success-color, #10b981);
+      color: white;
+    }
+
+    .check-icon {
+      width: 14px;
+      height: 14px;
+    }
+
+    .incomplete-circle {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--text-secondary, #6b7280);
+    }
+  }
+}
+
+.milestone-content {
+  margin-bottom: 20px;
+}
+
+.milestone-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary, #111827);
+  margin: 0 0 8px 0;
+  cursor: pointer;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: var(--primary-color, #3b82f6);
+  }
+}
+
+.milestone-description {
+  color: var(--text-secondary, #6b7280);
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0 0 16px 0;
+}
+
+.milestone-meta {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-secondary, #6b7280);
+  font-size: 13px;
+
+  .meta-icon {
+    width: 16px;
+    height: 16px;
+    stroke-width: 1.5;
+  }
+}
+
+.progress-container {
+  margin-bottom: 16px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  background: var(--bg-secondary, #f3f4f6);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 4px;
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-color, #3b82f6), var(--primary-light, #60a5fa));
+    border-radius: 3px;
+    transition: width 0.3s ease;
+  }
+}
+
+.progress-text {
+  font-size: 12px;
+  color: var(--text-secondary, #6b7280);
+}
+
+.skills-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.skill-tag {
+  background: var(--bg-secondary, #f3f4f6);
+  color: var(--text-secondary, #6b7280);
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: var(--primary-light, #dbeafe);
+    color: var(--primary-color, #3b82f6);
+  }
+
+  &.more-skills {
+    background: var(--primary-light, #dbeafe);
+    color: var(--primary-color, #3b82f6);
+  }
+}
+
+.milestone-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+
+  .btn-icon {
+    width: 16px;
+    height: 16px;
+    stroke-width: 1.5;
+  }
+
+  &.primary {
+    background: var(--primary-color, #3b82f6);
+    color: white;
+
+    &:hover {
+      background: var(--primary-dark, #2563eb);
+      transform: translateY(-1px);
+    }
+  }
+
+  &.secondary {
+    background: var(--bg-secondary, #f3f4f6);
+    color: var(--text-secondary, #6b7280);
+    border: 1px solid var(--border-color, #e5e7eb);
+
+    &:hover {
+      background: var(--bg-tertiary, #e5e7eb);
+      color: var(--text-primary, #111827);
+      border-color: var(--primary-color, #3b82f6);
+    }
+  }
+}
+
+// Dark theme overrides
+.dark-theme {
+  .milestone-title {
+    color: var(--dark-text-primary, #f9fafb);
+  }
+
+  .milestone-description {
+    color: var(--dark-text-secondary, #d1d5db);
+  }
+
+  .meta-item {
+    color: var(--dark-text-secondary, #d1d5db);
+  }
+
+  .progress-bar {
+    background: var(--dark-bg-secondary, #374151);
+  }
+
+  .progress-text {
+    color: var(--dark-text-secondary, #d1d5db);
+  }
+
+  .skill-tag {
+    background: var(--dark-bg-secondary, #374151);
+    color: var(--dark-text-secondary, #d1d5db);
+
+    &:hover {
+      background: var(--dark-primary-bg, #1e3a8a);
+      color: var(--primary-light, #60a5fa);
+    }
+
+    &.more-skills {
+      background: var(--dark-primary-bg, #1e3a8a);
+      color: var(--primary-light, #60a5fa);
+    }
+  }
+
+  .action-btn.secondary {
+    background: var(--dark-bg-secondary, #374151);
+    color: var(--dark-text-secondary, #d1d5db);
+    border-color: var(--dark-border, #4b5563);
+
+    &:hover {
+      background: var(--dark-bg-tertiary, #4b5563);
+      color: var(--dark-text-primary, #f9fafb);
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .milestone-card {
+    padding: 16px;
+  }
+
+  .milestone-actions {
+    flex-direction: column;
+    gap: 8px;
+
+    .action-btn {
+      justify-content: center;
+    }
+  }
+
+  .milestone-meta {
+    flex-direction: column;
+    gap: 8px;
+  }
+}

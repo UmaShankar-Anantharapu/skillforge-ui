@@ -1,0 +1,360 @@
+<div class="roadmap-detail-container" [attr.data-theme]="currentTheme">
+  <!-- Loading State -->
+  <div *ngIf="isLoading()" class="loading-container">
+    <div class="loading-spinner"></div>
+    <p class="loading-text">Loading roadmap details...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !isLoading()" class="error-container">
+    <div class="error-icon">⚠️</div>
+    <h2 class="error-title">Unable to Load Roadmap</h2>
+    <p class="error-message">{{ error }}</p>
+    <button class="btn btn-primary" (click)="onBackToOverview()">Back to Catalog</button>
+  </div>
+
+  <!-- Main Content -->
+  <div *ngIf="roadmap && !isLoading()" class="roadmap-content">
+    <!-- Summary View (shown first when coming from my-learning) -->
+    <div *ngIf="showSummaryFirst" class="roadmap-summary-view">
+      <div class="summary-header">
+        <button class="back-button" (click)="onBackToOverview()" aria-label="Back to my learning">
+          <svg class="back-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m7-7l-7 7 7 7"/>
+          </svg>
+          Back to My Learning
+        </button>
+        
+        <div class="cache-indicator" *ngIf="fromCache">
+          <svg class="cache-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+          </svg>
+          <span>Loaded from cache</span>
+        </div>
+      </div>
+
+      <div class="summary-content">
+        <div class="summary-hero">
+          <h1 class="summary-title">{{ roadmap.title }}</h1>
+          <p class="summary-description">{{ roadmap.description }}</p>
+          
+          <div class="summary-stats">
+            <div class="summary-stat">
+              <span class="stat-number">{{ roadmap.milestones?.length || 0 }}</span>
+              <span class="stat-label">Levels</span>
+            </div>
+            <div class="summary-stat">
+              <span class="stat-number">{{ getEstimatedHours() | number:'1.0-0' }}h</span>
+              <span class="stat-label">Duration</span>
+            </div>
+            <div class="summary-stat">
+              <span class="stat-number difficulty" [ngClass]="getDifficultyColor()">{{ roadmap.difficultyLevel }}</span>
+              <span class="stat-label">Difficulty</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="summary-actions">
+          <button class="btn btn-primary btn-large" (click)="onStartRoadmap()" [disabled]="isSaving()">
+            <span *ngIf="!isSaving()">Start Learning Journey</span>
+            <span *ngIf="isSaving()" class="loading-content">
+              <div class="btn-spinner"></div>
+              Starting...
+            </span>
+          </button>
+          
+          <button class="btn btn-secondary" (click)="showSummaryFirst = false">
+            View Full Details
+          </button>
+        </div>
+
+        <!-- Quick Overview of Milestones -->
+        <div class="summary-milestones" *ngIf="roadmap.milestones && roadmap.milestones.length > 0">
+          <h3 class="milestones-title">Learning Path Overview</h3>
+          <div class="milestone-preview" *ngFor="let milestone of roadmap.milestones; let i = index">
+            <div class="milestone-number">{{ i + 1 }}</div>
+            <div class="milestone-info">
+              <h4 class="milestone-title">{{ milestone.title }}</h4>
+              <p class="milestone-desc">{{ milestone.description }}</p>
+              <div class="milestone-meta">
+                <span class="milestone-duration">{{ milestone.estimatedWeeks }} weeks</span>
+                <span class="milestone-skills">{{ milestone.skills?.length || 0 }} skills</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Full Detail View -->
+    <div *ngIf="!showSummaryFirst" class="roadmap-detail-view">
+    <!-- Header Section -->
+    <div class="roadmap-header">
+      <button class="back-button" (click)="onBackToOverview()" aria-label="Back to catalog">
+        <svg class="back-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m7-7l-7 7 7 7"/>
+        </svg>
+        Back to Catalog
+      </button>
+
+      <div class="roadmap-hero">
+        <div class="hero-content">
+          <div class="hero-text">
+            <h1 class="roadmap-title">{{ roadmap.title }}</h1>
+            <p class="roadmap-description">{{ roadmap.description }}</p>
+            
+            <div class="roadmap-meta">
+              <div class="meta-item">
+                <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <circle cx="12" cy="12" r="10"/>
+                  <polyline points="12,6 12,12 16,14"/>
+                </svg>
+                <span>{{ roadmap.estimatedDuration }}</span>
+              </div>
+              
+              <div class="meta-item">
+                <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/>
+                </svg>
+                <span class="difficulty" [ngClass]="getDifficultyColor()">{{ roadmap.difficultyLevel }}</span>
+              </div>
+              
+              <div class="meta-item">
+                <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+                  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+                </svg>
+                <span>{{ getEstimatedHours() | number:'1.0-1' }} hours</span>
+              </div>
+              
+              <div class="meta-item">
+                <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                  <circle cx="9" cy="7" r="4"/>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+                <span>{{ roadmap.category }}</span>
+              </div>
+            </div>
+
+            <div class="roadmap-tags" *ngIf="roadmap.tags && roadmap.tags.length > 0">
+              <span class="tag" *ngFor="let tag of roadmap.tags">{{ tag }}</span>
+            </div>
+          </div>
+
+          <div class="hero-actions">
+            <button 
+              class="btn btn-primary btn-large start-roadmap-btn" 
+              (click)="onStartRoadmap()"
+              [disabled]="isSaving()"
+              [class.loading]="isSaving()">
+              <span *ngIf="!isSaving()">Start Roadmap</span>
+              <span *ngIf="isSaving()" class="loading-content">
+                <div class="btn-spinner"></div>
+                Saving...
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats Section -->
+    <div class="roadmap-stats">
+      <div class="stat-card">
+        <div class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M9 11H5a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2z"/>
+            <path d="M19 7h-4a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
+          </svg>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">{{ roadmap.milestones?.length || 0 }}</div>
+          <div class="stat-label">Levels</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/>
+          </svg>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">{{ roadmap.steps?.length || 0 }}</div>
+          <div class="stat-label">Steps</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12,6 12,12 16,14"/>
+          </svg>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">{{ getEstimatedHours() | number:'1.0-0' }}h</div>
+          <div class="stat-label">Duration</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">{{ getTotalSkillsCount() }}</div>
+          <div class="stat-label">Skills</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Progress Overview Section -->
+    <div class="progress-overview" *ngIf="roadmap.progress">
+      <app-roadmap-progress 
+        [progress]="roadmap.progress"
+        [milestones]="roadmap.milestones"
+        [showDetails]="true"
+        [compact]="false"
+        [animated]="true">
+      </app-roadmap-progress>
+    </div>
+
+    <!-- Level Progression Section -->
+    <div class="level-progression">
+      <div class="section-header">
+        <h2 class="section-title">Level Progression</h2>
+        <p class="section-subtitle">Master each level to unlock your potential</p>
+      </div>
+
+      <div class="levels-container">
+        <!-- Temporarily commented out milestone component -->
+        <div *ngFor="let milestone of roadmap.milestones; let i = index" class="milestone-placeholder">
+          <h3>{{ milestone.title }}</h3>
+          <p>{{ milestone.description }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Resources Section -->
+    <div class="resources-section" *ngIf="roadmap.resourceTypes && roadmap.resourceTypes.length > 0">
+      <div class="section-header">
+        <h2 class="section-title">Learning Resources</h2>
+        <p class="section-subtitle">Diverse materials to support your learning journey</p>
+      </div>
+
+      <div class="resource-types">
+        <div class="resource-type" *ngFor="let type of roadmap.resourceTypes">
+          <div class="resource-icon">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <use [attr.href]="'#' + getResourceTypeIcon(type)"></use>
+            </svg>
+          </div>
+          <span class="resource-label">{{ type | titlecase }}</span>
+        </div>
+      </div>
+    </div>
+    </div> <!-- End of roadmap-detail-view -->
+  </div>
+
+  <!-- AI Summary Modal -->
+  <div class="modal-overlay" *ngIf="aiSummaryModal" (click)="onCloseAiSummaryModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3 class="modal-title">AI Summary: {{ selectedMilestone?.title }}</h3>
+        <button class="modal-close" (click)="onCloseAiSummaryModal()" aria-label="Close modal">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="modal-body" *ngIf="currentAiSummary">
+        <div class="summary-content">
+          <p class="ai-summary-text">{{ currentAiSummary.aiSummary }}</p>
+          
+          <div class="summary-details">
+            <div class="detail-row">
+              <span class="detail-label">Key Skills:</span>
+              <div class="skills-list">
+                <span class="skill-tag" *ngFor="let skill of currentAiSummary.keySkills">{{ skill }}</span>
+              </div>
+            </div>
+            
+            <div class="detail-row">
+              <span class="detail-label">Estimated Duration:</span>
+              <span class="detail-value">{{ currentAiSummary.estimatedWeeks }} weeks</span>
+            </div>
+            
+            <div class="detail-row">
+              <span class="detail-label">Total Steps:</span>
+              <span class="detail-value">{{ currentAiSummary.stepCount }}</span>
+            </div>
+            
+            <div class="detail-row">
+              <span class="detail-label">Time Investment:</span>
+              <span class="detail-value">{{ (currentAiSummary.totalMinutes / 60) | number:'1.1-1' }} hours</span>
+            </div>
+            
+            <div class="detail-row">
+              <span class="detail-label">Difficulty:</span>
+              <span class="detail-value difficulty" [ngClass]="getDifficultyColor()">{{ currentAiSummary.difficulty }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-primary" (click)="onCloseAiSummaryModal()">Got it!</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SVG Icons -->
+  <svg style="display: none;">
+    <defs>
+      <g id="play-circle">
+        <circle cx="12" cy="12" r="10"/>
+        <polygon points="10,8 16,12 10,16 10,8"/>
+      </g>
+      <g id="document-text">
+        <path d="M14,2H6a2,2,0,0,0-2,2V20a2,2,0,0,0,2,2H18a2,2,0,0,0,2-2V8Z"/>
+        <polyline points="14,2 14,8 20,8"/>
+        <line x1="16" y1="13" x2="8" y2="13"/>
+        <line x1="16" y1="17" x2="8" y2="17"/>
+        <polyline points="10,9 9,9 8,9"/>
+      </g>
+      <g id="academic-cap">
+        <path d="M22,10v6M6,12H4a2,2,0,0,1-2-2V8a2,2,0,0,1,2-2H20a2,2,0,0,1,2,2v2a2,2,0,0,1-2,2H18"/>
+        <path d="M6,14a2,2,0,0,1-2-2v-3"/>
+        <path d="M18,14a2,2,0,0,0,2-2v-3"/>
+      </g>
+      <g id="book-open">
+        <path d="M2,3H8a4,4,0,0,1,4,4V21a3,3,0,0,0-3-3H2Z"/>
+        <path d="M22,3H16a4,4,0,0,0-4,4V21a3,3,0,0,1,3-3h7Z"/>
+      </g>
+      <g id="cog">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M19.4,15a1.65,1.65,0,0,0,.33,1.82l.06.06a2,2,0,0,1,0,2.83,2,2,0,0,1-2.83,0l-.06-.06a1.65,1.65,0,0,0-1.82-.33,1.65,1.65,0,0,0-1,1.51V21a2,2,0,0,1-2,2,2,2,0,0,1-2-2v-.09A1.65,1.65,0,0,0,9,19.4a1.65,1.65,0,0,0-1.82.33l-.06.06a2,2,0,0,1-2.83,0,2,2,0,0,1,0-2.83l.06-.06A1.65,1.65,0,0,0,4.6,15a1.65,1.65,0,0,0-1.51-1H3a2,2,0,0,1-2-2,2,2,0,0,1,2-2h.09A1.65,1.65,0,0,0,4.6,9,1.65,1.65,0,0,0,4.27,7.18l-.06-.06a2,2,0,0,1,0-2.83,2,2,0,0,1,2.83,0L7.18,4.27A1.65,1.65,0,0,0,9,4.6,1.65,1.65,0,0,0,10.49,3H12a2,2,0,0,1,2,2v.09a1.65,1.65,0,0,0,1,1.51,1.65,1.65,0,0,0,1.82-.33l.06-.06a2,2,0,0,1,2.83,0,2,2,0,0,1,0,2.83l-.06.06a1.65,1.65,0,0,0-.33,1.82V9a1.65,1.65,0,0,0,1.51,1H21a2,2,0,0,1,2,2,2,2,0,0,1-2,2h-.09A1.65,1.65,0,0,0,19.4,15Z"/>
+      </g>
+      <g id="clipboard-document">
+        <path d="M16,4h2a2,2,0,0,1,2,2V20a2,2,0,0,1-2,2H6a2,2,0,0,1-2-2V6A2,2,0,0,1,6,4H8"/>
+        <rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>
+      </g>
+      <g id="light-bulb">
+        <path d="M9,21h6"/>
+        <path d="M12,17l0,4"/>
+        <path d="M12,3a6,6,0,0,1,6,6c0,3-2,5.1-2,8H8c0-2.9-2-5-2-8a6,6,0,0,1,6-6Z"/>
+      </g>
+      <g id="document">
+        <path d="M14,2H6a2,2,0,0,0-2,2V20a2,2,0,0,0,2,2H18a2,2,0,0,0,2-2V8Z"/>
+        <polyline points="14,2 14,8 20,8"/>
+      </g>
+    </defs>
+  </svg>
+</div>

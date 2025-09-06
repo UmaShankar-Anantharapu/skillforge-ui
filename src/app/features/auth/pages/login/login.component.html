@@ -14,7 +14,7 @@
         <span class="logo-text">SkillForge</span>
       </a>
       <button class="theme-toggle" (click)="toggleTheme()">
-        <span class="theme-icon">{{ isDarkTheme ? '☀️' : '🌙' }}</span>
+        <span class="theme-icon">{{ (isDarkTheme$ | async) ? '☀️' : '🌙' }}</span>
       </button>
     </div>
   </header>

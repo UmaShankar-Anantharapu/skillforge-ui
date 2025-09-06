@@ -1,0 +1,142 @@
+// SkillForge Theme Variables
+// Centralized color system for consistent theming
+
+:root {
+  // Primary Brand Colors
+  --sf-primary: #6366f1;
+  --sf-primary-light: #818cf8;
+  --sf-primary-dark: #4f46e5;
+  --sf-primary-text: #ffffff;
+  
+  // Secondary Colors
+  --sf-secondary: #8b5cf6;
+  --sf-secondary-light: #a78bfa;
+  --sf-secondary-dark: #7c3aed;
+  
+  // Background Colors
+   --sf-bg-primary: #ffffff;
+   --sf-bg-secondary: #f8fafc;
+   --sf-bg-tertiary: #e2e8f0;
+   --sf-bg-card: #ffffff;
+   --sf-bg-overlay: rgba(0, 0, 0, 0.5);
+   --sf-bg-dark: #2d2d2d;
+   --sf-bg-dark-primary: #0a0f1c;
+   --sf-bg-dark-secondary: #111827;
+  
+  // Text Colors
+   --sf-text-primary: #1f2937;
+   --sf-text-secondary: #6b7280;
+   --sf-text-tertiary: #9ca3af;
+   --sf-text-muted: #d1d5db;
+   --sf-text-inverse: #ffffff;
+   --sf-text-white: #ffffff;
+   --sf-text-light: #e5e7eb;
+  
+  // Border Colors
+   --sf-border: #e5e7eb;
+   --sf-border-light: #d1d5db;
+   --sf-border-hover: #d1d5db;
+   --sf-border-focus: #6366f1;
+   --sf-border-dark: #cbd5e1;
+  
+  // Status Colors
+  --sf-success: #10b981;
+  --sf-success-light: #34d399;
+  --sf-success-dark: #059669;
+  --sf-success-bg: #ecfdf5;
+  
+  --sf-warning: #f59e0b;
+  --sf-warning-light: #fbbf24;
+  --sf-warning-dark: #d97706;
+  --sf-warning-bg: #fffbeb;
+  
+  --sf-error: #ef4444;
+   --sf-error-light: #f87171;
+   --sf-error-dark: #dc2626;
+   --sf-error-bg: #fef2f2;
+  
+  --sf-info: #3b82f6;
+  --sf-info-light: #60a5fa;
+  --sf-info-dark: #2563eb;
+  --sf-info-bg: #eff6ff;
+  
+  // Shadows
+  --sf-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --sf-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --sf-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --sf-shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  
+  // Gradients
+  --sf-gradient-primary: linear-gradient(135deg, #6d5efc 0%, var(--sf-primary-light) 100%);
+  --sf-gradient-secondary: linear-gradient(135deg, var(--sf-bg-secondary) 0%, var(--sf-border) 100%);
+  --sf-gradient-success: linear-gradient(135deg, var(--sf-success) 0%, var(--sf-success-light) 100%);
+  --sf-gradient-hero: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+// Dark Theme Variables
+[data-theme="dark"] {
+  // Background Colors
+  --sf-bg-primary: #0f172a;
+  --sf-bg-secondary: #1e293b;
+  --sf-bg-tertiary: #334155;
+  --sf-bg-card: #1e293b;
+  --sf-bg-overlay: rgba(0, 0, 0, 0.7);
+  
+  // Text Colors
+  --sf-text-primary: #f8fafc;
+  --sf-text-secondary: #cbd5e1;
+  --sf-text-muted: #64748b;
+  --sf-text-inverse: #1e293b;
+  
+  // Border Colors
+  --sf-border: #334155;
+  --sf-border-light: #475569;
+  --sf-border-dark: #1e293b;
+  
+  // Status Backgrounds (darker for dark theme)
+  --sf-success-bg: rgba(16, 185, 129, 0.1);
+  --sf-warning-bg: rgba(245, 158, 11, 0.1);
+  --sf-error-bg: rgba(239, 68, 68, 0.1);
+  --sf-info-bg: rgba(59, 130, 246, 0.1);
+  
+  // Shadows (more prominent in dark theme)
+  --sf-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+  --sf-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+  --sf-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.3), 0 4px 6px -4px rgb(0 0 0 / 0.3);
+  --sf-shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.3), 0 8px 10px -6px rgb(0 0 0 / 0.3);
+  
+  // Gradients
+  --sf-gradient-secondary: linear-gradient(135deg, var(--sf-bg-secondary) 0%, var(--sf-bg-tertiary) 100%);
+}
+
+// Component-specific variables
+:root {
+  // Navbar
+  --sf-navbar-bg: var(--sf-bg-primary);
+  --sf-navbar-border: var(--sf-border);
+  --sf-navbar-text: var(--sf-text-primary);
+  
+  // Cards
+  --sf-card-bg: var(--sf-bg-card);
+  --sf-card-border: var(--sf-border);
+  --sf-card-shadow: var(--sf-shadow-md);
+  
+  // Buttons
+  --sf-btn-primary-bg: var(--sf-primary);
+  --sf-btn-primary-text: var(--sf-primary-text);
+  --sf-btn-secondary-bg: var(--sf-bg-secondary);
+  --sf-btn-secondary-text: var(--sf-text-primary);
+  
+  // Forms
+  --sf-input-bg: var(--sf-bg-primary);
+  --sf-input-border: var(--sf-border);
+  --sf-input-text: var(--sf-text-primary);
+  --sf-input-placeholder: var(--sf-text-muted);
+}
+
+[data-theme="dark"] {
+  // Navbar (dark theme specific)
+  --sf-navbar-bg: #1a1a1a;
+  --sf-navbar-border: rgba(255, 255, 255, 0.1);
+  --sf-navbar-text: var(--sf-text-primary);
+}

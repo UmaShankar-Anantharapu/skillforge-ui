@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 interface Msg { role: 'user' | 'assistant'; content: string }
 
@@ -43,7 +44,7 @@ export class TutorPageComponent {
     const toSend = this.draft.trim();
     this.messages.push({ role: 'user', content: toSend });
     this.draft = '';
-    this.http.post<{ reply: string }>('http://localhost:5050/api/tutor/ask', { message: toSend, history: this.messages }).subscribe({
+    this.http.post<{ reply: string }>(`${environment.apiUrl || 'http://localhost:5050'}/api/tutor/ask`, { message: toSend, history: this.messages }).subscribe({
       next: (res) => this.messages.push({ role: 'assistant', content: res.reply }),
       error: () => this.messages.push({ role: 'assistant', content: 'Error contacting tutor.' }),
     });
@@ -62,7 +63,7 @@ export class TutorPageComponent {
   }
 
   run(): void {
-    this.http.post<{ stdout: string; stderr: string }>('http://localhost:5050/api/runner/node', { code: this.code }).subscribe({
+    this.http.post<{ stdout: string; stderr: string }>(`${environment.apiUrl || 'http://localhost:5050'}/api/runner/node`, { code: this.code }).subscribe({
       next: (res) => { this.output = (res.stdout || '') + (res.stderr ? '\n' + res.stderr : ''); },
       error: () => { this.output = 'Run failed'; },
     });

@@ -43,9 +43,9 @@ export class RoadmapDetailPage implements OnInit {
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
-    if (!id) { this.router.navigate(['/roadmaps']); return; }
+    if (!id) { this.router.navigate(['/learning-path']); return; }
     const r = this.svc.get(id);
-    if (!r) { this.router.navigate(['/roadmaps']); return; }
+    if (!r) { this.router.navigate(['/learning-path']); return; }
     this.roadmap = r;
     const p = this.svc.getProgress(r.id, r.steps.length);
     this.hasStarted = p.started;

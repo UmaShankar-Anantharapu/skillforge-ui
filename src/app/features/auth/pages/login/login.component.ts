@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { map } from 'rxjs/operators';
 import { AuthService } from '../../../../core/services/auth.service';
 import { OnboardingService } from '../../../../core/services/onboarding.service';
+import { ThemeService } from '../../../../core/services/theme.service';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +14,7 @@ import { OnboardingService } from '../../../../core/services/onboarding.service'
 export class LoginComponent {
   public loading = false;
   public showPassword = false;
-  public isDarkTheme = false;
+  public isDarkTheme$ = this.themeService.theme$.pipe(map(theme => theme === 'dark'));
   public loginError: string | null = null;
   public form = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
@@ -24,16 +26,11 @@ export class LoginComponent {
     private readonly auth: AuthService,
     private readonly router: Router,
     private readonly onboardingService: OnboardingService,
-  ) {
-    // Check current theme
-    this.isDarkTheme = document.documentElement.getAttribute('data-theme') !== 'light';
-  }
+    private readonly themeService: ThemeService,
+  ) {}
 
   public toggleTheme(): void {
-    const root = document.documentElement;
-    const isLight = root.getAttribute('data-theme') === 'light';
-    root.setAttribute('data-theme', isLight ? 'dark' : 'light');
-    this.isDarkTheme = !isLight;
+    this.themeService.toggleTheme();
   }
 
   public onSubmit(): void {

@@ -151,10 +151,14 @@ export class SkillsService {
   /**
    * Get AI-powered personalized roadmap recommendations
    */
-  getAIRecommendations(userId: string): Observable<any[]> {
-    return this.api.get<{ roadmaps: any[] }>(`/skills/personalized-roadmaps?userId=${userId}`)
+  getAIRecommendations(userId: string, page: number = 0, pageSize: number = 5): Observable<any[]> {
+    return this.api.get<{ data: any[], totalCount?: number, totalPages?: number }>(`/skills/personalized-roadmaps?userId=${userId}&page=${page}&pageSize=${pageSize}`)
       .pipe(
-        map(response => response.roadmaps || []),
+        map(response => {
+          console.log('AI Recommendations API Response:', response);
+          console.log('AI Recommendations Data:', response.data || []);
+          return response.data || [];
+        }), 
         catchError(error => {
           console.error('Error getting AI recommendations:', error);
           return of([]);
@@ -165,10 +169,10 @@ export class SkillsService {
   /**
    * Get trending roadmaps
    */
-  getTrendingRoadmaps(): Observable<any[]> {
-    return this.api.get<{ roadmaps: any[] }>('/skills/trending-roadmaps')
+  getTrendingRoadmaps(page: number = 0, pageSize: number = 25): Observable<any[]> {
+    return this.api.get<{ data: any[], totalCount?: number, totalPages?: number }>(`/skills/trending-roadmaps?page=${page}&pageSize=${pageSize}`)
       .pipe(
-        map(response => response.roadmaps || []),
+        map(response => response.data || []), /* Changed from response.roadmaps to response.data */
         catchError(error => {
           console.error('Error getting trending roadmaps:', error);
           return of([]);

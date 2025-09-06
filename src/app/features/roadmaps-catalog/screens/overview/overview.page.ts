@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { RoadmapsCatalogService, CatalogRoadmap } from '../../roadmaps-catalog.service';
+import { RoadmapService } from '../../../../core/services/roadmap.service';
+import { ToastService } from '../../../../core/services/toast.service';
 
 @Component({
   selector: 'app-roadmaps-overview-page',
@@ -11,7 +13,7 @@ import { RoadmapsCatalogService, CatalogRoadmap } from '../../roadmaps-catalog.s
         <h2 class="gradient-text" style="margin:0">Learning Paths</h2>
         <p style="margin:4px 0 0;color:var(--sf-muted)">Browse curated roadmaps to start or continue learning.</p>
       </div>
-      <input class="sf-input" style="max-width:300px" [(ngModel)]="q" placeholder="Search" />
+      <input class="sf-input" style="max-width:300px" [value]="q" (input)="q = $any($event.target).value" placeholder="Search" />
     </div>
 
     <div class="sf-card" style="margin-top:16px;">
@@ -31,13 +33,46 @@ import { RoadmapsCatalogService, CatalogRoadmap } from '../../roadmaps-catalog.s
 export class RoadmapsOverviewPage implements OnInit {
   q = '';
   items: CatalogRoadmap[] = [];
-  constructor(private readonly svc: RoadmapsCatalogService, private readonly router: Router) {}
+  isLoading = false;
+  constructor(
+    private readonly svc: RoadmapsCatalogService,
+    private readonly router: Router,
+    private roadmapService: RoadmapService,
+    private toastService: ToastService
+  ) {}
   ngOnInit(): void { this.items = this.svc.list(); }
   filtered(): CatalogRoadmap[] {
     const term = this.q.trim().toLowerCase();
     if (!term) return this.items;
     return this.items.filter(r => r.title.toLowerCase().includes(term) || (r.description||'').toLowerCase().includes(term));
   }
-  open(r: CatalogRoadmap): void { this.router.navigate(['/roadmaps', r.id]); }
+  open(r: CatalogRoadmap): void {
+    this.isLoading = true;
+    
+    this.roadmapService.handleRoadmapClick(r).subscribe({
+      next: (result) => {
+        if (result.isNew) {
+           this.toastService.show('New roadmap generated and saved!', 'success');
+         } else {
+           this.toastService.show('Loaded your existing roadmap', 'info');
+         }
+        // Navigate to roadmap details
+        this.router.navigate(['/learning-path/details', result.roadmap._id]);
+      },
+      error: (error) => {
+        console.error('Error handling roadmap click:', error);
+        if (error.status === 409) {
+           this.toastService.show('You already have an active roadmap. Please complete it first.', 'info');
+         } else {
+           this.toastService.show('Failed to load roadmap. Please try again.', 'error');
+         }
+        // Fallback to catalog detail page
+        this.router.navigate(['/roadmaps-catalog/detail', r.id]);
+      },
+      complete: () => {
+        this.isLoading = false;
+      }
+    });
+  }
 }
 

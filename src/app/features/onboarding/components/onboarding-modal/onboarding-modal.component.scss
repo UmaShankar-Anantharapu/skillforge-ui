@@ -11,19 +11,19 @@
 
 .modal-header {
   padding: 24px 24px 16px;
-  border-bottom: 1px solid #e0e0e0;
-  background: #fafafa;
+  border-bottom: 1px solid var(--sf-border);
+  background: var(--sf-bg-secondary);
 
   .modal-title {
     margin: 0 0 8px;
     font-size: 24px;
     font-weight: 500;
-    color: #333;
+    color: var(--sf-text-primary);
   }
 
   .modal-description {
     margin: 0 0 16px;
-    color: #666;
+    color: var(--sf-text-secondary);
     font-size: 14px;
     line-height: 1.4;
   }
@@ -36,7 +36,7 @@
     .progress-bar {
       flex: 1;
       height: 6px;
-      background: #e0e0e0;
+      background: var(--sf-border);
       border-radius: 3px;
       overflow: hidden;
 
@@ -79,10 +79,10 @@
     align-items: center;
     gap: 8px;
     padding: 16px;
-    background: #ffebee;
-    border: 1px solid #ffcdd2;
-    border-radius: 4px;
-    color: #c62828;
+    background: var(--sf-error-bg);
+  border: 1px solid var(--sf-error-light);
+  border-radius: 4px;
+  color: var(--sf-error-dark);
 
     mat-icon {
       font-size: 20px;
@@ -100,8 +100,8 @@
   align-items: center;
   gap: 12px;
   padding: 16px 24px;
-  border-top: 1px solid #e0e0e0;
-  background: #fafafa;
+  border-top: 1px solid var(--sf-border);
+  background: var(--sf-bg-secondary);
 
   .spacer {
     flex: 1;
